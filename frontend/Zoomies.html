@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zoomies — Premium Pre-Owned Performance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --card: #141414;
+      --card2: #1a1a1a;
+      --muted: #2a2a2a;
+      --muted-fg: #a0a0a0;
+      --border: rgba(255,255,255,0.1);
+      --primary: #ff6b35;
+      --secondary: #ffd23f;
+      --fg: #ffffff;
+      --font-heading: 'Saira Condensed', sans-serif;
+      --font-body: 'Rajdhani', sans-serif;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-weight: 400; line-height: 1.5; }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── HEADER ─────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: #0a0a0a;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+    }
+
+    .logo {
+      font-family: var(--font-heading); font-size: 1.75rem; font-weight: 800;
+      color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase;
+    }
+
+    nav { display: flex; gap: 2rem; }
+    nav a {
+      font-family: var(--font-heading); font-size: 1rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg);
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--primary); }
+
+    .header-actions { display: flex; align-items: center; gap: 1rem; }
+    .icon-btn {
+      background: none; border: none; cursor: pointer; color: var(--fg);
+      display: flex; align-items: center; padding: 6px;
+      transition: color .2s;
+    }
+    .icon-btn:hover { color: var(--primary); }
+    .icon-btn svg { width: 22px; height: 22px; }
+
+    .btn-sell {
+      background: var(--primary); color: #000; border: none; cursor: pointer;
+      font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      padding: 10px 20px; transition: background .2s;
+    }
+    .btn-sell:hover { background: #e55a24; }
+
+    /* ── PROMO BANNER ────────────────────────── */
+    .promo-banner {
+      background: linear-gradient(90deg, #ff6b35 0%, #ffd23f 100%);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 2rem;
+    }
+    .promo-banner-left { display: flex; align-items: center; gap: 1rem; }
+    .promo-icon {
+      width: 36px; height: 36px; color: #000;
+    }
+    .promo-banner h3 {
+      font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800;
+      color: #000; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .promo-banner p { font-size: 0.9rem; color: #222; font-weight: 500; }
+
+    .btn-shop-sale {
+      background: #000; color: var(--fg); border: none; cursor: pointer;
+      font-family: var(--font-heading); font-weight: 700; font-size: 1rem;
+      text-transform: uppercase; letter-spacing: 0.1em; padding: 14px 28px;
+      transition: background .2s;
+    }
+    .btn-shop-sale:hover { background: #222; }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      min-height: 500px;
+      background: var(--bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 5rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading); font-size: clamp(5rem, 14vw, 10rem);
+      font-weight: 900; text-transform: uppercase;
+      letter-spacing: -0.02em; line-height: 0.9;
+      color: var(--fg); margin-bottom: 0.5rem;
+    }
+
+    .hero-divider {
+      width: 600px; max-width: 80%; height: 4px;
+      background: var(--primary); margin: 1rem auto 1.5rem;
+    }
+
+    .hero-sub {
+      font-family: var(--font-body); font-size: 1.1rem; font-weight: 400;
+      color: var(--muted-fg); letter-spacing: 0.02em; margin-bottom: 2.5rem;
+    }
+
+    .hero-search {
+      display: flex; width: 100%; max-width: 680px;
+      border: 2px solid var(--muted);
+      background: var(--card2);
+      margin-bottom: 2rem;
+    }
+    .hero-search input {
+      flex: 1; background: none; border: none; outline: none;
+      color: var(--fg); font-family: var(--font-body); font-size: 1rem;
+      padding: 14px 20px;
+    }
+    .hero-search input::placeholder { color: var(--muted-fg); }
+    .hero-search button {
+      background: var(--primary); border: none; cursor: pointer;
+      padding: 0 18px; color: #fff; display: flex; align-items: center;
+      transition: background .2s;
+    }
+    .hero-search button:hover { background: #e55a24; }
+    .hero-search button svg { width: 20px; height: 20px; }
+
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+    .hero-tag {
+      border: 2px solid var(--primary); color: var(--fg); background: none; cursor: pointer;
+      font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem;
+      text-transform: uppercase; letter-spacing: 0.08em; padding: 10px 22px;
+      transition: background .2s, color .2s;
+    }
+    .hero-tag:hover { background: var(--primary); color: #000; }
+
+    /* ── SECTION ─────────────────────────────── */
+    .section { max-width: 1280px; margin: 0 auto; padding: 4rem 2rem; }
+
+    /* ── FEATURES ────────────────────────────── */
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 5rem; }
+    .feature-card {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 1.75rem; position: relative; overflow: hidden;
+      transition: border-color .2s;
+    }
+    .feature-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--primary); transform: scaleY(0); transform-origin: top;
+      transition: transform .3s;
+    }
+    .feature-card:hover { border-color: var(--primary); }
+    .feature-card:hover::before { transform: scaleY(1); }
+    .feature-icon { width: 48px; height: 48px; color: var(--primary); margin-bottom: 1rem; }
+    .feature-card h3 {
+      font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700;
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .feature-card p { font-size: 0.9rem; color: var(--muted-fg); }
+
+    /* ── SECTION HEADING ─────────────────────── */
+    .section-heading {
+      display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem;
+    }
+    .section-heading h2 {
+      font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900; text-transform: uppercase; white-space: nowrap;
+    }
+    .heading-line {
+      flex: 1; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), transparent);
+    }
+
+    /* ── CAR GRID ────────────────────────────── */
+    .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+    .car-card {
+      background: var(--card); border: 1px solid var(--border);
+      overflow: hidden; transition: border-color .2s, transform .2s;
+      cursor: pointer;
+    }
+    .car-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+
+    .car-img-wrap { position: relative; padding-top: 60%; overflow: hidden; }
+    .car-img-wrap img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; transition: transform .4s;
+    }
+    .car-card:hover .car-img-wrap img { transform: scale(1.04); }
+
+    .featured-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--secondary); color: #000;
+      font-family: var(--font-heading); font-weight: 800; font-size: 0.75rem;
+      text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 10px;
+    }
+
+    .car-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem 1.2rem 0.6rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    }
+    .car-overlay h3 {
+      font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800;
+      text-transform: uppercase; line-height: 1.1;
+    }
+    .car-meta { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 2px; }
+    .car-meta span + span::before { content: ' • '; }
+
+    .car-footer {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding: 0.9rem 1.2rem; border-top: 1px solid var(--border);
+    }
+    .car-price-label, .car-trans-label {
+      font-size: 0.7rem; color: var(--muted-fg); text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .car-price {
+      font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; color: var(--primary);
+    }
+    .car-trans { font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; }
+
+    /* ── VIEW ALL ─────────────────────────────── */
+    .view-all-wrap { text-align: center; padding: 2rem 0; }
+    .btn-outline {
+      background: none; border: 2px solid var(--primary); color: var(--primary); cursor: pointer;
+      font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem;
+      text-transform: uppercase; letter-spacing: 0.12em; padding: 1rem 3rem;
+      transition: background .2s, color .2s;
+    }
+    .btn-outline:hover { background: var(--primary); color: #000; }
+
+    /* ── STATS ───────────────────────────────── */
+    .stats-section {
+      background: linear-gradient(135deg, #1a0a00, #0a0a0a 50%, #1a0a00);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 3.5rem 2rem;
+    }
+    .stats-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+    .stat-number {
+      font-family: var(--font-heading); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem; color: var(--muted-fg); text-transform: uppercase;
+      letter-spacing: 0.12em; margin-top: 0.5rem;
+    }
+    .stat-line { width: 40px; height: 2px; background: var(--primary); margin: 0.5rem auto 0; }
+
+    /* ── TESTIMONIALS ────────────────────────── */
+    .testimonials-section { max-width: 1280px; margin: 0 auto; padding: 4rem 2rem; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .testimonial-card {
+      background: var(--card); border: 1px solid var(--border); padding: 1.75rem;
+      position: relative; overflow: hidden;
+    }
+    .testimonial-card::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 60px; height: 60px;
+      background: linear-gradient(225deg, rgba(255,107,53,0.15), transparent);
+    }
+    .stars { display: flex; gap: 3px; margin-bottom: 1rem; }
+    .star { color: var(--secondary); font-size: 1.1rem; }
+    .testimonial-card p { font-size: 0.9rem; color: var(--muted-fg); line-height: 1.6; margin-bottom: 1rem; }
+    .testimonial-author { font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; }
+    .testimonial-info { font-size: 0.8rem; color: var(--muted-fg); }
+
+    /* ── SELL CTA ─────────────────────────────── */
+    .sell-cta {
+      margin: 0 2rem 4rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      position: relative; overflow: hidden;
+    }
+    .sell-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 20px,
+        rgba(0,0,0,0.06) 20px,
+        rgba(0,0,0,0.06) 40px
+      );
+    }
+    .sell-cta-inner {
+      position: relative; display: grid; grid-template-columns: 1fr 1.2fr;
+      gap: 3rem; padding: 3.5rem;
+    }
+    .sell-cta-left h2 {
+      font-family: var(--font-heading); font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 900; text-transform: uppercase; color: #000; line-height: 0.95;
+      margin-bottom: 1.25rem;
+    }
+    .sell-cta-left p { font-size: 1rem; color: #222; line-height: 1.6; margin-bottom: 2rem; }
+    .btn-list {
+      background: #000; color: var(--fg); border: none; cursor: pointer;
+      font-family: var(--font-heading); font-weight: 700; font-size: 1rem;
+      text-transform: uppercase; letter-spacing: 0.1em; padding: 1rem 2.5rem;
+      display: inline-block; transition: background .2s;
+    }
+    .btn-list:hover { background: #222; }
+
+    .sell-features { display: flex; flex-direction: column; gap: 1rem; justify-content: center; }
+    .sell-feature {
+      background: rgba(0,0,0,0.25); display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.25rem;
+    }
+    .sell-feature-icon {
+      width: 42px; height: 42px; background: #000;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sell-feature-icon svg { width: 20px; height: 20px; color: var(--secondary); }
+    .sell-feature h4 {
+      font-family: var(--font-heading); font-size: 1rem; font-weight: 800;
+      text-transform: uppercase; color: #000; margin-bottom: 2px;
+    }
+    .sell-feature p { font-size: 0.85rem; color: #333; }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      background: var(--card); border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      max-width: 1280px; margin: 0 auto; padding: 3.5rem 2rem;
+    }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+    .footer-brand .logo { font-size: 1.5rem; display: block; margin-bottom: 0.75rem; }
+    .footer-brand p { font-size: 0.9rem; color: var(--muted-fg); }
+    .footer-col h4 {
+      font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem;
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; color: var(--fg);
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-col ul a { font-size: 0.9rem; color: var(--muted-fg); transition: color .2s; }
+    .footer-col ul a:hover { color: var(--primary); }
+    .footer-bottom {
+      border-top: 1px solid var(--border); padding-top: 1.5rem;
+      text-align: center; font-size: 0.85rem; color: var(--muted-fg);
+    }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 900px) {
+      .features-grid, .car-grid, .testimonials-grid { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .sell-cta-inner { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .features-grid, .car-grid, .testimonials-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <span class="logo">ZOOMIES</span>
+    <nav>
+      <a href="#">Buy</a>
+      <a href="#">Sell</a>
+      <a href="#">Finance</a>
+      <a href="#">About</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <button class="btn-sell">Sell Your Car</button>
+    </div>
+  </header>
+
+  <!-- PROMO BANNER -->
+  <div class="promo-banner">
+    <div class="promo-banner-left">
+      <svg class="promo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <div>
+        <h3>Spring Sale Event</h3>
+        <p>Up to $5,000 off select vehicles &bull; Limited time only</p>
+      </div>
+    </div>
+    <button class="btn-shop-sale">Shop Sale</button>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 class="hero-title">ZOOMIES</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">Premium Pre-Owned Performance. Find Your Next Ride.</p>
+    <div class="hero-search">
+      <input type="text" placeholder="Search by make, model, or year..." />
+      <button>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+    <div class="hero-tags">
+      <button class="hero-tag">Sports</button>
+      <button class="hero-tag">Luxury</button>
+      <button class="hero-tag">SUV</button>
+      <button class="hero-tag">Vintage</button>
+      <button class="hero-tag">Electric</button>
+    </div>
+  </section>
+
+  <!-- FEATURES + CARS -->
+  <div class="section">
+    <div class="features-grid">
+      <div class="feature-card">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        <h3>Best Prices</h3>
+        <p>Competitive pricing on all vehicles</p>
+      </div>
+      <div class="feature-card">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h3>Verified Sellers</h3>
+        <p>All sellers thoroughly vetted</p>
+      </div>
+      <div class="feature-card">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        <h3>Quality Assured</h3>
+        <p>Comprehensive vehicle inspections</p>
+      </div>
+    </div>
+
+    <div class="section-heading">
+      <h2>Featured Collection</h2>
+      <div class="heading-line"></div>
+    </div>
+
+    <div class="car-grid">
+      <!-- Car 1 -->
+      <div class="car-card">
+        <div class="car-img-wrap">
+          <img src="https://images.unsplash.com/photo-1628519592419-bf288f08cef5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Porsche 911 Carrera" loading="lazy" />
+          <span class="featured-badge">Featured</span>
+          <div class="car-overlay">
+            <h3>Porsche 911 Carrera</h3>
+            <p class="car-meta"><span>2021</span><span>12,500 mi</span></p>
+          </div>
+        </div>
+        <div class="car-footer">
+          <div><div class="car-price-label">Price</div><div class="car-price">$89,900</div></div>
+          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Manual</div></div>
+        </div>
+      </div>
+      <!-- Car 2 -->
+      <div class="car-card">
+        <div class="car-img-wrap">
+          <img src="https://images.unsplash.com/photo-1625231334168-35067f8853ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="BMW M3 Competition" loading="lazy" />
+          <span class="featured-badge">Featured</span>
+          <div class="car-overlay">
+            <h3>BMW M3 Competition</h3>
+            <p class="car-meta"><span>2022</span><span>8,200 mi</span></p>
+          </div>
+        </div>
+        <div class="car-footer">
+          <div><div class="car-price-label">Price</div><div class="car-price">$72,500</div></div>
+          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
+        </div>
+      </div>
+      <!-- Car 3 -->
+      <div class="car-card">
+        <div class="car-img-wrap">
+          <img src="https://images.unsplash.com/photo-1516298252535-cf2ac5147f9b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="McLaren 720S" loading="lazy" />
+          <span class="featured-badge">Featured</span>
+          <div class="car-overlay">
+            <h3>McLaren 720S</h3>
+            <p class="car-meta"><span>2020</span><span>5,400 mi</span></p>
+          </div>
+        </div>
+        <div class="car-footer">
+          <div><div class="car-price-label">Price</div><div class="car-price">$245,000</div></div>
+          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
+        </div>
+      </div>
+      <!-- Car 4 -->
+      <div class="car-card">
+        <div class="car-img-wrap">
+          <img src="https://images.unsplash.com/photo-1579508542697-bb18e7d9aeaa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Mercedes-AMG GT R" loading="lazy" />
+          <div class="car-overlay">
+            <h3>Mercedes-AMG GT R</h3>
+            <p class="car-meta"><span>2021</span><span>9,800 mi</span></p>
+          </div>
+        </div>
+        <div class="car-footer">
+          <div><div class="car-price-label">Price</div><div class="car-price">$118,900</div></div>
+          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
+        </div>
+      </div>
+      <!-- Car 5 -->
+      <div class="car-card">
+        <div class="car-img-wrap">
+          <img src="https://images.unsplash.com/photo-1562911791-c7a97b729ec5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Chevrolet Corvette C8" loading="lazy" />
+          <div class="car-overlay">
+            <h3>Chevrolet Corvette C8</h3>
+            <p class="car-meta"><span>2023</span><span>3,200 mi</span></p>
+          </div>
+        </div>
+        <div class="car-footer">
+          <div><div class="car-price-label">Price</div><div class="car-price">$68,500</div></div>
+          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
+        </div>
+      </div>
+      <!-- Car 6 -->
+      <div class="car-card">
+        <div class="car-img-wrap">
+          <img src="https://images.unsplash.com/photo-1707399720697-b1d1502fac58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Audi R8 V10" loading="lazy" />
+          <div class="car-overlay">
+            <h3>Audi R8 V10</h3>
+            <p class="car-meta"><span>2020</span><span>11,200 mi</span></p>
+          </div>
+        </div>
+        <div class="car-footer">
+          <div><div class="car-price-label">Price</div><div class="car-price">$142,000</div></div>
+          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
+        </div>
+      </div>
+      <!-- Car 7 -->
+      <div class="car-card">
+        <div class="car-img-wrap">
+          <img src="https://images.unsplash.com/photo-1764605206511-7a649d9df63b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Mercedes-Benz S-Class" loading="lazy" />
+          <div class="car-overlay">
+            <h3>Mercedes-Benz S-Class</h3>
+            <p class="car-meta"><span>2023</span><span>6,100 mi</span></p>
+          </div>
+        </div>
+        <div class="car-footer">
+          <div><div class="car-price-label">Price</div><div class="car-price">$94,500</div></div>
+          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
+        </div>
+      </div>
+      <!-- Car 8 -->
+      <div class="car-card">
+        <div class="car-img-wrap">
+          <img src="https://images.unsplash.com/photo-1758216383800-7023ee8ed42b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Cadillac CT5-V" loading="lazy" />
+          <div class="car-overlay">
+            <h3>Cadillac CT5-V</h3>
+            <p class="car-meta"><span>2022</span><span>14,300 mi</span></p>
+          </div>
+        </div>
+        <div class="car-footer">
+          <div><div class="car-price-label">Price</div><div class="car-price">$58,900</div></div>
+          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
+        </div>
+      </div>
+      <!-- Car 9 -->
+      <div class="car-card">
+        <div class="car-img-wrap">
+          <img src="https://images.unsplash.com/photo-1685839465770-d5060773e96a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Ford Mustang Boss" loading="lazy" />
+          <div class="car-overlay">
+            <h3>Ford Mustang Boss</h3>
+            <p class="car-meta"><span>1970</span><span>42,000 mi</span></p>
+          </div>
+        </div>
+        <div class="car-footer">
+          <div><div class="car-price-label">Price</div><div class="car-price">$135,000</div></div>
+          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Manual</div></div>
+        </div>
+      </div>
+      <!-- Car 10 -->
+      <div class="car-card">
+        <div class="car-img-wrap">
+          <img src="https://images.unsplash.com/photo-1503525984842-c7e1c0203c6c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Chevrolet Camaro SS" loading="lazy" />
+          <div class="car-overlay">
+            <h3>Chevrolet Camaro SS</h3>
+            <p class="car-meta"><span>1969</span><span>38,500 mi</span></p>
+          </div>
+        </div>
+        <div class="car-footer">
+          <div><div class="car-price-label">Price</div><div class="car-price">$89,000</div></div>
+          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Manual</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view-all-wrap">
+      <button class="btn-outline">View All Inventory</button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-section">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-number">2,847+</div>
+        <div class="stat-label">Cars Sold</div>
+        <div class="stat-line"></div>
+      </div>
+      <div>
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Customer Satisfaction</div>
+        <div class="stat-line"></div>
+      </div>
+      <div>
+        <div class="stat-number">450+</div>
+        <div class="stat-label">Active Listings</div>
+        <div class="stat-line"></div>
+      </div>
+      <div>
+        <div class="stat-number">15</div>
+        <div class="stat-label">Years Experience</div>
+        <div class="stat-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="testimonials-section">
+    <div class="section-heading">
+      <h2>What Drivers Say</h2>
+      <div class="heading-line"></div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Found my dream car at an incredible price. The entire process was seamless and professional. Zoomies made buying a high-performance vehicle stress-free."</p>
+        <div class="testimonial-author">Michael R.</div>
+        <div class="testimonial-info">Purchased: Porsche 911 GT3</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Outstanding service from start to finish. The car was exactly as described, and the team went above and beyond to ensure I was completely satisfied."</p>
+        <div class="testimonial-author">Sarah K.</div>
+        <div class="testimonial-info">Purchased: BMW M4 Competition</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Been searching for a classic muscle car for years. Zoomies had the perfect specimen with verified history and excellent condition. Highly recommend."</p>
+        <div class="testimonial-author">James T.</div>
+        <div class="testimonial-info">Purchased: 1969 Camaro SS</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELL CTA -->
+  <div class="sell-cta">
+    <div class="sell-cta-inner">
+      <div class="sell-cta-left">
+        <h2>Sell Your Car Fast</h2>
+        <p>Get top dollar for your vehicle with our premium marketplace. Professional photography, detailed listings, and direct access to serious buyers.</p>
+        <button class="btn-list">List Your Vehicle</button>
+      </div>
+      <div class="sell-features">
+        <div class="sell-feature">
+          <div class="sell-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div>
+            <h4>Best Offers</h4>
+            <p>Connect with motivated buyers</p>
+          </div>
+        </div>
+        <div class="sell-feature">
+          <div class="sell-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <h4>Quick Sales</h4>
+            <p>Average listing sells in 7 days</p>
+          </div>
+        </div>
+        <div class="sell-feature">
+          <div class="sell-feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </div>
+          <div>
+            <h4>Premium Listing</h4>
+            <p>Professional photos &amp; descriptions</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo">ZOOMIES</span>
+          <p>Your premium destination for pre-owned performance vehicles.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="#">Sports Cars</a></li>
+            <li><a href="#">Luxury Sedans</a></li>
+            <li><a href="#">SUVs</a></li>
+            <li><a href="#">Classic Cars</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Financing</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Warranty</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Zoomies. All rights reserved. Built for speed enthusiasts.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
