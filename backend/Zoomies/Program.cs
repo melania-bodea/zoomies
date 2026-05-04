@@ -79,7 +79,10 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection(); // Forces the use of HTTPS (secure connection)
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection(); // Forces HTTPS outside local development
+}
 app.UseExceptionHandler("/error"); // Handles crashes gracefully
 app.UseCors("AllowAll"); // Applies the CORS rules defined above
 

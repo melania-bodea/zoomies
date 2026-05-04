@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zoomies — Premium Pre-Owned Performance</title>
+  <title>Zoomies - Premium Pre-Owned Performance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -11,687 +11,685 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0a0a;
-      --card: #141414;
-      --card2: #1a1a1a;
-      --muted: #2a2a2a;
-      --muted-fg: #a0a0a0;
-      --border: rgba(255,255,255,0.1);
+      --bg: #090909;
+      --panel: #141414;
+      --panel-2: #1b1b1b;
+      --panel-3: #242424;
+      --fg: #ffffff;
+      --muted-fg: #adadad;
+      --border: rgba(255,255,255,0.12);
       --primary: #ff6b35;
       --secondary: #ffd23f;
-      --fg: #ffffff;
-      --font-heading: 'Saira Condensed', sans-serif;
-      --font-body: 'Rajdhani', sans-serif;
+      --danger: #ff4d4d;
+      --success: #2fd17c;
+      --font-heading: "Saira Condensed", sans-serif;
+      --font-body: "Rajdhani", sans-serif;
     }
 
     html { font-size: 16px; scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-weight: 400; line-height: 1.5; }
+    body { background: var(--bg); color: var(--fg); font-family: var(--font-body); line-height: 1.5; }
+    body.modal-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    [hidden] { display: none !important; }
+    .account-page { display: none; }
+    body.show-app-page main > :not(.account-page) { display: none; }
+    body.show-wishlist-page #wishlistPage,
+    body.show-my-listings-page #myListingsPage { display: block; }
 
-    a { text-decoration: none; color: inherit; }
-
-    /* ── HEADER ─────────────────────────────── */
-    header {
-      position: sticky; top: 0; z-index: 100;
-      background: #0a0a0a;
-      border-bottom: 1px solid var(--border);
+    .app-header {
+      position: sticky; top: 0; z-index: 50;
+      height: 64px; padding: 0 2rem;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2rem; height: 64px;
+      background: #090909; border-bottom: 1px solid var(--border);
     }
 
     .logo {
-      font-family: var(--font-heading); font-size: 1.75rem; font-weight: 800;
-      color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase;
+      font-family: var(--font-heading); font-size: 1.75rem; font-weight: 900;
+      color: var(--primary); letter-spacing: 0; text-transform: uppercase;
     }
 
-    nav { display: flex; gap: 2rem; }
-    nav a {
-      font-family: var(--font-heading); font-size: 1rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg);
-      transition: color .2s;
+    .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+    .nav-links a {
+      font-family: var(--font-heading); font-size: 1rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0; color: var(--fg);
+      transition: color .2s ease;
     }
-    nav a:hover { color: var(--primary); }
+    .nav-links a:hover { color: var(--primary); }
 
-    .header-actions { display: flex; align-items: center; gap: 1rem; }
+    .header-actions { display: flex; align-items: center; gap: .8rem; }
+    .account-chip {
+      min-height: 42px; max-width: 260px;
+      display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .7rem;
+      background: var(--panel); color: var(--fg); border: 1px solid var(--border);
+      padding: .45rem .75rem; text-align: left;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .account-chip:hover { border-color: var(--primary); background: var(--panel-2); }
+    .account-avatar {
+      width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center;
+      background: var(--primary); color: #050505;
+      font-family: var(--font-heading); font-size: .95rem; font-weight: 900;
+      text-transform: uppercase; flex: 0 0 auto;
+    }
+    .account-avatar svg { width: 18px; height: 18px; }
+    .account-info { min-width: 0; }
+    .account-name {
+      display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+      font-family: var(--font-heading); font-size: 1rem; font-weight: 900; line-height: 1;
+      text-transform: uppercase;
+    }
+    .account-email {
+      display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+      color: var(--muted-fg); font-size: .75rem; line-height: 1.1;
+    }
     .icon-btn {
-      background: none; border: none; cursor: pointer; color: var(--fg);
-      display: flex; align-items: center; padding: 6px;
-      transition: color .2s;
+      width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+      color: var(--fg); background: transparent; border: 1px solid transparent;
+      transition: color .2s ease, border-color .2s ease, background .2s ease;
     }
-    .icon-btn:hover { color: var(--primary); }
-    .icon-btn svg { width: 22px; height: 22px; }
+    .icon-btn:hover, .icon-btn.active { color: var(--primary); border-color: var(--border); background: var(--panel); }
+    .icon-btn.active svg { fill: currentColor; }
+    .icon-btn svg { width: 21px; height: 21px; }
+    body.show-wishlist-page #wishlistBtn { color: var(--primary); border-color: var(--border); background: var(--panel); }
+    body.show-wishlist-page #wishlistBtn svg { fill: currentColor; }
 
-    .btn-sell {
-      background: var(--primary); color: #000; border: none; cursor: pointer;
-      font-family: var(--font-heading); font-weight: 700; font-size: 0.9rem;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      padding: 10px 20px; transition: background .2s;
+    .btn {
+      border: 0; min-height: 42px; padding: .72rem 1.15rem;
+      font-family: var(--font-heading); font-weight: 800; text-transform: uppercase; letter-spacing: 0;
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      transition: background .2s ease, color .2s ease, border-color .2s ease, opacity .2s ease;
     }
-    .btn-sell:hover { background: #e55a24; }
+    .btn svg { width: 18px; height: 18px; }
+    .btn-primary { background: var(--primary); color: #050505; }
+    .btn-primary:hover { background: #f45f28; }
+    .btn-dark { background: #050505; color: var(--fg); }
+    .btn-dark:hover { background: #202020; }
+    .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+    .btn-outline:hover { background: var(--primary); color: #050505; }
+    .btn-danger { background: var(--danger); color: #050505; }
+    .btn-muted { background: var(--panel-3); color: var(--fg); }
+    .btn-muted:hover { background: #303030; }
+    .btn[disabled] { opacity: .55; cursor: not-allowed; }
 
-    /* ── PROMO BANNER ────────────────────────── */
-    .promo-banner {
-      background: linear-gradient(90deg, #ff6b35 0%, #ffd23f 100%);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.2rem 2rem;
-    }
-    .promo-banner-left { display: flex; align-items: center; gap: 1rem; }
-    .promo-icon {
-      width: 36px; height: 36px; color: #000;
-    }
-    .promo-banner h3 {
-      font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800;
-      color: #000; text-transform: uppercase; letter-spacing: 0.05em;
-    }
-    .promo-banner p { font-size: 0.9rem; color: #222; font-weight: 500; }
-
-    .btn-shop-sale {
-      background: #000; color: var(--fg); border: none; cursor: pointer;
-      font-family: var(--font-heading); font-weight: 700; font-size: 1rem;
-      text-transform: uppercase; letter-spacing: 0.1em; padding: 14px 28px;
-      transition: background .2s;
-    }
-    .btn-shop-sale:hover { background: #222; }
-
-    /* ── HERO ────────────────────────────────── */
     .hero {
-      min-height: 500px;
-      background: var(--bg);
+      min-height: 460px; padding: 5rem 2rem 4rem;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 5rem 2rem 4rem;
-      position: relative; overflow: hidden;
+      text-align: center; background: #090909;
     }
-
     .hero-title {
-      font-family: var(--font-heading); font-size: clamp(5rem, 14vw, 10rem);
-      font-weight: 900; text-transform: uppercase;
-      letter-spacing: -0.02em; line-height: 0.9;
-      color: var(--fg); margin-bottom: 0.5rem;
+      font-family: var(--font-heading); font-size: 8rem; line-height: .9;
+      font-weight: 900; text-transform: uppercase; letter-spacing: 0;
     }
-
-    .hero-divider {
-      width: 600px; max-width: 80%; height: 4px;
-      background: var(--primary); margin: 1rem auto 1.5rem;
-    }
-
-    .hero-sub {
-      font-family: var(--font-body); font-size: 1.1rem; font-weight: 400;
-      color: var(--muted-fg); letter-spacing: 0.02em; margin-bottom: 2.5rem;
-    }
-
+    .hero-divider { width: min(600px, 80vw); height: 4px; background: var(--primary); margin: 1rem auto 1.5rem; }
+    .hero-sub { color: var(--muted-fg); font-size: 1.1rem; margin-bottom: 2rem; }
     .hero-search {
-      display: flex; width: 100%; max-width: 680px;
-      border: 2px solid var(--muted);
-      background: var(--card2);
-      margin-bottom: 2rem;
+      width: min(720px, 100%); display: grid; grid-template-columns: 1fr 54px;
+      border: 2px solid var(--panel-3); background: var(--panel-2); margin-bottom: 1rem;
     }
     .hero-search input {
-      flex: 1; background: none; border: none; outline: none;
-      color: var(--fg); font-family: var(--font-body); font-size: 1rem;
-      padding: 14px 20px;
+      min-width: 0; background: transparent; border: 0; outline: 0;
+      color: var(--fg); padding: 0 1.1rem; font-size: 1rem;
     }
-    .hero-search input::placeholder { color: var(--muted-fg); }
-    .hero-search button {
-      background: var(--primary); border: none; cursor: pointer;
-      padding: 0 18px; color: #fff; display: flex; align-items: center;
-      transition: background .2s;
-    }
-    .hero-search button:hover { background: #e55a24; }
+    .hero-search button { border: 0; background: var(--primary); color: #050505; display: grid; place-items: center; }
     .hero-search button svg { width: 20px; height: 20px; }
-
-    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+    .hero-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
     .hero-tag {
-      border: 2px solid var(--primary); color: var(--fg); background: none; cursor: pointer;
-      font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem;
-      text-transform: uppercase; letter-spacing: 0.08em; padding: 10px 22px;
-      transition: background .2s, color .2s;
+      background: transparent; border: 2px solid var(--primary); color: var(--fg);
+      font-family: var(--font-heading); font-weight: 800; text-transform: uppercase;
+      padding: .6rem 1.2rem; letter-spacing: 0;
     }
-    .hero-tag:hover { background: var(--primary); color: #000; }
+    .hero-tag:hover, .hero-tag.active { background: var(--primary); color: #050505; }
 
-    /* ── SECTION ─────────────────────────────── */
     .section { max-width: 1280px; margin: 0 auto; padding: 4rem 2rem; }
-
-    /* ── FEATURES ────────────────────────────── */
-    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 5rem; }
-    .feature-card {
-      background: var(--card); border: 1px solid var(--border);
-      padding: 1.75rem; position: relative; overflow: hidden;
-      transition: border-color .2s;
-    }
-    .feature-card::before {
-      content: ''; position: absolute; top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: var(--primary); transform: scaleY(0); transform-origin: top;
-      transition: transform .3s;
-    }
-    .feature-card:hover { border-color: var(--primary); }
-    .feature-card:hover::before { transform: scaleY(1); }
-    .feature-icon { width: 48px; height: 48px; color: var(--primary); margin-bottom: 1rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 4rem; }
+    .feature-card { background: var(--panel); border: 1px solid var(--border); padding: 1.65rem; }
+    .feature-icon { width: 46px; height: 46px; color: var(--primary); margin-bottom: 1rem; }
     .feature-card h3 {
-      font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700;
-      text-transform: uppercase; margin-bottom: 0.5rem;
+      font-family: var(--font-heading); font-size: 1.2rem; font-weight: 800;
+      text-transform: uppercase; margin-bottom: .4rem; letter-spacing: 0;
     }
-    .feature-card p { font-size: 0.9rem; color: var(--muted-fg); }
+    .feature-card p { color: var(--muted-fg); font-size: .94rem; }
 
-    /* ── SECTION HEADING ─────────────────────── */
-    .section-heading {
-      display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem;
-    }
+    .section-heading { display: flex; align-items: center; gap: 1.3rem; margin-bottom: 1.5rem; }
     .section-heading h2 {
-      font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 900; text-transform: uppercase; white-space: nowrap;
+      font-family: var(--font-heading); font-size: 2.7rem; font-weight: 900;
+      text-transform: uppercase; white-space: nowrap; letter-spacing: 0;
     }
-    .heading-line {
-      flex: 1; height: 3px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary), transparent);
+    .heading-line { flex: 1; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary), transparent); }
+
+    .inventory-shell {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.4rem 0 2rem;
+      margin-bottom: 1rem;
+    }
+    .inventory-toolbar {
+      display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .85rem;
+      margin-bottom: 1.1rem;
+    }
+    .field { display: flex; flex-direction: column; gap: .35rem; }
+    .field label {
+      color: var(--muted-fg); font-family: var(--font-heading); font-size: .8rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0;
+    }
+    .field input, .field select, .field textarea {
+      min-height: 42px; width: 100%; color: var(--fg); background: var(--panel-2);
+      border: 1px solid var(--border); outline: 0; padding: .62rem .75rem;
+    }
+    .field textarea { min-height: 96px; resize: vertical; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--primary); }
+
+    .inventory-meta {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      color: var(--muted-fg); margin-bottom: 1rem; font-size: .95rem;
+    }
+    .api-status { color: var(--secondary); }
+    .api-status.error { color: var(--danger); }
+    .inventory-actions { display: flex; gap: .65rem; flex-wrap: wrap; }
+    .empty-state {
+      border: 1px dashed var(--border); background: var(--panel); padding: 2rem; text-align: center; color: var(--muted-fg);
     }
 
-    /* ── CAR GRID ────────────────────────────── */
     .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-
     .car-card {
-      background: var(--card); border: 1px solid var(--border);
-      overflow: hidden; transition: border-color .2s, transform .2s;
-      cursor: pointer;
+      background: var(--panel); border: 1px solid var(--border); overflow: hidden;
+      transition: border-color .2s ease, transform .2s ease;
     }
     .car-card:hover { border-color: var(--primary); transform: translateY(-2px); }
-
-    .car-img-wrap { position: relative; padding-top: 60%; overflow: hidden; }
-    .car-img-wrap img {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; transition: transform .4s;
-    }
-    .car-card:hover .car-img-wrap img { transform: scale(1.04); }
-
+    .car-img-wrap { position: relative; aspect-ratio: 5 / 3; overflow: hidden; background: var(--panel-2); }
+    .car-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+    .car-card:hover img { transform: scale(1.04); }
     .featured-badge {
-      position: absolute; top: 12px; left: 12px;
-      background: var(--secondary); color: #000;
-      font-family: var(--font-heading); font-weight: 800; font-size: 0.75rem;
-      text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 10px;
+      position: absolute; top: 12px; left: 12px; background: var(--secondary); color: #050505;
+      font-family: var(--font-heading); font-size: .75rem; font-weight: 900; padding: .25rem .55rem; text-transform: uppercase;
     }
-
+    .wishlist-fab {
+      position: absolute; top: 12px; right: 12px; z-index: 2;
+      width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(9,9,9,.78); color: var(--fg); border: 1px solid var(--border);
+      transition: color .2s ease, background .2s ease, border-color .2s ease;
+    }
+    .wishlist-fab:hover, .wishlist-fab.active {
+      color: var(--primary); background: var(--panel); border-color: var(--primary);
+    }
+    .wishlist-fab.active svg { fill: currentColor; }
+    .wishlist-fab svg { width: 19px; height: 19px; }
     .car-overlay {
-      position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem 1.2rem 0.6rem;
-      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 1rem 1.1rem .65rem; background: linear-gradient(to top, rgba(0,0,0,.92), transparent);
     }
     .car-overlay h3 {
-      font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800;
-      text-transform: uppercase; line-height: 1.1;
+      font-family: var(--font-heading); font-size: 1.35rem; font-weight: 900;
+      line-height: 1.05; text-transform: uppercase; letter-spacing: 0;
     }
-    .car-meta { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 2px; }
-    .car-meta span + span::before { content: ' • '; }
-
+    .car-meta { color: rgba(255,255,255,.75); font-size: .86rem; }
+    .car-meta span + span::before { content: " / "; }
     .car-footer {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      padding: 0.9rem 1.2rem; border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr auto; gap: .9rem; align-items: end;
+      padding: .95rem 1.1rem; border-top: 1px solid var(--border);
     }
-    .car-price-label, .car-trans-label {
-      font-size: 0.7rem; color: var(--muted-fg); text-transform: uppercase; letter-spacing: 0.08em;
+    .car-price-label, .car-trans-label { color: var(--muted-fg); font-size: .72rem; text-transform: uppercase; }
+    .car-price { font-family: var(--font-heading); color: var(--primary); font-size: 1.45rem; font-weight: 900; }
+    .car-trans { font-weight: 700; text-align: right; }
+    .card-actions {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: .5rem;
+      padding: 0 1.1rem 1.1rem;
     }
-    .car-price {
-      font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; color: var(--primary);
-    }
-    .car-trans { font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; }
+    .card-actions .btn { min-height: 36px; padding: .45rem .6rem; font-size: .85rem; }
+    .wishlist-action.active { background: var(--secondary); color: #050505; border-color: var(--secondary); }
 
-    /* ── VIEW ALL ─────────────────────────────── */
-    .view-all-wrap { text-align: center; padding: 2rem 0; }
-    .btn-outline {
-      background: none; border: 2px solid var(--primary); color: var(--primary); cursor: pointer;
-      font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem;
-      text-transform: uppercase; letter-spacing: 0.12em; padding: 1rem 3rem;
-      transition: background .2s, color .2s;
-    }
-    .btn-outline:hover { background: var(--primary); color: #000; }
-
-    /* ── STATS ───────────────────────────────── */
     .stats-section {
-      background: linear-gradient(135deg, #1a0a00, #0a0a0a 50%, #1a0a00);
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      padding: 3.5rem 2rem;
+      background: linear-gradient(135deg, #1a0a00, #090909 50%, #1a0a00);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 3.5rem 2rem;
     }
     .stats-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
-    .stat-number {
-      font-family: var(--font-heading); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; line-height: 1;
-    }
-    .stat-label {
-      font-size: 0.75rem; color: var(--muted-fg); text-transform: uppercase;
-      letter-spacing: 0.12em; margin-top: 0.5rem;
-    }
-    .stat-line { width: 40px; height: 2px; background: var(--primary); margin: 0.5rem auto 0; }
+    .stat-number { font-family: var(--font-heading); font-size: 4rem; font-weight: 900; color: var(--secondary); line-height: 1; }
+    .stat-label { color: var(--muted-fg); font-size: .78rem; text-transform: uppercase; margin-top: .5rem; }
+    .stat-line { width: 40px; height: 2px; background: var(--primary); margin: .5rem auto 0; }
 
-    /* ── TESTIMONIALS ────────────────────────── */
     .testimonials-section { max-width: 1280px; margin: 0 auto; padding: 4rem 2rem; }
     .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .testimonial-card {
-      background: var(--card); border: 1px solid var(--border); padding: 1.75rem;
-      position: relative; overflow: hidden;
-    }
-    .testimonial-card::before {
-      content: ''; position: absolute; top: 0; right: 0;
-      width: 60px; height: 60px;
-      background: linear-gradient(225deg, rgba(255,107,53,0.15), transparent);
-    }
-    .stars { display: flex; gap: 3px; margin-bottom: 1rem; }
-    .star { color: var(--secondary); font-size: 1.1rem; }
-    .testimonial-card p { font-size: 0.9rem; color: var(--muted-fg); line-height: 1.6; margin-bottom: 1rem; }
-    .testimonial-author { font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; }
-    .testimonial-info { font-size: 0.8rem; color: var(--muted-fg); }
+    .testimonial-card { background: var(--panel); border: 1px solid var(--border); padding: 1.65rem; }
+    .stars { color: var(--secondary); margin-bottom: .8rem; letter-spacing: 0; }
+    .testimonial-card p { color: var(--muted-fg); margin-bottom: 1rem; }
+    .testimonial-author { font-family: var(--font-heading); font-weight: 800; text-transform: uppercase; }
+    .testimonial-info { color: var(--muted-fg); font-size: .85rem; }
 
-    /* ── SELL CTA ─────────────────────────────── */
-    .sell-cta {
-      margin: 0 2rem 4rem;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      position: relative; overflow: hidden;
-    }
-    .sell-cta::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        -45deg,
-        transparent,
-        transparent 20px,
-        rgba(0,0,0,0.06) 20px,
-        rgba(0,0,0,0.06) 40px
-      );
-    }
-    .sell-cta-inner {
-      position: relative; display: grid; grid-template-columns: 1fr 1.2fr;
-      gap: 3rem; padding: 3.5rem;
-    }
+    .sell-cta { margin: 0 2rem 4rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #050505; }
+    .sell-cta-inner { display: grid; grid-template-columns: 1fr 1.15fr; gap: 3rem; padding: 3.5rem; }
     .sell-cta-left h2 {
-      font-family: var(--font-heading); font-size: clamp(2.5rem, 5vw, 4rem);
-      font-weight: 900; text-transform: uppercase; color: #000; line-height: 0.95;
-      margin-bottom: 1.25rem;
+      font-family: var(--font-heading); font-size: 3.5rem; line-height: .95; font-weight: 900;
+      text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0;
     }
-    .sell-cta-left p { font-size: 1rem; color: #222; line-height: 1.6; margin-bottom: 2rem; }
-    .btn-list {
-      background: #000; color: var(--fg); border: none; cursor: pointer;
-      font-family: var(--font-heading); font-weight: 700; font-size: 1rem;
-      text-transform: uppercase; letter-spacing: 0.1em; padding: 1rem 2.5rem;
-      display: inline-block; transition: background .2s;
-    }
-    .btn-list:hover { background: #222; }
+    .sell-cta-left p { color: #222; margin-bottom: 1.4rem; }
+    .sell-features { display: flex; flex-direction: column; justify-content: center; gap: 1rem; }
+    .sell-feature { background: rgba(0,0,0,.25); display: flex; align-items: center; gap: 1rem; padding: 1rem 1.15rem; }
+    .sell-feature-icon { width: 42px; height: 42px; background: #050505; color: var(--secondary); display: grid; place-items: center; flex: 0 0 auto; }
+    .sell-feature-icon svg { width: 20px; height: 20px; }
+    .sell-feature h4 { font-family: var(--font-heading); font-weight: 900; text-transform: uppercase; }
+    .sell-feature p { color: #303030; font-size: .88rem; }
 
-    .sell-features { display: flex; flex-direction: column; gap: 1rem; justify-content: center; }
-    .sell-feature {
-      background: rgba(0,0,0,0.25); display: flex; align-items: center; gap: 1rem;
-      padding: 1rem 1.25rem;
-    }
-    .sell-feature-icon {
-      width: 42px; height: 42px; background: #000;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .sell-feature-icon svg { width: 20px; height: 20px; color: var(--secondary); }
-    .sell-feature h4 {
-      font-family: var(--font-heading); font-size: 1rem; font-weight: 800;
-      text-transform: uppercase; color: #000; margin-bottom: 2px;
-    }
-    .sell-feature p { font-size: 0.85rem; color: #333; }
-
-    /* ── FOOTER ──────────────────────────────── */
-    footer {
-      background: var(--card); border-top: 1px solid var(--border);
-    }
-    .footer-inner {
-      max-width: 1280px; margin: 0 auto; padding: 3.5rem 2rem;
-    }
+    footer { background: var(--panel); border-top: 1px solid var(--border); }
+    .footer-inner { max-width: 1280px; margin: 0 auto; padding: 3.5rem 2rem; }
     .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
-    .footer-brand .logo { font-size: 1.5rem; display: block; margin-bottom: 0.75rem; }
-    .footer-brand p { font-size: 0.9rem; color: var(--muted-fg); }
-    .footer-col h4 {
-      font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem;
-      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; color: var(--fg);
+    .footer-brand p, .footer-col a, .footer-bottom { color: var(--muted-fg); }
+    .footer-col h4 { font-family: var(--font-heading); font-size: 1rem; font-weight: 800; text-transform: uppercase; margin-bottom: .8rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+    .footer-col a:hover { color: var(--primary); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.4rem; text-align: center; }
+
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center;
+      background: rgba(0,0,0,.76); padding: 1.25rem;
     }
-    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-    .footer-col ul a { font-size: 0.9rem; color: var(--muted-fg); transition: color .2s; }
-    .footer-col ul a:hover { color: var(--primary); }
-    .footer-bottom {
-      border-top: 1px solid var(--border); padding-top: 1.5rem;
-      text-align: center; font-size: 0.85rem; color: var(--muted-fg);
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      width: min(760px, 100%); max-height: min(90vh, 900px); overflow: auto;
+      background: var(--panel); border: 1px solid var(--border);
+      box-shadow: 0 24px 90px rgba(0,0,0,.55);
+    }
+    .modal-wide { width: min(1080px, 100%); }
+    .modal-small { width: min(480px, 100%); }
+    .modal-header {
+      position: sticky; top: 0; z-index: 2; background: var(--panel);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1.15rem 1.35rem; border-bottom: 1px solid var(--border);
+    }
+    .modal-header h2 {
+      font-family: var(--font-heading); font-size: 1.7rem; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 0;
+    }
+    .modal-body { padding: 1.35rem; }
+    .modal-footer { display: flex; justify-content: flex-end; gap: .75rem; padding: 1rem 1.35rem; border-top: 1px solid var(--border); }
+    .close-btn { background: transparent; border: 0; color: var(--fg); width: 36px; height: 36px; display: grid; place-items: center; }
+    .close-btn:hover { color: var(--primary); }
+
+    .tabs { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); margin-bottom: 1rem; }
+    .tab-btn {
+      background: var(--panel-2); color: var(--fg); border: 0; min-height: 42px;
+      font-family: var(--font-heading); font-weight: 800; text-transform: uppercase;
+    }
+    .tab-btn.active { background: var(--primary); color: #050505; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+    .field-full { grid-column: 1 / -1; }
+    .auth-status { color: var(--muted-fg); margin-top: .9rem; min-height: 1.4rem; }
+    #loginForm, #registerForm {
+      display: grid;
+      gap: .9rem;
+    }
+    #loginForm .btn, #registerForm .btn {
+      justify-self: center;
+      min-width: 170px;
+      margin-top: .35rem;
+    }
+    .profile-panel { display: grid; gap: .9rem; }
+    .profile-summary {
+      display: grid; gap: .75rem;
+      background: var(--panel-2); border: 1px solid var(--border); padding: 1rem;
+    }
+    .profile-row { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--border); padding-bottom: .65rem; }
+    .profile-row:last-child { border-bottom: 0; padding-bottom: 0; }
+    .profile-row span { color: var(--muted-fg); text-transform: uppercase; font-size: .78rem; }
+    .profile-row strong { text-align: right; overflow-wrap: anywhere; }
+    .profile-actions { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+    .profile-panel .btn { min-width: 0; }
+
+    .finance-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: stretch; }
+    .finance-tool {
+      background: var(--panel); border: 1px solid var(--border); padding: 1.35rem;
+      display: flex; flex-direction: column;
+    }
+    .finance-tool h3 {
+      font-family: var(--font-heading); font-size: 1.45rem; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 0; margin-bottom: .35rem;
+    }
+    .finance-tool p { color: var(--muted-fg); margin-bottom: 1rem; }
+    .finance-tool form { display: flex; flex-direction: column; flex: 1; }
+    .finance-tool form .btn { align-self: flex-start; margin-top: 1.15rem; }
+    .finance-result {
+      margin-top: 1.15rem; background: var(--panel-2); border: 1px solid var(--border); padding: 1rem;
+      min-height: 88px;
+    }
+    .finance-result strong {
+      display: block; color: var(--primary); font-family: var(--font-heading); font-size: 1.8rem; line-height: 1;
+      text-transform: uppercase;
+    }
+    .finance-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-top: .8rem; }
+    .finance-breakdown div { background: rgba(255,255,255,.04); border: 1px solid var(--border); padding: .65rem; }
+    .finance-breakdown span { display: block; color: var(--muted-fg); font-size: .72rem; text-transform: uppercase; }
+    .finance-note-list { margin-top: .8rem; color: var(--muted-fg); padding-left: 1.1rem; }
+    .finance-hint { color: var(--muted-fg); font-size: .9rem; margin-top: .75rem; }
+
+    .detail-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.25rem; }
+    .detail-image { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; background: var(--panel-2); }
+    .detail-title {
+      font-family: var(--font-heading); font-size: 2.2rem; font-weight: 900;
+      text-transform: uppercase; line-height: 1; margin-bottom: .5rem;
+    }
+    .detail-price { color: var(--primary); font-family: var(--font-heading); font-size: 2rem; font-weight: 900; margin-bottom: 1rem; }
+    .detail-specs { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; margin: 1rem 0; }
+    .spec { background: var(--panel-2); border: 1px solid var(--border); padding: .85rem; }
+    .spec span { display: block; color: var(--muted-fg); font-size: .75rem; text-transform: uppercase; }
+    .spec strong { font-size: 1.05rem; }
+    .detail-description { color: var(--muted-fg); margin-bottom: 1rem; }
+    .detail-actions { display: flex; gap: .65rem; flex-wrap: wrap; }
+    .detail-actions .wishlist-fab {
+      position: static;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
     }
 
-    /* ── RESPONSIVE ──────────────────────────── */
-    @media (max-width: 900px) {
-      .features-grid, .car-grid, .testimonials-grid { grid-template-columns: 1fr 1fr; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .sell-cta-inner { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
+    .toast {
+      position: fixed; right: 1rem; bottom: 1rem; z-index: 120;
+      min-width: 240px; max-width: min(420px, calc(100vw - 2rem));
+      display: none; background: var(--panel); color: var(--fg); border: 1px solid var(--primary);
+      padding: .85rem 1rem; box-shadow: 0 18px 55px rgba(0,0,0,.45);
     }
-    @media (max-width: 600px) {
-      .features-grid, .car-grid, .testimonials-grid { grid-template-columns: 1fr; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      nav { display: none; }
+    .toast.show { display: block; }
+
+    @media (max-width: 1040px) {
+      .inventory-toolbar { grid-template-columns: repeat(3, 1fr); }
+      .car-grid { grid-template-columns: repeat(2, 1fr); }
+      .detail-grid, .sell-cta-inner, .finance-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .app-header { padding: 0 1rem; }
+      .nav-links { display: none; }
+      .account-chip { max-width: 210px; grid-template-columns: auto minmax(0, 1fr); gap: .5rem; }
+      .hero { padding: 4rem 1rem 3rem; }
+      .hero-title { font-size: 4.5rem; }
+      .section, .testimonials-section { padding: 3rem 1rem; }
+      .features-grid, .testimonials-grid, .stats-grid, .car-grid, .inventory-toolbar, .form-grid, .footer-grid, .finance-breakdown { grid-template-columns: 1fr; }
+      .section-heading h2 { font-size: 2rem; white-space: normal; }
+      .heading-line { display: none; }
+      .card-actions { grid-template-columns: 1fr; }
+      .sell-cta { margin: 0 1rem 3rem; }
+      .sell-cta-inner { padding: 2rem 1.25rem; }
+      .sell-cta-left h2 { font-size: 2.5rem; }
+      .modal-backdrop { padding: .75rem; align-items: flex-start; }
+      .detail-specs { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-
-  <!-- HEADER -->
-  <header>
-    <span class="logo">ZOOMIES</span>
-    <nav>
-      <a href="#">Buy</a>
-      <a href="#">Sell</a>
-      <a href="#">Finance</a>
-      <a href="#">About</a>
+  <header class="app-header">
+    <a href="#top" class="logo">ZOOMIES</a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#inventoryStart">Buy</a>
+      <a href="#" data-open-listing>Sell</a>
+      <a href="#finance">Finance</a>
+      <a href="#zoomiesFooter">About</a>
     </nav>
     <div class="header-actions">
-      <button class="icon-btn" aria-label="Wishlist">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <button class="account-chip" type="button" id="accountBadge" aria-label="Current account">
+        <span class="account-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </span>
+        <span class="account-info">
+          <span class="account-name" id="currentAccountName">Guest</span>
+          <span class="account-email" id="currentAccountEmail">Not logged in</span>
+        </span>
       </button>
-      <button class="icon-btn" aria-label="Account">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <button class="icon-btn" type="button" aria-label="Wishlist" id="wishlistBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l7.78-7.78a5.5 5.5 0 0 0 1.06-8.84z"/></svg>
       </button>
-      <button class="btn-sell">Sell Your Car</button>
+      <button class="btn btn-primary" type="button" data-open-listing>Sell Your Car</button>
     </div>
   </header>
 
-  <!-- PROMO BANNER -->
-  <div class="promo-banner">
-    <div class="promo-banner-left">
-      <svg class="promo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <div>
-        <h3>Spring Sale Event</h3>
-        <p>Up to $5,000 off select vehicles &bull; Limited time only</p>
+  <main id="top">
+    <section class="section account-page" id="wishlistPage">
+      <div class="section-heading">
+        <h2>Wishlist</h2>
+        <div class="heading-line"></div>
       </div>
-    </div>
-    <button class="btn-shop-sale">Shop Sale</button>
-  </div>
+      <div class="inventory-meta">
+        <span id="wishlistCount">0 saved listings</span>
+        <button class="btn btn-muted" type="button" id="backToInventoryBtn">Back To Inventory</button>
+      </div>
+      <div class="car-grid" id="wishlistGrid"></div>
+      <div class="empty-state" id="wishlistEmptyState">No saved cars yet.</div>
+    </section>
 
-  <!-- HERO -->
-  <section class="hero">
-    <h1 class="hero-title">ZOOMIES</h1>
-    <div class="hero-divider"></div>
-    <p class="hero-sub">Premium Pre-Owned Performance. Find Your Next Ride.</p>
-    <div class="hero-search">
-      <input type="text" placeholder="Search by make, model, or year..." />
-      <button>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </button>
-    </div>
-    <div class="hero-tags">
-      <button class="hero-tag">Sports</button>
-      <button class="hero-tag">Luxury</button>
-      <button class="hero-tag">SUV</button>
-      <button class="hero-tag">Vintage</button>
-      <button class="hero-tag">Electric</button>
-    </div>
-  </section>
+    <section class="section account-page" id="myListingsPage">
+      <div class="section-heading">
+        <h2>My Listings</h2>
+        <div class="heading-line"></div>
+      </div>
+      <div class="inventory-meta">
+        <span id="myListingsCount">0 personal listings</span>
+        <div class="inventory-actions">
+          <button class="btn btn-muted" type="button" id="backFromMyListingsBtn">Back To Inventory</button>
+          <button class="btn btn-primary" type="button" data-open-listing>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            Add Listing
+          </button>
+        </div>
+      </div>
+      <div class="car-grid" id="myListingsGrid"></div>
+      <div class="empty-state" id="myListingsEmptyState">You have not added any listings yet.</div>
+    </section>
 
-  <!-- FEATURES + CARS -->
-  <div class="section">
-    <div class="features-grid">
-      <div class="feature-card">
-        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-        <h3>Best Prices</h3>
-        <p>Competitive pricing on all vehicles</p>
+    <section class="hero" aria-labelledby="heroTitle">
+      <h1 class="hero-title" id="heroTitle">ZOOMIES</h1>
+      <div class="hero-divider"></div>
+      <p class="hero-sub">Premium Pre-Owned Performance. Find Your Next Ride.</p>
+      <form class="hero-search" id="heroSearchForm">
+        <input type="search" id="heroSearchInput" placeholder="Search by make, model, or year..." aria-label="Search inventory" />
+        <button type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </form>
+      <div class="hero-tags" id="categoryTags">
+        <button type="button" class="hero-tag" data-category="Sports">Sports</button>
+        <button type="button" class="hero-tag" data-category="Luxury">Luxury</button>
+        <button type="button" class="hero-tag" data-category="SUV">SUV</button>
+        <button type="button" class="hero-tag" data-category="Vintage">Vintage</button>
+        <button type="button" class="hero-tag" data-category="Electric">Electric</button>
       </div>
-      <div class="feature-card">
-        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <h3>Verified Sellers</h3>
-        <p>All sellers thoroughly vetted</p>
-      </div>
-      <div class="feature-card">
-        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-        <h3>Quality Assured</h3>
-        <p>Comprehensive vehicle inspections</p>
-      </div>
-    </div>
+    </section>
 
-    <div class="section-heading">
-      <h2>Featured Collection</h2>
-      <div class="heading-line"></div>
-    </div>
+    <section class="section" id="inventory">
+      <div class="features-grid" id="about">
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          <h3>Best Prices</h3>
+          <p>Competitive pricing on all vehicles</p>
+        </div>
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <h3>Verified Sellers</h3>
+          <p>All sellers thoroughly vetted</p>
+        </div>
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          <h3>Quality Assured</h3>
+          <p>Comprehensive vehicle inspections</p>
+        </div>
+      </div>
 
-    <div class="car-grid">
-      <!-- Car 1 -->
-      <div class="car-card">
-        <div class="car-img-wrap">
-          <img src="https://images.unsplash.com/photo-1628519592419-bf288f08cef5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Porsche 911 Carrera" loading="lazy" />
-          <span class="featured-badge">Featured</span>
-          <div class="car-overlay">
-            <h3>Porsche 911 Carrera</h3>
-            <p class="car-meta"><span>2021</span><span>12,500 mi</span></p>
-          </div>
-        </div>
-        <div class="car-footer">
-          <div><div class="car-price-label">Price</div><div class="car-price">$89,900</div></div>
-          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Manual</div></div>
-        </div>
+      <div class="section-heading" id="inventoryStart">
+        <h2>Inventory</h2>
+        <div class="heading-line"></div>
       </div>
-      <!-- Car 2 -->
-      <div class="car-card">
-        <div class="car-img-wrap">
-          <img src="https://images.unsplash.com/photo-1625231334168-35067f8853ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="BMW M3 Competition" loading="lazy" />
-          <span class="featured-badge">Featured</span>
-          <div class="car-overlay">
-            <h3>BMW M3 Competition</h3>
-            <p class="car-meta"><span>2022</span><span>8,200 mi</span></p>
-          </div>
-        </div>
-        <div class="car-footer">
-          <div><div class="car-price-label">Price</div><div class="car-price">$72,500</div></div>
-          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
-        </div>
-      </div>
-      <!-- Car 3 -->
-      <div class="car-card">
-        <div class="car-img-wrap">
-          <img src="https://images.unsplash.com/photo-1516298252535-cf2ac5147f9b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="McLaren 720S" loading="lazy" />
-          <span class="featured-badge">Featured</span>
-          <div class="car-overlay">
-            <h3>McLaren 720S</h3>
-            <p class="car-meta"><span>2020</span><span>5,400 mi</span></p>
-          </div>
-        </div>
-        <div class="car-footer">
-          <div><div class="car-price-label">Price</div><div class="car-price">$245,000</div></div>
-          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
-        </div>
-      </div>
-      <!-- Car 4 -->
-      <div class="car-card">
-        <div class="car-img-wrap">
-          <img src="https://images.unsplash.com/photo-1579508542697-bb18e7d9aeaa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Mercedes-AMG GT R" loading="lazy" />
-          <div class="car-overlay">
-            <h3>Mercedes-AMG GT R</h3>
-            <p class="car-meta"><span>2021</span><span>9,800 mi</span></p>
-          </div>
-        </div>
-        <div class="car-footer">
-          <div><div class="car-price-label">Price</div><div class="car-price">$118,900</div></div>
-          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
-        </div>
-      </div>
-      <!-- Car 5 -->
-      <div class="car-card">
-        <div class="car-img-wrap">
-          <img src="https://images.unsplash.com/photo-1562911791-c7a97b729ec5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Chevrolet Corvette C8" loading="lazy" />
-          <div class="car-overlay">
-            <h3>Chevrolet Corvette C8</h3>
-            <p class="car-meta"><span>2023</span><span>3,200 mi</span></p>
-          </div>
-        </div>
-        <div class="car-footer">
-          <div><div class="car-price-label">Price</div><div class="car-price">$68,500</div></div>
-          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
-        </div>
-      </div>
-      <!-- Car 6 -->
-      <div class="car-card">
-        <div class="car-img-wrap">
-          <img src="https://images.unsplash.com/photo-1707399720697-b1d1502fac58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Audi R8 V10" loading="lazy" />
-          <div class="car-overlay">
-            <h3>Audi R8 V10</h3>
-            <p class="car-meta"><span>2020</span><span>11,200 mi</span></p>
-          </div>
-        </div>
-        <div class="car-footer">
-          <div><div class="car-price-label">Price</div><div class="car-price">$142,000</div></div>
-          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
-        </div>
-      </div>
-      <!-- Car 7 -->
-      <div class="car-card">
-        <div class="car-img-wrap">
-          <img src="https://images.unsplash.com/photo-1764605206511-7a649d9df63b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Mercedes-Benz S-Class" loading="lazy" />
-          <div class="car-overlay">
-            <h3>Mercedes-Benz S-Class</h3>
-            <p class="car-meta"><span>2023</span><span>6,100 mi</span></p>
-          </div>
-        </div>
-        <div class="car-footer">
-          <div><div class="car-price-label">Price</div><div class="car-price">$94,500</div></div>
-          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
-        </div>
-      </div>
-      <!-- Car 8 -->
-      <div class="car-card">
-        <div class="car-img-wrap">
-          <img src="https://images.unsplash.com/photo-1758216383800-7023ee8ed42b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Cadillac CT5-V" loading="lazy" />
-          <div class="car-overlay">
-            <h3>Cadillac CT5-V</h3>
-            <p class="car-meta"><span>2022</span><span>14,300 mi</span></p>
-          </div>
-        </div>
-        <div class="car-footer">
-          <div><div class="car-price-label">Price</div><div class="car-price">$58,900</div></div>
-          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Automatic</div></div>
-        </div>
-      </div>
-      <!-- Car 9 -->
-      <div class="car-card">
-        <div class="car-img-wrap">
-          <img src="https://images.unsplash.com/photo-1685839465770-d5060773e96a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Ford Mustang Boss" loading="lazy" />
-          <div class="car-overlay">
-            <h3>Ford Mustang Boss</h3>
-            <p class="car-meta"><span>1970</span><span>42,000 mi</span></p>
-          </div>
-        </div>
-        <div class="car-footer">
-          <div><div class="car-price-label">Price</div><div class="car-price">$135,000</div></div>
-          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Manual</div></div>
-        </div>
-      </div>
-      <!-- Car 10 -->
-      <div class="car-card">
-        <div class="car-img-wrap">
-          <img src="https://images.unsplash.com/photo-1503525984842-c7e1c0203c6c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" alt="Chevrolet Camaro SS" loading="lazy" />
-          <div class="car-overlay">
-            <h3>Chevrolet Camaro SS</h3>
-            <p class="car-meta"><span>1969</span><span>38,500 mi</span></p>
-          </div>
-        </div>
-        <div class="car-footer">
-          <div><div class="car-price-label">Price</div><div class="car-price">$89,000</div></div>
-          <div style="text-align:right"><div class="car-trans-label">Trans</div><div class="car-trans">Manual</div></div>
-        </div>
-      </div>
-    </div>
 
-    <div class="view-all-wrap">
-      <button class="btn-outline">View All Inventory</button>
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="stats-section">
-    <div class="stats-grid">
-      <div>
-        <div class="stat-number">2,847+</div>
-        <div class="stat-label">Cars Sold</div>
-        <div class="stat-line"></div>
-      </div>
-      <div>
-        <div class="stat-number">98%</div>
-        <div class="stat-label">Customer Satisfaction</div>
-        <div class="stat-line"></div>
-      </div>
-      <div>
-        <div class="stat-number">450+</div>
-        <div class="stat-label">Active Listings</div>
-        <div class="stat-line"></div>
-      </div>
-      <div>
-        <div class="stat-number">15</div>
-        <div class="stat-label">Years Experience</div>
-        <div class="stat-line"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TESTIMONIALS -->
-  <div class="testimonials-section">
-    <div class="section-heading">
-      <h2>What Drivers Say</h2>
-      <div class="heading-line"></div>
-    </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p>"Found my dream car at an incredible price. The entire process was seamless and professional. Zoomies made buying a high-performance vehicle stress-free."</p>
-        <div class="testimonial-author">Michael R.</div>
-        <div class="testimonial-info">Purchased: Porsche 911 GT3</div>
-      </div>
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p>"Outstanding service from start to finish. The car was exactly as described, and the team went above and beyond to ensure I was completely satisfied."</p>
-        <div class="testimonial-author">Sarah K.</div>
-        <div class="testimonial-info">Purchased: BMW M4 Competition</div>
-      </div>
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p>"Been searching for a classic muscle car for years. Zoomies had the perfect specimen with verified history and excellent condition. Highly recommend."</p>
-        <div class="testimonial-author">James T.</div>
-        <div class="testimonial-info">Purchased: 1969 Camaro SS</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SELL CTA -->
-  <div class="sell-cta">
-    <div class="sell-cta-inner">
-      <div class="sell-cta-left">
-        <h2>Sell Your Car Fast</h2>
-        <p>Get top dollar for your vehicle with our premium marketplace. Professional photography, detailed listings, and direct access to serious buyers.</p>
-        <button class="btn-list">List Your Vehicle</button>
-      </div>
-      <div class="sell-features">
-        <div class="sell-feature">
-          <div class="sell-feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <div class="inventory-shell">
+        <form class="inventory-toolbar" id="filtersForm">
+          <div class="field">
+            <label for="filterSearch">Search</label>
+            <input id="filterSearch" type="search" placeholder="Make or model" />
           </div>
-          <div>
-            <h4>Best Offers</h4>
-            <p>Connect with motivated buyers</p>
+          <div class="field">
+            <label for="filterCategory">Category</label>
+            <select id="filterCategory">
+              <option value="">All</option>
+              <option>Sports</option>
+              <option>Luxury</option>
+              <option>SUV</option>
+              <option>Vintage</option>
+              <option>Electric</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="filterMaxPrice">Max Price</label>
+            <input id="filterMaxPrice" type="number" min="0" step="1000" placeholder="Any" />
+          </div>
+          <div class="field">
+            <label for="filterMinYear">Min Year</label>
+            <input id="filterMinYear" type="number" min="1886" max="2026" placeholder="Any" />
+          </div>
+          <div class="field">
+            <label for="filterTransmission">Transmission</label>
+            <select id="filterTransmission">
+              <option value="">All</option>
+              <option>Automatic</option>
+              <option>Manual</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="filterSort">Sort</label>
+            <select id="filterSort">
+              <option value="featured">Featured</option>
+              <option value="priceAsc">Price low</option>
+              <option value="priceDesc">Price high</option>
+              <option value="yearDesc">Newest</option>
+              <option value="mileageAsc">Lowest miles</option>
+            </select>
+          </div>
+        </form>
+
+        <div class="inventory-meta">
+          <span><span id="resultCount">0 listings</span> <span id="apiStatus" class="api-status">Connecting to API...</span></span>
+          <div class="inventory-actions">
+            <button class="btn btn-muted" type="button" id="resetFiltersBtn">Reset</button>
+            <button class="btn btn-primary" type="button" data-open-listing>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add Listing
+            </button>
           </div>
         </div>
-        <div class="sell-feature">
-          <div class="sell-feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <h4>Quick Sales</h4>
-            <p>Average listing sells in 7 days</p>
-          </div>
+
+        <div class="car-grid" id="carGrid"></div>
+        <div class="empty-state" id="emptyState" hidden>No listings match the current filters.</div>
+      </div>
+    </section>
+
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div><div class="stat-number">2,847+</div><div class="stat-label">Cars Sold</div><div class="stat-line"></div></div>
+        <div><div class="stat-number">98%</div><div class="stat-label">Customer Satisfaction</div><div class="stat-line"></div></div>
+        <div><div class="stat-number" id="activeListingStat">0</div><div class="stat-label">Active Listings</div><div class="stat-line"></div></div>
+        <div><div class="stat-number">15</div><div class="stat-label">Years Experience</div><div class="stat-line"></div></div>
+      </div>
+    </section>
+
+    <section class="testimonials-section">
+      <div class="section-heading">
+        <h2>What Drivers Say</h2>
+        <div class="heading-line"></div>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card">
+          <div class="stars">5/5</div>
+          <p>"Found my dream car at an incredible price. The entire process was seamless and professional."</p>
+          <div class="testimonial-author">Michael R.</div>
+          <div class="testimonial-info">Purchased: Porsche 911 GT3</div>
+        </article>
+        <article class="testimonial-card">
+          <div class="stars">5/5</div>
+          <p>"Outstanding service from start to finish. The car was exactly as described."</p>
+          <div class="testimonial-author">Sarah K.</div>
+          <div class="testimonial-info">Purchased: BMW M4 Competition</div>
+        </article>
+        <article class="testimonial-card">
+          <div class="stars">5/5</div>
+          <p>"Zoomies had the perfect classic muscle car with verified history and excellent condition."</p>
+          <div class="testimonial-author">James T.</div>
+          <div class="testimonial-info">Purchased: 1969 Camaro SS</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="sell-cta">
+      <div class="sell-cta-inner">
+        <div class="sell-cta-left">
+          <h2>Sell Your Car Fast</h2>
+          <p>Get top dollar for your vehicle with our premium marketplace.</p>
+          <button class="btn btn-dark" type="button" data-open-listing>List Your Vehicle</button>
         </div>
-        <div class="sell-feature">
-          <div class="sell-feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        <div class="sell-features">
+          <div class="sell-feature">
+            <div class="sell-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div><h4>Best Offers</h4><p>Connect with motivated buyers</p></div>
           </div>
-          <div>
-            <h4>Premium Listing</h4>
-            <p>Professional photos &amp; descriptions</p>
+          <div class="sell-feature">
+            <div class="sell-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div><h4>Quick Sales</h4><p>Average listing sells in 7 days</p></div>
+          </div>
+          <div class="sell-feature">
+            <div class="sell-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div><h4>Premium Listing</h4><p>Professional photos and descriptions</p></div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- FOOTER -->
-  <footer>
+    <section class="section" id="finance">
+      <div class="section-heading">
+        <h2>Finance</h2>
+        <div class="heading-line"></div>
+      </div>
+      <div class="finance-grid">
+        <article class="finance-tool">
+          <h3>Monthly Payment</h3>
+          <p>Estimate a monthly payment before contacting a seller.</p>
+          <form id="paymentForm">
+            <div class="form-grid">
+              <div class="field"><label for="financePrice">Vehicle Price</label><input id="financePrice" type="number" min="1" value="75000" required /></div>
+              <div class="field"><label for="financeDownPayment">Down Payment</label><input id="financeDownPayment" type="number" min="0" value="10000" required /></div>
+              <div class="field"><label for="financeInterest">Interest Rate (%)</label><input id="financeInterest" type="number" min="0" step="0.1" value="6.5" required /></div>
+              <div class="field"><label for="financeTerm">Loan Term</label><select id="financeTerm"><option value="36">36 months</option><option value="48">48 months</option><option value="60" selected>60 months</option><option value="72">72 months</option></select></div>
+            </div>
+            <button class="btn btn-primary" type="submit">Calculate Payment</button>
+          </form>
+          <div class="finance-result" id="paymentResult">
+            <span>Estimated monthly payment</span>
+            <strong>$0/month</strong>
+            <div class="finance-hint">This is an estimate, not a bank offer.</div>
+          </div>
+        </article>
+
+        <article class="finance-tool">
+          <h3>Fair Price Estimate</h3>
+          <p>Check how mileage, age, condition, and one defect can affect a fair price.</p>
+          <form id="estimateForm">
+            <div class="form-grid">
+              <div class="field"><label for="estimateMake">Make</label><input id="estimateMake" maxlength="50" value="BMW" required /></div>
+              <div class="field"><label for="estimateModel">Model</label><input id="estimateModel" maxlength="50" value="M3" required /></div>
+              <div class="field"><label for="estimateYear">Year</label><input id="estimateYear" type="number" min="1886" max="2026" value="2022" required /></div>
+              <div class="field"><label for="estimateMileage">Mileage</label><input id="estimateMileage" type="number" min="0" value="12000" required /></div>
+              <div class="field"><label for="estimateBasePrice">Market Price</label><input id="estimateBasePrice" type="number" min="1" value="75000" required /></div>
+              <div class="field"><label for="estimateCondition">Condition</label><select id="estimateCondition"><option>New</option><option selected>Used</option><option>Certified</option><option>Restored</option></select></div>
+              <div class="field"><label for="defectName">Defect</label><input id="defectName" maxlength="100" placeholder="Optional" /></div>
+              <div class="field"><label for="defectSeverity">Severity</label><select id="defectSeverity"><option value="1">1 - Minor</option><option value="2">2</option><option value="3" selected>3 - Medium</option><option value="4">4</option><option value="5">5 - Severe</option></select></div>
+              <div class="field field-full"><label for="defectRepairCost">Repair Cost</label><input id="defectRepairCost" type="number" min="0" value="0" /></div>
+            </div>
+            <button class="btn btn-primary" type="submit">Estimate Price</button>
+          </form>
+          <div class="finance-result" id="estimateResult">
+            <span>Estimated fair price</span>
+            <strong>$0</strong>
+            <div class="finance-hint">Start the backend, then submit the form for a transparent estimate.</div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer id="zoomiesFooter">
     <div class="footer-inner">
       <div class="footer-grid">
         <div class="footer-brand">
@@ -700,37 +698,1051 @@
         </div>
         <div class="footer-col">
           <h4>Shop</h4>
-          <ul>
-            <li><a href="#">Sports Cars</a></li>
-            <li><a href="#">Luxury Sedans</a></li>
-            <li><a href="#">SUVs</a></li>
-            <li><a href="#">Classic Cars</a></li>
-          </ul>
+          <ul><li><a href="#inventory">Sports Cars</a></li><li><a href="#inventory">Luxury Sedans</a></li><li><a href="#inventory">SUVs</a></li><li><a href="#inventory">Classic Cars</a></li></ul>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
-          <ul>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Blog</a></li>
-          </ul>
+          <ul><li><a href="#zoomiesFooter">About Us</a></li><li><a href="#inventory">Contact</a></li><li><a href="#inventory">Careers</a></li><li><a href="#inventory">Blog</a></li></ul>
         </div>
         <div class="footer-col">
           <h4>Support</h4>
-          <ul>
-            <li><a href="#">FAQ</a></li>
-            <li><a href="#">Financing</a></li>
-            <li><a href="#">Shipping</a></li>
-            <li><a href="#">Warranty</a></li>
-          </ul>
+          <ul><li><a href="#finance">FAQ</a></li><li><a href="#finance">Financing</a></li><li><a href="#finance">Shipping</a></li><li><a href="#finance">Warranty</a></li></ul>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Zoomies. All rights reserved. Built for speed enthusiasts.</p>
-      </div>
+      <div class="footer-bottom">&copy; 2026 Zoomies. All rights reserved. Built for speed enthusiasts.</div>
     </div>
   </footer>
 
+  <div class="modal-backdrop" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal modal-small">
+      <div class="modal-header">
+        <h2 id="authTitle">Account</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="authFormsPanel">
+          <div class="tabs">
+            <button class="tab-btn active" type="button" data-auth-tab="login">Login</button>
+            <button class="tab-btn" type="button" data-auth-tab="register">Register</button>
+          </div>
+          <form id="loginForm">
+            <div class="field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" required value="alex@zoomies.com" /></div>
+            <div class="field"><label for="loginPassword">Password</label><input id="loginPassword" type="password" required value="Zoomies123" /></div>
+            <button class="btn btn-primary" type="submit">Login</button>
+          </form>
+          <form id="registerForm" hidden>
+            <div class="field"><label for="registerName">Name</label><input id="registerName" type="text" required /></div>
+            <div class="field"><label for="registerEmail">Email</label><input id="registerEmail" type="email" required /></div>
+            <div class="field"><label for="registerPassword">Password</label><input id="registerPassword" type="password" minlength="6" required /></div>
+            <button class="btn btn-primary" type="submit">Create Account</button>
+          </form>
+          <div class="auth-status" id="authStatus"></div>
+        </div>
+        <div class="profile-panel" id="profilePanel" hidden>
+          <div class="profile-summary">
+            <div class="profile-row"><span>Name</span><strong id="profileName">Guest</strong></div>
+            <div class="profile-row"><span>Email</span><strong id="profileEmail">Not logged in</strong></div>
+            <div class="profile-row"><span>Role</span><strong id="profileRole">Guest</strong></div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn btn-muted" type="button" id="accountMyListingsBtn">My Listings</button>
+            <button class="btn btn-muted" type="button" id="accountWishlistBtn">Wishlist</button>
+          </div>
+          <button class="btn btn-primary" type="button" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="listingModal" role="dialog" aria-modal="true" aria-labelledby="listingModalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="listingModalTitle">Add Listing</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="listingForm">
+        <div class="modal-body">
+          <input type="hidden" id="listingId" />
+          <div class="form-grid">
+            <div class="field"><label for="listingMake">Make</label><input id="listingMake" required maxlength="50" /></div>
+            <div class="field"><label for="listingModel">Model</label><input id="listingModel" required maxlength="50" /></div>
+            <div class="field"><label for="listingYear">Year</label><input id="listingYear" type="number" min="1886" max="2026" required /></div>
+            <div class="field"><label for="listingMileage">Mileage</label><input id="listingMileage" type="number" min="0" required /></div>
+            <div class="field"><label for="listingPrice">Price</label><input id="listingPrice" type="number" min="1" required /></div>
+            <div class="field"><label for="listingTransmission">Transmission</label><select id="listingTransmission"><option>Automatic</option><option>Manual</option></select></div>
+            <div class="field"><label for="listingCondition">Condition</label><select id="listingCondition"><option>New</option><option selected>Used</option><option>Certified</option><option>Restored</option></select></div>
+            <div class="field"><label for="listingCategory">Category</label><select id="listingCategory"><option>Sports</option><option>Luxury</option><option>SUV</option><option>Vintage</option><option>Electric</option></select></div>
+            <div class="field"><label for="listingImage">Image URL</label><input id="listingImage" type="url" required /></div>
+            <div class="field field-full"><label for="listingDescription">Description</label><textarea id="listingDescription" required maxlength="700"></textarea></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-muted" type="button" data-close-modal>Cancel</button>
+          <button class="btn btn-primary" type="submit">Save Listing</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="modal modal-wide">
+      <div class="modal-header">
+        <h2 id="detailTitle">Vehicle Details</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="detailBody"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+    <div class="modal modal-small">
+      <div class="modal-header">
+        <h2 id="deleteTitle">Delete Listing</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body"><p id="deleteMessage"></p></div>
+      <div class="modal-footer">
+        <button class="btn btn-muted" type="button" data-close-modal>Cancel</button>
+        <button class="btn btn-danger" type="button" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+    <div class="modal modal-small">
+      <div class="modal-header">
+        <h2 id="contactTitle">Contact Seller</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="contactForm">
+        <div class="modal-body">
+          <input type="hidden" id="contactCarId" />
+          <div class="field">
+            <label for="contactPhone">Phone</label>
+            <input id="contactPhone" type="tel" placeholder="+40700111222" />
+          </div>
+          <div class="field">
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" minlength="10" maxlength="1000" required>Hello, I am interested in this car. Is it still available?</textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-muted" type="button" data-close-modal>Cancel</button>
+          <button class="btn btn-primary" type="submit">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // Change this value if the backend runs on a different local port.
+    const API_BASE_URL = "http://localhost:5062/api";
+    const TOKEN_STORAGE_KEY = "zoomies.jwt";
+
+    const state = {
+      token: localStorage.getItem(TOKEN_STORAGE_KEY),
+      currentUser: null,
+      listings: [],
+      myListings: [],
+      wishlistListings: [],
+      wishlistIds: [],
+      isLoading: false,
+      isMyListingsLoading: false,
+      isWishlistLoading: false
+    };
+
+    let pendingDeleteId = null;
+
+    const els = {
+      carGrid: document.getElementById("carGrid"),
+      wishlistGrid: document.getElementById("wishlistGrid"),
+      wishlistCount: document.getElementById("wishlistCount"),
+      wishlistEmptyState: document.getElementById("wishlistEmptyState"),
+      backToInventoryBtn: document.getElementById("backToInventoryBtn"),
+      myListingsGrid: document.getElementById("myListingsGrid"),
+      myListingsCount: document.getElementById("myListingsCount"),
+      myListingsEmptyState: document.getElementById("myListingsEmptyState"),
+      backFromMyListingsBtn: document.getElementById("backFromMyListingsBtn"),
+      emptyState: document.getElementById("emptyState"),
+      resultCount: document.getElementById("resultCount"),
+      apiStatus: document.getElementById("apiStatus"),
+      activeListingStat: document.getElementById("activeListingStat"),
+      filtersForm: document.getElementById("filtersForm"),
+      heroSearchForm: document.getElementById("heroSearchForm"),
+      heroSearchInput: document.getElementById("heroSearchInput"),
+      filterSearch: document.getElementById("filterSearch"),
+      filterCategory: document.getElementById("filterCategory"),
+      filterMaxPrice: document.getElementById("filterMaxPrice"),
+      filterMinYear: document.getElementById("filterMinYear"),
+      filterTransmission: document.getElementById("filterTransmission"),
+      filterSort: document.getElementById("filterSort"),
+      resetFiltersBtn: document.getElementById("resetFiltersBtn"),
+      accountBadge: document.getElementById("accountBadge"),
+      currentAccountName: document.getElementById("currentAccountName"),
+      currentAccountEmail: document.getElementById("currentAccountEmail"),
+      authModal: document.getElementById("authModal"),
+      listingModal: document.getElementById("listingModal"),
+      detailModal: document.getElementById("detailModal"),
+      deleteModal: document.getElementById("deleteModal"),
+      contactModal: document.getElementById("contactModal"),
+      listingForm: document.getElementById("listingForm"),
+      contactForm: document.getElementById("contactForm"),
+      authFormsPanel: document.getElementById("authFormsPanel"),
+      profilePanel: document.getElementById("profilePanel"),
+      profileName: document.getElementById("profileName"),
+      profileEmail: document.getElementById("profileEmail"),
+      profileRole: document.getElementById("profileRole"),
+      loginForm: document.getElementById("loginForm"),
+      registerForm: document.getElementById("registerForm"),
+      authStatus: document.getElementById("authStatus"),
+      accountMyListingsBtn: document.getElementById("accountMyListingsBtn"),
+      accountWishlistBtn: document.getElementById("accountWishlistBtn"),
+      logoutBtn: document.getElementById("logoutBtn"),
+      detailBody: document.getElementById("detailBody"),
+      deleteMessage: document.getElementById("deleteMessage"),
+      confirmDeleteBtn: document.getElementById("confirmDeleteBtn"),
+      paymentForm: document.getElementById("paymentForm"),
+      paymentResult: document.getElementById("paymentResult"),
+      estimateForm: document.getElementById("estimateForm"),
+      estimateResult: document.getElementById("estimateResult"),
+      toast: document.getElementById("toast")
+    };
+
+    init();
+
+    async function init() {
+      restoreUserFromToken();
+      bindEvents();
+      updateAuthUi();
+      await loadCars();
+      await loadWishlist();
+    }
+
+    function bindEvents() {
+      els.filtersForm.addEventListener("input", debounce(loadCars, 250));
+      els.filtersForm.addEventListener("change", loadCars);
+
+      els.heroSearchForm.addEventListener("submit", event => {
+        event.preventDefault();
+        els.filterSearch.value = els.heroSearchInput.value.trim();
+        document.getElementById("inventory").scrollIntoView({ behavior: "smooth" });
+        loadCars();
+      });
+
+      document.getElementById("categoryTags").addEventListener("click", event => {
+        const button = event.target.closest("[data-category]");
+        if (!button) return;
+        const next = els.filterCategory.value === button.dataset.category ? "" : button.dataset.category;
+        els.filterCategory.value = next;
+        document.querySelectorAll(".hero-tag").forEach(tag => tag.classList.toggle("active", tag.dataset.category === next));
+        document.getElementById("inventory").scrollIntoView({ behavior: "smooth" });
+        loadCars();
+      });
+
+      els.resetFiltersBtn.addEventListener("click", resetFilters);
+
+      els.accountBadge.addEventListener("click", () => openModal(els.authModal));
+      document.querySelectorAll("[data-open-listing]").forEach(button => button.addEventListener("click", event => {
+        event.preventDefault();
+        openListingForm();
+      }));
+
+      document.addEventListener("click", event => {
+        if (event.target.closest("[data-close-modal]")) closeAllModals();
+        if (event.target.classList.contains("modal-backdrop")) closeAllModals();
+      });
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeAllModals();
+      });
+
+      document.querySelectorAll("[data-auth-tab]").forEach(button => button.addEventListener("click", () => switchAuthTab(button.dataset.authTab)));
+      els.loginForm.addEventListener("submit", handleLogin);
+      els.registerForm.addEventListener("submit", handleRegister);
+      els.listingForm.addEventListener("submit", handleListingSave);
+      els.contactForm.addEventListener("submit", handleContactSeller);
+      els.paymentForm.addEventListener("submit", handlePaymentCalculation);
+      els.estimateForm.addEventListener("submit", handlePriceEstimate);
+      els.confirmDeleteBtn.addEventListener("click", confirmDelete);
+      els.accountMyListingsBtn.addEventListener("click", () => {
+        closeAllModals();
+        openMyListingsPage();
+      });
+      els.accountWishlistBtn.addEventListener("click", () => {
+        closeAllModals();
+        openWishlistPage();
+      });
+      els.logoutBtn.addEventListener("click", logout);
+      document.getElementById("wishlistBtn").addEventListener("click", openWishlistPage);
+      els.backToInventoryBtn.addEventListener("click", showInventoryPage);
+      els.backFromMyListingsBtn.addEventListener("click", showInventoryPage);
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener("click", () => {
+          showMainSite();
+          render();
+        });
+      });
+    }
+
+    function render() {
+      els.carGrid.innerHTML = state.listings.map(car => renderCard(car, "inventory")).join("");
+      els.emptyState.hidden = state.isLoading || state.listings.length > 0;
+      els.emptyState.textContent = "No listings match the current filters.";
+      els.resultCount.textContent = `${state.listings.length} ${state.listings.length === 1 ? "listing" : "listings"}`;
+      els.activeListingStat.textContent = `${state.listings.length}+`;
+      document.getElementById("wishlistBtn").classList.toggle("active", document.body.classList.contains("show-wishlist-page"));
+      renderMyListingsPage();
+      renderWishlistPage();
+      bindCardActions();
+    }
+
+    function renderWishlistPage() {
+      els.wishlistGrid.innerHTML = state.wishlistListings.map(car => renderCard(car, "wishlist")).join("");
+      els.wishlistEmptyState.hidden = state.isWishlistLoading || state.wishlistListings.length > 0;
+      els.wishlistEmptyState.textContent = state.currentUser ? "No saved cars yet." : "Login to see your saved cars.";
+      els.wishlistCount.textContent = `${state.wishlistListings.length} saved ${state.wishlistListings.length === 1 ? "listing" : "listings"}`;
+    }
+
+    function renderMyListingsPage() {
+      els.myListingsGrid.innerHTML = state.myListings.map(car => renderCard(car, "myListings")).join("");
+      els.myListingsEmptyState.hidden = state.isMyListingsLoading || state.myListings.length > 0;
+      els.myListingsEmptyState.textContent = state.currentUser ? "You have not added any listings yet." : "Login to see your listings.";
+      els.myListingsCount.textContent = `${state.myListings.length} personal ${state.myListings.length === 1 ? "listing" : "listings"}`;
+    }
+
+    async function loadCars() {
+      state.isLoading = true;
+      setApiStatus("Loading inventory...");
+      render();
+
+      try {
+        const cars = await apiRequest(`/Cars${buildCarQueryString()}`, { auth: Boolean(state.token) });
+        state.listings = cars.map(normalizeCar);
+        setApiStatus("Connected");
+      } catch (error) {
+        state.listings = [];
+        setApiStatus("API not reachable", true);
+        showToast(`${error.message}. Start the backend with dotnet run.`);
+      } finally {
+        state.isLoading = false;
+        render();
+      }
+    }
+
+    async function loadMyListings() {
+      if (!state.currentUser) {
+        state.myListings = [];
+        render();
+        return;
+      }
+
+      state.isMyListingsLoading = true;
+      render();
+
+      try {
+        const cars = await apiRequest("/Cars/mine", { auth: true });
+        state.myListings = cars.map(normalizeCar);
+      } catch (error) {
+        showToast(error.message);
+      } finally {
+        state.isMyListingsLoading = false;
+        render();
+      }
+    }
+
+    async function loadWishlist() {
+      if (!state.currentUser) {
+        state.wishlistListings = [];
+        state.wishlistIds = [];
+        render();
+        return;
+      }
+
+      state.isWishlistLoading = true;
+      render();
+
+      try {
+        const cars = await apiRequest("/Wishlist", { auth: true });
+        state.wishlistListings = cars.map(normalizeCar);
+        state.wishlistIds = state.wishlistListings.map(car => String(car.id));
+      } catch (error) {
+        showToast(error.message);
+      } finally {
+        state.isWishlistLoading = false;
+        render();
+      }
+    }
+
+    function renderCard(car, context = "inventory") {
+      const canManage = canManageCar(car);
+      const isWishlisted = state.wishlistIds.includes(String(car.id));
+      const manageActions = canManage
+        ? `
+            <button class="btn btn-muted" type="button" data-action="edit">Edit</button>
+            <button class="btn btn-danger" type="button" data-action="delete">Delete</button>
+          `
+        : "";
+      return `
+        <article class="car-card" data-id="${car.id}" data-context="${context}">
+          <div class="car-img-wrap">
+            <img src="${escapeAttr(car.imageUrl)}" alt="${escapeAttr(car.make)} ${escapeAttr(car.model)}" loading="lazy" />
+            ${car.featured ? '<span class="featured-badge">Featured</span>' : ""}
+            <button class="wishlist-fab ${isWishlisted ? "active" : ""}" type="button" data-action="wishlist" aria-label="${isWishlisted ? "Remove from wishlist" : "Add to wishlist"}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l7.78-7.78a5.5 5.5 0 0 0 1.06-8.84z"/></svg>
+            </button>
+            <div class="car-overlay">
+              <h3>${escapeHtml(car.make)} ${escapeHtml(car.model)}</h3>
+              <p class="car-meta"><span>${car.year}</span><span>${formatNumber(car.mileage)} mi</span></p>
+            </div>
+          </div>
+          <div class="car-footer">
+            <div><div class="car-price-label">Price</div><div class="car-price">${formatCurrency(car.price)}</div></div>
+            <div><div class="car-trans-label">Trans</div><div class="car-trans">${escapeHtml(car.transmission)}</div></div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-outline" type="button" data-action="details">Details</button>
+            ${manageActions}
+          </div>
+        </article>
+      `;
+    }
+
+    function bindCardActions() {
+      document.querySelectorAll("#carGrid [data-action], #wishlistGrid [data-action], #myListingsGrid [data-action]").forEach(button => {
+        button.addEventListener("click", async event => {
+          const actionButton = event.target.closest("[data-action]");
+          const card = actionButton.closest(".car-card");
+          const id = Number(card.dataset.id);
+          const context = card.dataset.context || "inventory";
+          const action = actionButton.dataset.action;
+          if (action === "details") openDetails(id, context);
+          if (action === "wishlist") await toggleWishlist(id);
+          if (action === "edit") openListingForm(id);
+          if (action === "delete") openDeleteConfirm(id);
+        });
+      });
+    }
+
+    function openListingForm(id) {
+      if (!state.currentUser) {
+        openModal(els.authModal);
+        showToast("Login before managing listings.");
+        return;
+      }
+
+      const car = id ? findCarById(id) : null;
+      if (car && !canManageCar(car)) {
+        showToast("You can only edit your own listings.");
+        return;
+      }
+      document.getElementById("listingModalTitle").textContent = car ? "Edit Listing" : "Add Listing";
+      els.listingForm.reset();
+      document.getElementById("listingId").value = car?.id || "";
+      document.getElementById("listingMake").value = car?.make || "";
+      document.getElementById("listingModel").value = car?.model || "";
+      document.getElementById("listingYear").value = car?.year || "";
+      document.getElementById("listingMileage").value = car?.mileage || "";
+      document.getElementById("listingPrice").value = car?.price || "";
+      document.getElementById("listingTransmission").value = car?.transmission || "Automatic";
+      document.getElementById("listingCondition").value = car?.condition || "Used";
+      document.getElementById("listingCategory").value = car?.category || "Sports";
+      document.getElementById("listingImage").value = car?.imageUrl || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900";
+      document.getElementById("listingDescription").value = car?.description || "";
+      openModal(els.listingModal);
+    }
+
+    async function handleListingSave(event) {
+      event.preventDefault();
+      const id = Number(document.getElementById("listingId").value);
+      const payload = {
+        ...(id ? { id } : {}),
+        make: document.getElementById("listingMake").value.trim(),
+        model: document.getElementById("listingModel").value.trim(),
+        year: Number(document.getElementById("listingYear").value),
+        mileage: Number(document.getElementById("listingMileage").value),
+        price: Number(document.getElementById("listingPrice").value),
+        transmission: document.getElementById("listingTransmission").value,
+        condition: document.getElementById("listingCondition").value,
+        category: document.getElementById("listingCategory").value,
+        imageUrl: document.getElementById("listingImage").value.trim(),
+        description: document.getElementById("listingDescription").value.trim()
+      };
+
+      try {
+        if (id) {
+          await apiRequest(`/Cars/${id}`, { method: "PUT", body: payload, auth: true });
+          showToast("Listing updated.");
+        } else {
+          await apiRequest("/Cars", { method: "POST", body: payload, auth: true });
+          showToast("Listing added.");
+        }
+
+        closeAllModals();
+        await refreshAllListingData();
+      } catch (error) {
+        showToast(error.message);
+      }
+    }
+
+    function openDeleteConfirm(id) {
+      const car = findCarById(id);
+      if (!car) return;
+      if (!canManageCar(car)) {
+        showToast("You can only delete your own listings.");
+        return;
+      }
+      pendingDeleteId = id;
+      els.deleteMessage.textContent = `Delete ${car.year} ${car.make} ${car.model}?`;
+      openModal(els.deleteModal);
+    }
+
+    async function confirmDelete() {
+      try {
+        await apiRequest(`/Cars/${pendingDeleteId}`, { method: "DELETE", auth: true });
+        pendingDeleteId = null;
+        closeAllModals();
+        showToast("Listing deleted.");
+        await refreshAllListingData();
+      } catch (error) {
+        showToast(error.message);
+      }
+    }
+
+    function openDetails(id, context = "inventory") {
+      const car = findCarById(id);
+      if (!car) return;
+      const canManage = canManageCar(car);
+      const isPersonalListing = isOwnListing(car);
+      const isWishlisted = state.wishlistIds.includes(String(car.id));
+      const manageActions = canManage
+        ? `
+              <button class="btn btn-muted" type="button" id="detailEditBtn">Edit</button>
+              <button class="btn btn-danger" type="button" id="detailDeleteBtn">Delete</button>
+          `
+        : "";
+      const buyerActions = !isPersonalListing
+        ? `
+              <button class="btn btn-primary" type="button" id="contactSellerBtn">Contact Seller</button>
+              <button class="wishlist-fab ${isWishlisted ? "active" : ""}" type="button" id="detailWishlistBtn" aria-label="${isWishlisted ? "Remove from wishlist" : "Add to wishlist"}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l7.78-7.78a5.5 5.5 0 0 0 1.06-8.84z"/></svg>
+              </button>
+          `
+        : "";
+      els.detailBody.innerHTML = `
+        <div class="detail-grid">
+          <img class="detail-image" src="${escapeAttr(car.imageUrl)}" alt="${escapeAttr(car.make)} ${escapeAttr(car.model)}" />
+          <div>
+            <div class="detail-title">${escapeHtml(car.year)} ${escapeHtml(car.make)} ${escapeHtml(car.model)}</div>
+            <div class="detail-price">${formatCurrency(car.price)}</div>
+            <p class="detail-description">${escapeHtml(car.description)}</p>
+            <div class="detail-specs">
+              <div class="spec"><span>Mileage</span><strong>${formatNumber(car.mileage)} mi</strong></div>
+              <div class="spec"><span>Transmission</span><strong>${escapeHtml(car.transmission)}</strong></div>
+              <div class="spec"><span>Condition</span><strong>${escapeHtml(car.condition)}</strong></div>
+              <div class="spec"><span>Category</span><strong>${escapeHtml(car.category)}</strong></div>
+            </div>
+            <div class="detail-actions">
+              ${buyerActions}
+              ${manageActions}
+            </div>
+          </div>
+        </div>
+      `;
+      openModal(els.detailModal);
+      const contactSellerBtn = document.getElementById("contactSellerBtn");
+      const detailWishlistBtn = document.getElementById("detailWishlistBtn");
+      if (contactSellerBtn) contactSellerBtn.addEventListener("click", () => openContactForm(id));
+      if (detailWishlistBtn) detailWishlistBtn.addEventListener("click", async () => {
+          const changed = await toggleWishlist(id);
+          if (changed) {
+            closeAllModals();
+            openDetails(id, context);
+          }
+        });
+      if (canManage) {
+        document.getElementById("detailEditBtn").addEventListener("click", () => { closeAllModals(); openListingForm(id); });
+        document.getElementById("detailDeleteBtn").addEventListener("click", () => { closeAllModals(); openDeleteConfirm(id); });
+      }
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      try {
+        const result = await apiRequest("/Auth/login", { method: "POST", body: { email, password } });
+        saveToken(result.token);
+        els.authStatus.textContent = `Logged in as ${state.currentUser.email}`;
+        updateAuthUi();
+        showToast("Logged in.");
+        closeAllModals();
+        await refreshAllListingData();
+      } catch (error) {
+        els.authStatus.textContent = error.message;
+      }
+    }
+
+    async function handleRegister(event) {
+      event.preventDefault();
+      const name = document.getElementById("registerName").value.trim();
+      const email = document.getElementById("registerEmail").value.trim();
+      const password = document.getElementById("registerPassword").value;
+
+      try {
+        await apiRequest("/Auth/register", { method: "POST", body: { name, email, password } });
+        const result = await apiRequest("/Auth/login", { method: "POST", body: { email, password } });
+        saveToken(result.token);
+        els.authStatus.textContent = `Account created for ${email}`;
+        updateAuthUi();
+        showToast("Account created and logged in.");
+        closeAllModals();
+        await refreshAllListingData();
+      } catch (error) {
+        els.authStatus.textContent = error.message;
+      }
+    }
+
+    function switchAuthTab(tab) {
+      document.querySelectorAll("[data-auth-tab]").forEach(button => button.classList.toggle("active", button.dataset.authTab === tab));
+      els.loginForm.hidden = tab !== "login";
+      els.registerForm.hidden = tab !== "register";
+      els.authStatus.textContent = "";
+    }
+
+    function resetFilters() {
+      els.filtersForm.reset();
+      els.heroSearchInput.value = "";
+      document.querySelectorAll(".hero-tag").forEach(tag => tag.classList.remove("active"));
+      loadCars();
+    }
+
+    async function toggleWishlist(carId) {
+      if (!state.currentUser) {
+        openModal(els.authModal);
+        showToast("Login before saving cars.");
+        return false;
+      }
+
+      const id = String(carId);
+      const wasSaved = state.wishlistIds.includes(id);
+
+      try {
+        if (wasSaved) {
+          await apiRequest(`/Wishlist/${carId}`, { method: "DELETE", auth: true });
+          showToast("Removed from wishlist.");
+        } else {
+          await apiRequest(`/Wishlist/${carId}`, { method: "POST", auth: true });
+          showToast("Added to wishlist.");
+        }
+
+        await loadWishlist();
+        return true;
+      } catch (error) {
+        showToast(error.message);
+        return false;
+      }
+    }
+
+    async function openWishlistPage() {
+      if (!state.currentUser) {
+        openModal(els.authModal);
+        showToast("Login to see your wishlist.");
+        return;
+      }
+
+      els.filtersForm.reset();
+      els.heroSearchInput.value = "";
+      document.querySelectorAll(".hero-tag").forEach(tag => tag.classList.remove("active"));
+      showAppPage("wishlist");
+      await loadWishlist();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function openMyListingsPage() {
+      if (!state.currentUser) {
+        openModal(els.authModal);
+        showToast("Login to see your listings.");
+        return;
+      }
+
+      showAppPage("myListings");
+      await loadMyListings();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showInventoryPage() {
+      showMainSite();
+      document.getElementById("inventory").scrollIntoView({ behavior: "smooth" });
+      render();
+    }
+
+    function showAppPage(page) {
+      showMainSite();
+      document.body.classList.add("show-app-page");
+      document.body.classList.add(page === "myListings" ? "show-my-listings-page" : "show-wishlist-page");
+      render();
+    }
+
+    function showMainSite() {
+      document.body.classList.remove("show-app-page", "show-wishlist-page", "show-my-listings-page");
+    }
+
+    function openContactForm(carId) {
+      if (!state.currentUser) {
+        closeAllModals();
+        openModal(els.authModal);
+        showToast("Login before contacting a seller.");
+        return;
+      }
+
+      document.getElementById("contactCarId").value = carId;
+      closeAllModals();
+      openModal(els.contactModal);
+    }
+
+    async function handleContactSeller(event) {
+      event.preventDefault();
+      const carId = Number(document.getElementById("contactCarId").value);
+      const senderPhone = document.getElementById("contactPhone").value.trim();
+      const message = document.getElementById("contactMessage").value.trim();
+
+      try {
+        await apiRequest("/ContactMessages", {
+          method: "POST",
+          auth: true,
+          body: { carId, senderPhone, message }
+        });
+        closeAllModals();
+        showToast("Message sent to seller.");
+      } catch (error) {
+        showToast(error.message);
+      }
+    }
+
+    function handlePaymentCalculation(event) {
+      event.preventDefault();
+      const price = Number(document.getElementById("financePrice").value);
+      const downPayment = Number(document.getElementById("financeDownPayment").value);
+      const annualInterest = Number(document.getElementById("financeInterest").value);
+      const months = Number(document.getElementById("financeTerm").value);
+      const principal = Math.max(0, price - downPayment);
+      const monthlyRate = annualInterest / 100 / 12;
+      const monthlyPayment = monthlyRate === 0
+        ? principal / months
+        : principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months));
+      const totalPaid = monthlyPayment * months + downPayment;
+
+      els.paymentResult.innerHTML = `
+        <span>Estimated monthly payment</span>
+        <strong>${formatCurrency(monthlyPayment)}/month</strong>
+        <div class="finance-breakdown">
+          <div><span>Amount financed</span><b>${formatCurrency(principal)}</b></div>
+          <div><span>Total with down payment</span><b>${formatCurrency(totalPaid)}</b></div>
+        </div>
+        <div class="finance-hint">This is an estimate, not a bank offer.</div>
+      `;
+    }
+
+    async function handlePriceEstimate(event) {
+      event.preventDefault();
+      const defectName = document.getElementById("defectName").value.trim();
+      const repairCost = Number(document.getElementById("defectRepairCost").value);
+      const defects = defectName
+        ? [{
+            name: defectName,
+            severity: Number(document.getElementById("defectSeverity").value),
+            estimatedRepairCost: repairCost
+          }]
+        : [];
+
+      const payload = {
+        make: document.getElementById("estimateMake").value.trim(),
+        model: document.getElementById("estimateModel").value.trim(),
+        year: Number(document.getElementById("estimateYear").value),
+        mileage: Number(document.getElementById("estimateMileage").value),
+        baseMarketPrice: Number(document.getElementById("estimateBasePrice").value),
+        condition: document.getElementById("estimateCondition").value,
+        defects
+      };
+
+      els.estimateResult.innerHTML = '<span>Estimated fair price</span><strong>Calculating...</strong>';
+
+      try {
+        const result = await apiRequest("/PriceEstimates", { method: "POST", body: payload });
+        els.estimateResult.innerHTML = `
+          <span>${escapeHtml(result.vehicle || "Estimated fair price")}</span>
+          <strong>${formatCurrency(result.estimatedPrice)}</strong>
+          <div class="finance-breakdown">
+            <div><span>Market price</span><b>${formatCurrency(result.baseMarketPrice)}</b></div>
+            <div><span>Age</span><b>${formatCurrency(result.ageAdjustment)}</b></div>
+            <div><span>Mileage</span><b>${formatCurrency(result.mileageAdjustment)}</b></div>
+            <div><span>Condition</span><b>${formatCurrency(result.conditionAdjustment)}</b></div>
+            <div><span>Defects</span><b>${formatCurrency(result.defectAdjustment)}</b></div>
+          </div>
+          ${renderFinanceNotes(result.notes)}
+        `;
+      } catch (error) {
+        els.estimateResult.innerHTML = `
+          <span>Estimated fair price</span>
+          <strong>$0</strong>
+          <div class="finance-hint">${escapeHtml(error.message)}. Start the backend and try again.</div>
+        `;
+      }
+    }
+
+    function openModal(modal) {
+      closeAllModals();
+      modal.classList.add("open");
+      document.body.classList.add("modal-open");
+    }
+
+    function closeAllModals() {
+      document.querySelectorAll(".modal-backdrop").forEach(modal => modal.classList.remove("open"));
+      document.body.classList.remove("modal-open");
+    }
+
+    function showToast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => els.toast.classList.remove("show"), 2600);
+    }
+
+    async function apiRequest(path, options = {}) {
+      const headers = { Accept: "application/json" };
+      if (options.body) headers["Content-Type"] = "application/json";
+      if (options.auth) {
+        if (!state.token) throw new Error("Please login first");
+        headers.Authorization = `Bearer ${state.token}`;
+      }
+
+      const response = await fetch(`${API_BASE_URL}${path}`, {
+        method: options.method || "GET",
+        headers,
+        body: options.body ? JSON.stringify(options.body) : undefined
+      });
+
+      const contentType = response.headers.get("content-type") || "";
+      const data = response.status === 204
+        ? null
+        : contentType.includes("application/json")
+          ? await response.json()
+          : await response.text();
+
+      if (!response.ok) {
+        if (response.status === 401 && options.auth) {
+          clearSession("Your login expired. Please login again.");
+          openModal(els.authModal);
+        }
+
+        const message = typeof data === "string" ? data : data?.title || "Request failed";
+        throw new Error(message);
+      }
+
+      return data;
+    }
+
+    function buildCarQueryString() {
+      const params = new URLSearchParams();
+      addParam(params, "search", els.filterSearch.value.trim());
+      addParam(params, "category", els.filterCategory.value);
+      addParam(params, "maxPrice", els.filterMaxPrice.value);
+      addParam(params, "minYear", els.filterMinYear.value);
+      addParam(params, "transmission", els.filterTransmission.value);
+
+      const sortMap = {
+        priceAsc: ["price", "asc"],
+        priceDesc: ["price", "desc"],
+        yearDesc: ["year", "desc"],
+        mileageAsc: ["mileage", "asc"]
+      };
+      const sort = sortMap[els.filterSort.value];
+      if (sort) {
+        params.set("sortBy", sort[0]);
+        params.set("sortDirection", sort[1]);
+      }
+
+      const query = params.toString();
+      return query ? `?${query}` : "";
+    }
+
+    function addParam(params, name, value) {
+      if (value !== undefined && value !== null && String(value).trim() !== "") {
+        params.set(name, value);
+      }
+    }
+
+    function normalizeCar(car) {
+      const ownerId = String(car.userId || car.ownerId || "");
+      const isOwner = Boolean(car.isOwner || (state.currentUser && ownerId === state.currentUser.id));
+      const canManage = Boolean(car.canManage || (state.currentUser && (state.currentUser.role === "Admin" || isOwner)));
+
+      return {
+        id: car.id,
+        make: car.make,
+        model: car.model,
+        year: car.year,
+        mileage: car.mileage,
+        price: car.price,
+        transmission: car.transmission || "Automatic",
+        condition: car.condition || "Used",
+        category: car.category || "Sports",
+        featured: Boolean(car.isFeatured),
+        imageUrl: car.imageUrl || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900",
+        description: car.description || "No description has been added for this listing yet.",
+        isOwner,
+        canManage
+      };
+    }
+
+    async function refreshAllListingData() {
+      await loadCars();
+      await loadWishlist();
+      if (document.body.classList.contains("show-my-listings-page")) {
+        await loadMyListings();
+      }
+    }
+
+    function findCarById(id) {
+      const allKnownCars = [
+        ...state.listings,
+        ...state.myListings,
+        ...state.wishlistListings
+      ];
+
+      return allKnownCars.find(car => car.id === id);
+    }
+
+    function saveToken(token) {
+      state.token = token;
+      localStorage.setItem(TOKEN_STORAGE_KEY, token);
+      restoreUserFromToken();
+    }
+
+    function restoreUserFromToken() {
+      if (!state.token) return;
+      try {
+        const payload = decodeJwtPayload(state.token);
+        state.currentUser = {
+          id: String(payload.nameid || payload.sub || payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"] || ""),
+          name: payload.unique_name || payload.name || payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] || "Zoomies User",
+          email: payload.email || payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"] || "",
+          role: payload.role || payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || "User"
+        };
+      } catch (error) {
+        logout();
+      }
+    }
+
+    function decodeJwtPayload(token) {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const padded = base64.padEnd(base64.length + (4 - base64.length % 4) % 4, "=");
+      return JSON.parse(atob(padded));
+    }
+
+    function updateAuthUi() {
+      els.authFormsPanel.hidden = Boolean(state.currentUser);
+      els.profilePanel.hidden = !state.currentUser;
+
+      if (state.currentUser) {
+        const displayRole = state.currentUser.role || "User";
+        const displayName = displayRole.toLowerCase() === "admin"
+          ? "Admin"
+          : state.currentUser.name || state.currentUser.email || "Zoomies User";
+        const displayEmail = state.currentUser.email || "Logged in";
+
+        els.currentAccountName.textContent = displayName;
+        els.currentAccountEmail.textContent = displayEmail;
+        els.profileName.textContent = displayName;
+        els.profileEmail.textContent = displayEmail;
+        els.profileRole.textContent = displayRole;
+        els.authStatus.textContent = "";
+      } else {
+        els.currentAccountName.textContent = "Guest";
+        els.currentAccountEmail.textContent = "Not logged in";
+        els.profileName.textContent = "Guest";
+        els.profileEmail.textContent = "Not logged in";
+        els.profileRole.textContent = "Guest";
+        els.authStatus.textContent = "Not logged in";
+      }
+    }
+
+    function logout() {
+      clearSession("Logged out.");
+    }
+
+    function clearSession(message) {
+      state.token = null;
+      state.currentUser = null;
+      state.myListings = [];
+      state.wishlistListings = [];
+      state.wishlistIds = [];
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
+      showMainSite();
+      updateAuthUi();
+      showToast(message);
+      switchAuthTab("login");
+      render();
+    }
+
+    function canManageCar(car) {
+      return Boolean(state.currentUser && car.canManage);
+    }
+
+    function isOwnListing(car) {
+      return Boolean(state.currentUser && car.isOwner);
+    }
+
+    function setApiStatus(message, isError = false) {
+      els.apiStatus.textContent = `- ${message}`;
+      els.apiStatus.classList.toggle("error", isError);
+    }
+
+    function debounce(fn, delay) {
+      let timer;
+      return () => {
+        clearTimeout(timer);
+        timer = setTimeout(fn, delay);
+      };
+    }
+
+    function formatCurrency(value) {
+      return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
+    }
+
+    function formatNumber(value) {
+      return new Intl.NumberFormat("en-US").format(value);
+    }
+
+    function renderFinanceNotes(notes) {
+      if (!Array.isArray(notes) || notes.length === 0) return "";
+      return `
+        <ul class="finance-note-list">
+          ${notes.map(note => `<li>${escapeHtml(note)}</li>`).join("")}
+        </ul>
+      `;
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+  </script>
 </body>
 </html>

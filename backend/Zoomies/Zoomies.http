@@ -1,6 +1,79 @@
 @Zoomies_HostAddress = http://localhost:5062
+@JwtToken = paste-token-here
 
-GET {{Zoomies_HostAddress}}/weatherforecast/
+### Register
+POST {{Zoomies_HostAddress}}/api/Auth/register
+Content-Type: application/json
+
+{
+  "name": "Test Buyer",
+  "email": "buyer@zoomies.com",
+  "password": "Buyer123!"
+}
+
+### Login
+POST {{Zoomies_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@zoomies.com",
+  "password": "Admin123!"
+}
+
+### List cars with advanced filters
+GET {{Zoomies_HostAddress}}/api/Cars?search=bmw&minYear=2020&maxPrice=90000&sortBy=price&sortDirection=desc
 Accept: application/json
 
-###
+### Create car listing
+POST {{Zoomies_HostAddress}}/api/Cars
+Content-Type: application/json
+Authorization: Bearer {{JwtToken}}
+
+{
+  "make": "Audi",
+  "model": "RS5",
+  "year": 2021,
+  "mileage": 26000,
+  "price": 64500,
+  "transmission": "Automatic",
+  "category": "Sports",
+  "imageUrl": "https://example.com/audi-rs5.jpg",
+  "description": "Clean local example listing used for manual API testing.",
+  "isFeatured": false
+}
+
+### Contact a seller
+POST {{Zoomies_HostAddress}}/api/ContactMessages
+Content-Type: application/json
+Authorization: Bearer {{JwtToken}}
+
+{
+  "carId": 2,
+  "senderPhone": "+40700111222",
+  "message": "Hello, I am interested in this car. Is it still available for a viewing this week?"
+}
+
+### Inbox
+GET {{Zoomies_HostAddress}}/api/ContactMessages/inbox
+Accept: application/json
+Authorization: Bearer {{JwtToken}}
+
+### Estimate price
+POST {{Zoomies_HostAddress}}/api/PriceEstimates
+Content-Type: application/json
+
+{
+  "make": "BMW",
+  "model": "M3",
+  "year": 2020,
+  "mileage": 60000,
+  "baseMarketPrice": 70000,
+  "condition": "Good",
+  "defects": [
+    {
+      "name": "Scratched front bumper",
+      "severity": 2,
+      "estimatedRepairCost": 600
+    }
+  ]
+}

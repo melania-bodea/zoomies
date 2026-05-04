@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Zoomies.Data;
 
@@ -11,9 +12,11 @@ using Zoomies.Data;
 namespace Zoomies.Migrations
 {
     [DbContext(typeof(ZoomiesDbContext))]
-    partial class ZoomiesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260503200201_AddContactMessagesAndBackendFeatures")]
+    partial class AddContactMessagesAndBackendFeatures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,19 +32,6 @@ namespace Zoomies.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Condition")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -64,7 +54,6 @@ namespace Zoomies.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Transmission")
@@ -86,10 +75,7 @@ namespace Zoomies.Migrations
                         new
                         {
                             Id = 1,
-                            Category = "Sports",
-                            Condition = "Used",
-                            Description = "Starter demo listing owned by the admin user.",
-                            ImageUrl = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900",
+                            ImageUrl = "...",
                             IsFeatured = true,
                             Make = "Hyundai",
                             Mileage = 200000,
@@ -102,10 +88,7 @@ namespace Zoomies.Migrations
                         new
                         {
                             Id = 2,
-                            Category = "Sports",
-                            Condition = "Used",
-                            Description = "Demo seller listing used for buyer-to-seller contact tests.",
-                            ImageUrl = "https://images.unsplash.com/photo-1625231334168-35067f8853ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900",
+                            ImageUrl = "...",
                             IsFeatured = true,
                             Make = "BMW",
                             Mileage = 12000,
@@ -210,7 +193,7 @@ namespace Zoomies.Migrations
                             Id = 1,
                             Email = "admin@zoomies.com",
                             Name = "Admin User",
-                            PasswordHash = "$2a$11$gqfJFPQzPs3HykWpu3P6z.fpG74WvoI5SBpYjKLyMvRxH57ESHQtq",
+                            PasswordHash = "$2a$10$darOjZodJy21dQK2lira5eVywMpxr3Xb4cXBf7kL7DVfXdouQwiS.",
                             RefreshToken = "",
                             Role = "Admin",
                             TokenCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -221,7 +204,7 @@ namespace Zoomies.Migrations
                             Id = 2,
                             Email = "seller@zoomies.com",
                             Name = "Demo Seller",
-                            PasswordHash = "$2a$11$gqfJFPQzPs3HykWpu3P6z.fpG74WvoI5SBpYjKLyMvRxH57ESHQtq",
+                            PasswordHash = "$2a$10$darOjZodJy21dQK2lira5eVywMpxr3Xb4cXBf7kL7DVfXdouQwiS.",
                             RefreshToken = "",
                             Role = "User",
                             TokenCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -229,46 +212,7 @@ namespace Zoomies.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Zoomies.Models.WishlistItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("UserId", "CarId")
-                        .IsUnique();
-
-                    b.ToTable("WishlistItems");
-                });
-
             modelBuilder.Entity("Zoomies.Models.ContactMessage", b =>
-                {
-                    b.HasOne("Zoomies.Models.Car", "Car")
-                        .WithMany()
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-                });
-
-            modelBuilder.Entity("Zoomies.Models.WishlistItem", b =>
                 {
                     b.HasOne("Zoomies.Models.Car", "Car")
                         .WithMany()
