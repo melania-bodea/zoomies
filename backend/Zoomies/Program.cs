@@ -5,6 +5,7 @@ using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Zoomies.Data;
+using Zoomies.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false
         };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                var path = context.HttpContext.Request.Path;
+
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chatHub"))
+                {
+                    context.Token = accessToken;
+                }
+
+                return Task.CompletedTask;
+            }
+        };
     });
 
 // --- DATABASE SETUP ---
@@ -52,6 +69,7 @@ builder.Services.AddDbContext<ZoomiesDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddOpenApi();
+builder.Services.AddSignalR();
 
 // --- CORS POLICY ---
 // This allows your Frontend (like a website or mobile app) to talk to this API
@@ -59,9 +77,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()   // Allow requests from any website
+        policy.SetIsOriginAllowed(_ => true)   // Allow requests from any website
               .AllowAnyMethod()   // Allow GET, POST, PUT, DELETE, etc.
-              .AllowAnyHeader();  // Allow any headers (like Authorization)
+              .AllowAnyHeader()   // Allow any headers (like Authorization)
+              .AllowCredentials();
     });
 });
 
@@ -83,7 +102,10 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection(); // Forces HTTPS outside local development
 }
+
+app.UseStaticFiles();
 app.UseExceptionHandler("/error"); // Handles crashes gracefully
+app.UseRouting();
 app.UseCors("AllowAll"); // Applies the CORS rules defined above
 
 // --- IMPORTANT: THE ORDER BELOW MATTERS! ---
@@ -96,5 +118,6 @@ app.UseAuthorization();
 
 // 3rd: Direct the request to the correct Controller (e.g., CarsController)
 app.MapControllers();
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

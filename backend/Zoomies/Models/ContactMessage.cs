@@ -27,7 +27,7 @@ namespace Zoomies.Models
         public string SellerUserId { get; set; } = string.Empty;
 
         [Required]
-        [StringLength(1000, MinimumLength = 10)]
+        [StringLength(1000, MinimumLength = 1)]
         public string Message { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -40,11 +40,12 @@ namespace Zoomies.Models
         [Required]
         public int CarId { get; set; }
 
-        [Phone]
         public string SenderPhone { get; set; } = string.Empty;
 
+        public string? RecipientUserId { get; set; }
+
         [Required]
-        [StringLength(1000, MinimumLength = 10)]
+        [StringLength(1000, MinimumLength = 1)]
         public string Message { get; set; } = string.Empty;
     }
 
@@ -58,6 +59,7 @@ namespace Zoomies.Models
         public string SenderEmail { get; set; } = string.Empty;
         public string SenderPhone { get; set; } = string.Empty;
         public string SellerUserId { get; set; } = string.Empty;
+        public string RecipientUserId { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public bool IsRead { get; set; }

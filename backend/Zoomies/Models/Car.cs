@@ -30,6 +30,7 @@ namespace Zoomies.Models
         public string Category { get; set; } = "Sports";
 
         public string ImageUrl { get; set; } = string.Empty;
+        public List<CarImage> Images { get; set; } = new();
 
         [StringLength(1000)]
         public string Description { get; set; } = string.Empty;

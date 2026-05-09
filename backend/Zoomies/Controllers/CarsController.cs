@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using Zoomies.Data;
 using Zoomies.Models;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
 namespace Zoomies.Controllers
 {
@@ -12,22 +12,16 @@ namespace Zoomies.Controllers
     public class CarsController : ControllerBase
     {
         private readonly ZoomiesDbContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        // Dependency Injection: Bringing in the Database context
-        public CarsController(ZoomiesDbContext context)
+        public CarsController(ZoomiesDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
-        // ============================================================
-        // GET: api/Cars (PUBLIC)
-        // ============================================================
-        /// <summary>
-        /// Allows anyone (logged in or not) to view the car list.
-        /// Includes optional filtering by make and maximum price.
-        /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarResponseDto>>> GetCars(
+        public async Task<ActionResult<PagedResult<CarResponseDto>>> GetCars(
             string? search = null,
             string? make = null,
             string? model = null,
@@ -40,11 +34,17 @@ namespace Zoomies.Controllers
             string? category = null,
             bool? featuredOnly = null,
             string? sortBy = null,
-            string sortDirection = "asc")
+            string sortDirection = "asc",
+            int page = 1,
+            int pageSize = 20)
         {
-            var query = _context.Cars.AsQueryable();
+            var currentPage = Math.Max(1, page);
+            var currentPageSize = Math.Clamp(pageSize, 1, 20);
 
-            // Filter logic: Only add to the query if the user provided search terms
+            var query = _context.Cars
+                .Include(car => car.Images)
+                .AsQueryable();
+
             if (!string.IsNullOrWhiteSpace(search))
             {
                 var searchTerm = search.Trim();
@@ -104,49 +104,58 @@ namespace Zoomies.Controllers
                 _ => query.OrderByDescending(c => c.IsFeatured).ThenByDescending(c => c.Year)
             };
 
-            var cars = await query.ToListAsync();
-            return cars.Select(ToResponseDto).ToList();
+            var totalCount = await query.CountAsync();
+            var cars = await query
+                .Skip((currentPage - 1) * currentPageSize)
+                .Take(currentPageSize)
+                .ToListAsync();
+
+            var sellers = await LoadSellers(cars);
+            return Ok(new PagedResult<CarResponseDto>
+            {
+                Items = cars.Select(car => ToResponseDto(car, sellers)).ToList(),
+                TotalCount = totalCount,
+                CurrentPage = currentPage,
+                PageSize = currentPageSize
+            });
         }
 
-        // GET: api/Cars/5 (PUBLIC)
         [HttpGet("{id:int}")]
         public async Task<ActionResult<CarResponseDto>> GetCar(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
+            var car = await _context.Cars
+                .Include(c => c.Images)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (car == null) return NotFound();
-            return ToResponseDto(car);
+            var seller = await FindSeller(car.UserId);
+            return ToResponseDto(car, seller);
         }
 
-        // GET: api/Cars/mine (LOGGED-IN USER ONLY)
         [Authorize]
         [HttpGet("mine")]
         public async Task<ActionResult<IEnumerable<CarResponseDto>>> GetMyCars()
         {
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUserId = GetCurrentUserId();
 
             var cars = await _context.Cars
+                .Include(c => c.Images)
                 .Where(c => c.UserId == currentUserId)
                 .OrderByDescending(c => c.Id)
                 .ToListAsync();
 
-            return cars.Select(ToResponseDto).ToList();
+            var sellers = await LoadSellers(cars);
+            return cars.Select(car => ToResponseDto(car, sellers)).ToList();
         }
 
-        // ============================================================
-        // POST: api/Cars (SECURE)
-        // ============================================================
-        /// <summary>
-        /// Creates a new car. The [Authorize] tag ensures only logged-in users enter.
-        /// </summary>
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<CarResponseDto>> PostCar(CarMutateDto request)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult<CarResponseDto>> PostCar([FromForm] CarMutateDto request)
         {
-            // SECURITY: Extract the User ID from the JWT Token.
-            // We 'force' the car to belong to the logged-in user, ignoring what's in the JSON body.
             var car = new Car
             {
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!,
+                UserId = GetCurrentUserId(),
                 Make = request.Make,
                 Model = request.Model,
                 Year = request.Year,
@@ -155,38 +164,49 @@ namespace Zoomies.Controllers
                 Transmission = request.Transmission,
                 Condition = request.Condition,
                 Category = request.Category,
-                ImageUrl = request.ImageUrl,
-                Description = request.Description
+                ImageUrl = request.ImageUrl?.Trim() ?? string.Empty,
+                Description = request.Description,
+                Images = new List<CarImage>()
             };
+
+            var imageResult = await AddUploadedImages(car, request.Images);
+            if (!imageResult.Success) return BadRequest(imageResult.Error);
+
+            if (string.IsNullOrWhiteSpace(car.ImageUrl))
+                return BadRequest("Please upload at least one image.");
 
             _context.Cars.Add(car);
             await _context.SaveChangesAsync();
 
-            // Returns a 201 Created status and the location of the new car
-            return CreatedAtAction(nameof(GetCar), new { id = car.Id }, ToResponseDto(car));
+            var seller = await FindSeller(car.UserId);
+            return CreatedAtAction(nameof(GetCar), new { id = car.Id }, ToResponseDto(car, seller));
         }
 
-        // ============================================================
-        // PUT: api/Cars/5 (OWNER OR ADMIN ONLY)
-        // ============================================================
-        /// <summary>
-        /// Updates an existing car. Includes a strict ownership check.
-        /// </summary>
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar(int id, CarMutateDto request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> PutCar(int id, [FromForm] CarMutateDto request)
         {
-            var existingCar = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+            var existingCar = await _context.Cars
+                .Include(c => c.Images)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (existingCar == null) return NotFound();
 
-            // --- THE SECURITY GATE ---
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUserId = GetCurrentUserId();
             bool isAdmin = User.IsInRole("Admin");
 
-            // Logic: If you are NOT the owner AND you are NOT an admin, you are kicked out.
             if (existingCar.UserId != currentUserId && !isAdmin)
             {
-                return Forbid(); // 403 Forbidden
+                return Forbid();
+            }
+
+            var imageResult = await AddUploadedImages(existingCar, request.Images);
+            if (!imageResult.Success) return BadRequest(imageResult.Error);
+
+            if (!string.IsNullOrWhiteSpace(request.ImageUrl))
+            {
+                existingCar.ImageUrl = request.ImageUrl.Trim();
             }
 
             existingCar.Make = request.Make;
@@ -197,19 +217,12 @@ namespace Zoomies.Controllers
             existingCar.Transmission = request.Transmission;
             existingCar.Condition = request.Condition;
             existingCar.Category = request.Category;
-            existingCar.ImageUrl = request.ImageUrl;
             existingCar.Description = request.Description;
 
             await _context.SaveChangesAsync();
             return NoContent();
         }
 
-        // ============================================================
-        // DELETE: api/Cars/5 (OWNER OR ADMIN ONLY)
-        // ============================================================
-        /// <summary>
-        /// Removes a car from the database. Owner and Admin only.
-        /// </summary>
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCar(int id)
@@ -217,11 +230,9 @@ namespace Zoomies.Controllers
             var car = await _context.Cars.FindAsync(id);
             if (car == null) return NotFound();
 
-            // --- THE SECURITY GATE ---
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUserId = GetCurrentUserId();
             bool isAdmin = User.IsInRole("Admin");
 
-            // Allow the action only if the User ID matches the car, OR if the user is an Admin
             if (car.UserId != currentUserId && !isAdmin)
             {
                 return Forbid();
@@ -232,11 +243,115 @@ namespace Zoomies.Controllers
             return NoContent();
         }
 
-        private CarResponseDto ToResponseDto(Car car)
+        private string GetCurrentUserId()
         {
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+        }
+
+        private async Task<(bool Success, string? Error)> AddUploadedImages(Car car, List<IFormFile>? images)
+        {
+            if (images == null || images.Count == 0)
+                return (true, null);
+
+            foreach (var image in images)
+            {
+                var validationError = ValidateImage(image);
+                if (validationError != null)
+                    return (false, validationError);
+
+                var imageUrl = await SaveImageLocally(image);
+                car.Images.Add(new CarImage { ImageUrl = imageUrl });
+
+                if (string.IsNullOrWhiteSpace(car.ImageUrl))
+                {
+                    car.ImageUrl = imageUrl;
+                }
+            }
+
+            return (true, null);
+        }
+
+        private string? ValidateImage(IFormFile image)
+        {
+            if (image == null || image.Length == 0)
+                return "Image file is empty.";
+
+            const long maxFileSize = 5 * 1024 * 1024;
+            if (image.Length > maxFileSize)
+                return "Image is too large. Maximum size is 5MB.";
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+            var extension = Path.GetExtension(image.FileName).ToLowerInvariant();
+            if (!allowedExtensions.Contains(extension))
+                return "Invalid file type. Only JPG, PNG, and WEBP are allowed.";
+
+            if (!image.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+                return "The file content is not a valid image.";
+
+            return null;
+        }
+
+        private async Task<string> SaveImageLocally(IFormFile image)
+        {
+            var webRootPath = _environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            var uploadsFolder = Path.Combine(webRootPath, "images", "cars");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var safeFileName = Path.GetFileName(image.FileName);
+            var uniqueFileName = $"{Guid.NewGuid():N}_{safeFileName}";
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            await using var fileStream = new FileStream(filePath, FileMode.Create);
+            await image.CopyToAsync(fileStream);
+
+            return $"/images/cars/{uniqueFileName}";
+        }
+
+        private async Task<Dictionary<string, User>> LoadSellers(IEnumerable<Car> cars)
+        {
+            var sellerIds = cars
+                .Select(car => int.TryParse(car.UserId, out var id) ? id : (int?)null)
+                .Where(id => id.HasValue)
+                .Select(id => id!.Value)
+                .Distinct()
+                .ToList();
+
+            var sellers = await _context.Users
+                .Where(user => sellerIds.Contains(user.Id))
+                .ToListAsync();
+
+            return sellers.ToDictionary(user => user.Id.ToString());
+        }
+
+        private async Task<User?> FindSeller(string userId)
+        {
+            if (!int.TryParse(userId, out var sellerId)) return null;
+            return await _context.Users.FirstOrDefaultAsync(user => user.Id == sellerId);
+        }
+
+        private CarResponseDto ToResponseDto(Car car, IReadOnlyDictionary<string, User> sellers)
+        {
+            sellers.TryGetValue(car.UserId, out var seller);
+            return ToResponseDto(car, seller);
+        }
+
+        private CarResponseDto ToResponseDto(Car car, User? seller)
+        {
+            var currentUserId = GetCurrentUserId();
             var isOwner = !string.IsNullOrEmpty(currentUserId) && car.UserId == currentUserId;
             var canManage = isOwner || User.IsInRole("Admin");
+            var galleryUrls = car.Images?
+                .OrderBy(image => image.Id)
+                .Select(image => image.ImageUrl)
+                .Where(url => !string.IsNullOrWhiteSpace(url))
+                .Distinct()
+                .ToList() ?? new List<string>();
+
+            if (!string.IsNullOrWhiteSpace(car.ImageUrl))
+            {
+                galleryUrls.RemoveAll(url => url == car.ImageUrl);
+                galleryUrls.Insert(0, car.ImageUrl);
+            }
 
             return new CarResponseDto
             {
@@ -250,7 +365,10 @@ namespace Zoomies.Controllers
                 Condition = car.Condition,
                 Category = car.Category,
                 ImageUrl = car.ImageUrl,
+                GalleryUrls = galleryUrls,
                 Description = car.Description,
+                SellerName = seller?.Name ?? "Private Seller",
+                SellerPhone = seller?.PhoneNumber ?? string.Empty,
                 IsFeatured = car.IsFeatured,
                 IsOwner = isOwner,
                 CanManage = canManage

@@ -1,7 +1,17 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Zoomies.Models
 {
+    public class PagedResult<T>
+    {
+        public List<T> Items { get; set; } = new();
+        public int TotalCount { get; set; }
+        public int CurrentPage { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageSize);
+    }
+
     /// <summary>
     /// Data sent by the frontend when a user creates or edits a listing.
     /// It only contains fields that a normal user is allowed to control.
@@ -32,7 +42,9 @@ namespace Zoomies.Models
 
         public string Category { get; set; } = "Sports";
 
-        public string ImageUrl { get; set; } = string.Empty;
+        public List<IFormFile>? Images { get; set; }
+
+        public string? ImageUrl { get; set; }
 
         [StringLength(1000)]
         public string Description { get; set; } = string.Empty;
@@ -54,7 +66,10 @@ namespace Zoomies.Models
         public string Condition { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
+        public List<string> GalleryUrls { get; set; } = new();
         public string Description { get; set; } = string.Empty;
+        public string SellerName { get; set; } = string.Empty;
+        public string SellerPhone { get; set; } = string.Empty;
         public bool IsFeatured { get; set; }
         public bool IsOwner { get; set; }
         public bool CanManage { get; set; }

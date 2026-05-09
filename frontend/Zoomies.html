@@ -36,18 +36,24 @@
     .account-page { display: none; }
     body.show-app-page main > :not(.account-page) { display: none; }
     body.show-wishlist-page #wishlistPage,
-    body.show-my-listings-page #myListingsPage { display: block; }
+    body.show-my-listings-page #myListingsPage,
+    body.show-about-page #aboutPage,
+    body.show-contact-page #contactPage { display: block; }
 
     .app-header {
       position: sticky; top: 0; z-index: 50;
-      height: 64px; padding: 0 2rem;
+      height: 104px; padding: 0 2rem;
       display: flex; align-items: center; justify-content: space-between;
       background: #090909; border-bottom: 1px solid var(--border);
     }
 
     .logo {
-      font-family: var(--font-heading); font-size: 1.75rem; font-weight: 900;
-      color: var(--primary); letter-spacing: 0; text-transform: uppercase;
+      height: 92px; min-width: 300px;
+      display: inline-flex; align-items: center;
+    }
+    .logo img {
+      display: block; width: auto; height: 128px; max-width: 360px;
+      object-fit: contain;
     }
 
     .nav-links { display: flex; gap: 1.75rem; align-items: center; }
@@ -192,10 +198,81 @@
       border: 1px dashed var(--border); background: var(--panel); padding: 2rem; text-align: center; color: var(--muted-fg);
     }
 
+    .about-hero {
+      display: grid; grid-template-columns: 1.05fr .95fr; gap: 2rem; align-items: center;
+      border-bottom: 1px solid var(--border); padding-bottom: 2.25rem; margin-bottom: 2.25rem;
+    }
+    .about-hero h2 {
+      font-family: var(--font-heading); font-size: 5rem; line-height: .9; font-weight: 900;
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .about-hero p { color: var(--muted-fg); font-size: 1.1rem; max-width: 640px; }
+    .about-logo-panel {
+      min-height: 280px; display: grid; place-items: center;
+      background: var(--panel); border: 1px solid var(--border); overflow: hidden;
+    }
+    .about-logo-panel img { width: min(420px, 92%); height: auto; object-fit: contain; }
+    .about-story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.25rem; }
+    .about-story-block {
+      background: var(--panel); border: 1px solid var(--border); padding: 1.35rem;
+    }
+    .about-story-block h3, .about-value h3 {
+      font-family: var(--font-heading); font-size: 1.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: .6rem;
+    }
+    .about-story-block p, .about-value p { color: var(--muted-fg); }
+    .about-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2.25rem; }
+    .about-metric {
+      background: var(--panel-2); border: 1px solid var(--border); padding: 1rem;
+    }
+    .about-metric strong {
+      display: block; color: var(--primary); font-family: var(--font-heading); font-size: 2rem; line-height: 1; font-weight: 900;
+    }
+    .about-metric span { color: var(--muted-fg); font-size: .8rem; text-transform: uppercase; }
+    .about-values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .about-value { border-left: 3px solid var(--primary); background: var(--panel); padding: 1.2rem; }
+    .contact-hero {
+      display: grid; grid-template-columns: .9fr 1.1fr; gap: 2rem; align-items: end;
+      border-bottom: 1px solid var(--border); padding-bottom: 2.25rem; margin-bottom: 2.25rem;
+    }
+    .contact-hero h2 {
+      font-family: var(--font-heading); font-size: 4.6rem; line-height: .9; font-weight: 900;
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .contact-hero p { color: var(--muted-fg); font-size: 1.1rem; max-width: 680px; }
+    .contact-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .contact-card {
+      background: var(--panel); border: 1px solid var(--border); padding: 1.2rem;
+    }
+    .contact-card span {
+      display: block; color: var(--muted-fg); font-size: .75rem; font-weight: 800; text-transform: uppercase; margin-bottom: .45rem;
+    }
+    .contact-card strong, .contact-card a {
+      color: var(--fg); font-family: var(--font-heading); font-size: 1.35rem; font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+    .contact-card a:hover { color: var(--primary); }
+    .seller-inquiry-panel {
+      display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center;
+      background: var(--panel-2); border: 1px solid var(--border); padding: 1.35rem;
+    }
+    .seller-inquiry-panel h3 {
+      font-family: var(--font-heading); font-size: 1.65rem; font-weight: 900; text-transform: uppercase; margin-bottom: .35rem;
+    }
+    .seller-inquiry-panel p { color: var(--muted-fg); max-width: 780px; }
+
+    .view-controls { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+    .page-size-select {
+      min-height: 42px; padding: .45rem .7rem; background: var(--panel-2); color: var(--fg);
+      border: 1px solid var(--border); font-family: var(--font-heading); font-weight: 800;
+    }
+    .view-controls .icon-btn.active { color: var(--primary); border-color: var(--primary); background: var(--panel); }
+
     .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .car-grid.list-view { grid-template-columns: 1fr; }
     .car-card {
       background: var(--panel); border: 1px solid var(--border); overflow: hidden;
       transition: border-color .2s ease, transform .2s ease;
+      display: flex; flex-direction: column;
     }
     .car-card:hover { border-color: var(--primary); transform: translateY(-2px); }
     .car-img-wrap { position: relative; aspect-ratio: 5 / 3; overflow: hidden; background: var(--panel-2); }
@@ -204,9 +281,10 @@
     .featured-badge {
       position: absolute; top: 12px; left: 12px; background: var(--secondary); color: #050505;
       font-family: var(--font-heading); font-size: .75rem; font-weight: 900; padding: .25rem .55rem; text-transform: uppercase;
+      z-index: 10;
     }
     .wishlist-fab {
-      position: absolute; top: 12px; right: 12px; z-index: 2;
+      position: absolute; top: 12px; right: 12px; z-index: 10;
       width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
       background: rgba(9,9,9,.78); color: var(--fg); border: 1px solid var(--border);
       transition: color .2s ease, background .2s ease, border-color .2s ease;
@@ -219,6 +297,7 @@
     .car-overlay {
       position: absolute; left: 0; right: 0; bottom: 0;
       padding: 1rem 1.1rem .65rem; background: linear-gradient(to top, rgba(0,0,0,.92), transparent);
+      z-index: 10; pointer-events: none;
     }
     .car-overlay h3 {
       font-family: var(--font-heading); font-size: 1.35rem; font-weight: 900;
@@ -226,9 +305,14 @@
     }
     .car-meta { color: rgba(255,255,255,.75); font-size: .86rem; }
     .car-meta span + span::before { content: " / "; }
+    .car-data-wrap { flex: 1; display: flex; flex-direction: column; }
+    .list-details {
+      display: none; padding: 0 1.2rem; margin-top: .5rem;
+      color: var(--muted-fg); font-size: .95rem; line-height: 1.5;
+    }
     .car-footer {
       display: grid; grid-template-columns: 1fr auto; gap: .9rem; align-items: end;
-      padding: .95rem 1.1rem; border-top: 1px solid var(--border);
+      padding: .95rem 1.1rem; border-top: 1px solid var(--border); margin-top: auto;
     }
     .car-price-label, .car-trans-label { color: var(--muted-fg); font-size: .72rem; text-transform: uppercase; }
     .car-price { font-family: var(--font-heading); color: var(--primary); font-size: 1.45rem; font-weight: 900; }
@@ -239,6 +323,46 @@
     }
     .card-actions .btn { min-height: 36px; padding: .45rem .6rem; font-size: .85rem; }
     .wishlist-action.active { background: var(--secondary); color: #050505; border-color: var(--secondary); }
+
+    .car-card.list-view {
+      display: grid; grid-template-columns: 340px 1fr; gap: 1.5rem; align-items: stretch;
+    }
+    .car-card.list-view .car-img-wrap { aspect-ratio: 16 / 10; height: 100%; }
+    .car-card.list-view .car-overlay {
+      position: static; background: none; padding: 1.2rem 1.2rem 0; pointer-events: auto;
+    }
+    .car-card.list-view .car-overlay h3 { color: var(--fg); font-size: 1.8rem; }
+    .car-card.list-view .car-meta { color: var(--muted-fg); }
+    .car-card.list-view .list-details { display: block; }
+
+    .pagination-bar {
+      display: flex; justify-content: center; align-items: center; gap: 1rem;
+      margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border);
+    }
+    .page-btn {
+      background: var(--panel-2); color: var(--fg); border: 1px solid var(--border);
+      padding: .5rem 1.2rem; font-family: var(--font-heading); font-weight: 800;
+      text-transform: uppercase; cursor: pointer; transition: background .2s ease, color .2s ease;
+    }
+    .page-btn:hover:not(:disabled) { background: var(--primary); color: #050505; }
+    .page-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .page-info { color: var(--muted-fg); font-family: var(--font-heading); font-weight: 800; }
+
+    .hover-img {
+      display: block; position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0; transition: opacity .45s ease, transform .35s ease;
+    }
+    .hover-img.active { opacity: 1; z-index: 1; }
+    .gallery-indicators {
+      position: absolute; left: 0; right: 0; bottom: 12px; z-index: 5;
+      display: flex; justify-content: center; gap: 6px; pointer-events: none;
+    }
+    .gallery-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,.42); box-shadow: 0 1px 3px rgba(0,0,0,.8);
+    }
+    .gallery-dot.active { background: var(--primary); }
 
     .stats-section {
       background: linear-gradient(135deg, #1a0a00, #090909 50%, #1a0a00);
@@ -275,6 +399,8 @@
     .footer-inner { max-width: 1280px; margin: 0 auto; padding: 3.5rem 2rem; }
     .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
     .footer-brand p, .footer-col a, .footer-bottom { color: var(--muted-fg); }
+    .footer-logo-row { display: flex; align-items: center; margin-top: -1.6rem; margin-bottom: .15rem; }
+    .footer-logo-row img { width: 190px; height: auto; object-fit: contain; }
     .footer-col h4 { font-family: var(--font-heading); font-size: 1rem; font-weight: 800; text-transform: uppercase; margin-bottom: .8rem; }
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
     .footer-col a:hover { color: var(--primary); }
@@ -335,6 +461,22 @@
     .profile-row strong { text-align: right; overflow-wrap: anywhere; }
     .profile-actions { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
     .profile-panel .btn { min-width: 0; }
+    .profile-phone-form {
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: .65rem;
+    }
+    .profile-phone-form .field { min-width: 0; }
+    .profile-phone-form .btn { align-self: end; white-space: nowrap; }
+    .seller-contact-card {
+      display: grid; gap: .3rem;
+      background: var(--panel-2); border: 1px solid var(--border); padding: .9rem 1rem; margin-bottom: 1rem;
+    }
+    .seller-contact-card span {
+      color: var(--muted-fg); font-size: .75rem; font-weight: 700; text-transform: uppercase;
+    }
+    .seller-contact-card a, .seller-contact-card strong {
+      color: var(--primary); font-family: var(--font-heading); font-size: 1.25rem; font-weight: 900;
+      overflow-wrap: anywhere;
+    }
 
     .finance-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: stretch; }
     .finance-tool {
@@ -363,6 +505,23 @@
     .finance-hint { color: var(--muted-fg); font-size: .9rem; margin-top: .75rem; }
 
     .detail-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.25rem; }
+    .detail-gallery {
+      position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: var(--panel-2);
+    }
+    .detail-gallery-img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      opacity: 0; transition: opacity .3s ease;
+    }
+    .detail-gallery-img.active { opacity: 1; z-index: 1; }
+    .gallery-nav-btn {
+      position: absolute; top: 50%; z-index: 10; transform: translateY(-50%);
+      width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,.62); color: var(--fg); border: 1px solid var(--border);
+      font-family: var(--font-heading); font-size: 1.2rem; font-weight: 900;
+    }
+    .gallery-nav-btn:hover { background: var(--primary); color: #050505; border-color: var(--primary); }
+    .gallery-nav-btn.prev { left: 12px; }
+    .gallery-nav-btn.next { right: 12px; }
     .detail-image { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; background: var(--panel-2); }
     .detail-title {
       font-family: var(--font-heading); font-size: 2.2rem; font-weight: 900;
@@ -390,38 +549,133 @@
     }
     .toast.show { display: block; }
 
+    .chat-fab {
+      position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 90;
+      width: 56px; height: 56px; display: none; align-items: center; justify-content: center;
+      border: 0; border-radius: 50%; background: var(--primary); color: #050505;
+      box-shadow: 0 18px 55px rgba(0,0,0,.45); transition: transform .2s ease, background .2s ease;
+    }
+    .chat-fab.show { display: flex; }
+    .chat-fab:hover { transform: translateY(-2px); background: #f45f28; }
+    .chat-fab svg { width: 27px; height: 27px; }
+    .chat-badge {
+      position: absolute; top: -4px; right: -4px; min-width: 22px; height: 22px; padding: 0 .35rem;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--bg); border-radius: 999px; background: var(--danger); color: #050505;
+      font-family: var(--font-heading); font-size: .75rem; font-weight: 900;
+    }
+    .chat-widget {
+      position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 95;
+      width: min(360px, calc(100vw - 2rem)); height: min(500px, calc(100vh - 2.5rem));
+      display: none; flex-direction: column; overflow: hidden;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px 8px 0 0; box-shadow: 0 24px 90px rgba(0,0,0,.6);
+    }
+    .chat-widget.open { display: flex; }
+    .chat-header {
+      min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+      padding: .75rem 1rem; background: var(--panel-2); border-bottom: 1px solid var(--border);
+    }
+    .chat-header-title {
+      min-width: 0; display: flex; align-items: center; gap: .5rem;
+      font-family: var(--font-heading); font-size: 1.1rem; font-weight: 900; text-transform: uppercase;
+    }
+    .chat-header-title span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .chat-header-actions { display: flex; gap: .35rem; }
+    .chat-header-btn {
+      width: 30px; height: 30px; display: grid; place-items: center;
+      background: transparent; border: 0; color: var(--muted-fg);
+    }
+    .chat-header-btn:hover { color: var(--primary); background: var(--panel-3); }
+    .chat-header-btn svg { width: 18px; height: 18px; }
+    .chat-body { min-height: 0; flex: 1; display: flex; flex-direction: column; }
+    .chat-thread-list { min-height: 0; flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+    .chat-thread-item {
+      width: 100%; padding: .95rem 1rem; border: 0; border-bottom: 1px solid var(--border);
+      background: transparent; color: var(--fg); text-align: left; cursor: pointer;
+      transition: background .2s ease;
+    }
+    .chat-thread-item:hover { background: var(--panel-2); }
+    .chat-thread-header { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; margin-bottom: .25rem; }
+    .chat-thread-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 800; }
+    .chat-thread-car {
+      flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      color: var(--secondary); font-family: var(--font-heading); font-size: .75rem; font-weight: 800; text-transform: uppercase;
+    }
+    .chat-thread-preview {
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted-fg); font-size: .9rem;
+    }
+    .chat-thread-item.unread .chat-thread-name { color: var(--primary); }
+    .chat-conversation { min-height: 0; flex: 1; display: none; flex-direction: column; }
+    .chat-conversation.active { display: flex; }
+    .chat-messages {
+      min-height: 0; flex: 1; overflow-y: auto; padding: 1rem;
+      display: flex; flex-direction: column; gap: .7rem;
+    }
+    .chat-bubble {
+      max-width: 85%; padding: .65rem .8rem; border-radius: 8px;
+      background: var(--panel-3); color: var(--fg); overflow-wrap: anywhere;
+    }
+    .chat-bubble.incoming { align-self: flex-start; border-bottom-left-radius: 2px; }
+    .chat-bubble.outgoing { align-self: flex-end; background: var(--primary); color: #050505; border-bottom-right-radius: 2px; }
+    .chat-meta { margin-top: .25rem; color: var(--muted-fg); font-size: .68rem; text-align: right; }
+    .chat-bubble.outgoing .chat-meta { color: rgba(0,0,0,.65); }
+    .chat-reply-form { display: flex; gap: .5rem; padding: .75rem; border-top: 1px solid var(--border); background: var(--panel-2); }
+    .chat-reply-form input {
+      min-width: 0; flex: 1; background: var(--panel); border: 1px solid var(--border);
+      color: var(--fg); outline: 0; padding: .55rem .7rem;
+    }
+    .chat-reply-form input:focus { border-color: var(--primary); }
+    .chat-reply-form button {
+      border: 0; background: var(--primary); color: #050505;
+      font-family: var(--font-heading); font-weight: 900; text-transform: uppercase; padding: 0 .85rem;
+    }
+
     @media (max-width: 1040px) {
       .inventory-toolbar { grid-template-columns: repeat(3, 1fr); }
       .car-grid { grid-template-columns: repeat(2, 1fr); }
       .detail-grid, .sell-cta-inner, .finance-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 760px) {
-      .app-header { padding: 0 1rem; }
+      .app-header { height: 82px; padding: 0 1rem; }
+      .logo { height: 72px; min-width: 180px; }
+      .logo img { height: 90px; max-width: 230px; }
       .nav-links { display: none; }
       .account-chip { max-width: 210px; grid-template-columns: auto minmax(0, 1fr); gap: .5rem; }
       .hero { padding: 4rem 1rem 3rem; }
       .hero-title { font-size: 4.5rem; }
       .section, .testimonials-section { padding: 3rem 1rem; }
-      .features-grid, .testimonials-grid, .stats-grid, .car-grid, .inventory-toolbar, .form-grid, .footer-grid, .finance-breakdown { grid-template-columns: 1fr; }
+      .features-grid, .testimonials-grid, .stats-grid, .car-grid, .inventory-toolbar, .form-grid, .footer-grid, .finance-breakdown, .about-hero, .about-story-grid, .about-metrics, .about-values, .contact-hero, .contact-card-grid, .seller-inquiry-panel { grid-template-columns: 1fr; }
+      .about-hero h2 { font-size: 3.2rem; }
+      .contact-hero h2 { font-size: 3.2rem; }
+      .about-logo-panel { min-height: 220px; }
       .section-heading h2 { font-size: 2rem; white-space: normal; }
       .heading-line { display: none; }
       .card-actions { grid-template-columns: 1fr; }
+      .view-controls { width: 100%; }
+      .car-card.list-view { grid-template-columns: 1fr; gap: 0; }
       .sell-cta { margin: 0 1rem 3rem; }
       .sell-cta-inner { padding: 2rem 1.25rem; }
       .sell-cta-left h2 { font-size: 2.5rem; }
       .modal-backdrop { padding: .75rem; align-items: flex-start; }
       .detail-specs { grid-template-columns: 1fr; }
+      .profile-phone-form { grid-template-columns: 1fr; }
+      .profile-phone-form .btn { justify-self: start; }
+      .chat-widget { right: 1rem; bottom: 1rem; width: calc(100vw - 2rem); height: min(500px, calc(100vh - 2rem)); }
+      .chat-fab { right: 1rem; bottom: 1rem; }
     }
   </style>
 </head>
 <body>
   <header class="app-header">
-    <a href="#top" class="logo">ZOOMIES</a>
+    <a href="#top" class="logo" aria-label="Zoomies home">
+      <img src="../logo.png" alt="Zoomies" />
+    </a>
     <nav class="nav-links" aria-label="Main navigation">
       <a href="#inventoryStart">Buy</a>
       <a href="#" data-open-listing>Sell</a>
       <a href="#finance">Finance</a>
-      <a href="#zoomiesFooter">About</a>
+      <a href="#aboutPage" data-open-about>About</a>
     </nav>
     <div class="header-actions">
       <button class="account-chip" type="button" id="accountBadge" aria-label="Current account">
@@ -471,6 +725,103 @@
       </div>
       <div class="car-grid" id="myListingsGrid"></div>
       <div class="empty-state" id="myListingsEmptyState">You have not added any listings yet.</div>
+    </section>
+
+    <section class="section account-page" id="aboutPage">
+      <div class="inventory-meta">
+        <span>About Zoomies</span>
+        <button class="btn btn-muted" type="button" id="backFromAboutBtn">Back To Inventory</button>
+      </div>
+
+      <div class="about-hero">
+        <div>
+          <h2>The Choice That Moves You</h2>
+          <p>Zoomies is a curated performance marketplace built for drivers who care about what a car feels like, not only what it costs. We connect trusted sellers with buyers looking for clean, exciting, pre-owned vehicles.</p>
+        </div>
+        <div class="about-logo-panel">
+          <img src="../logo.png" alt="Zoomies" />
+        </div>
+      </div>
+
+      <div class="about-story-grid">
+        <article class="about-story-block">
+          <h3>Our Story</h3>
+          <p>Founded by a small team of car people, Zoomies started as a simpler way to compare enthusiast listings without digging through noisy classifieds. The goal is to keep the buying process focused, transparent, and fast.</p>
+        </article>
+        <article class="about-story-block">
+          <h3>What We Do</h3>
+          <p>We bring together listings, wishlists, seller messaging, finance estimates, and fair-price tools so shoppers can move from discovery to decision with fewer tabs, fewer guesses, and better context.</p>
+        </article>
+      </div>
+
+      <div class="about-metrics">
+        <div class="about-metric"><strong>2026</strong><span>Founded</span></div>
+        <div class="about-metric"><strong>2.8K+</strong><span>Cars Matched</span></div>
+        <div class="about-metric"><strong>98%</strong><span>Happy Drivers</span></div>
+        <div class="about-metric"><strong>24h</strong><span>Seller Response Goal</span></div>
+      </div>
+
+      <div class="about-values">
+        <article class="about-value">
+          <h3>Curated</h3>
+          <p>Listings are organized around the details buyers actually scan first: year, mileage, condition, category, and seller contact.</p>
+        </article>
+        <article class="about-value">
+          <h3>Direct</h3>
+          <p>Built-in chat helps buyers and sellers keep the conversation close to the listing, with phone details available when a faster call makes sense.</p>
+        </article>
+        <article class="about-value">
+          <h3>Driver First</h3>
+          <p>Every tool is designed to make the next step easier, from saving favorites to estimating price and monthly payment before reaching out.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section account-page" id="contactPage">
+      <div class="inventory-meta">
+        <span>Contact Zoomies</span>
+        <button class="btn btn-muted" type="button" id="backFromContactBtn">Back To Inventory</button>
+      </div>
+
+      <div class="contact-hero">
+        <div>
+          <h2>Let&apos;s Talk Cars</h2>
+          <p>Need help with a listing, seller conversation, financing question, or account detail? Reach out to the Zoomies team and we&apos;ll point you in the right direction.</p>
+        </div>
+        <div class="seller-inquiry-panel">
+          <div>
+            <h3>For Seller Inquiries</h3>
+            <p>Planning to list multiple vehicles or want help polishing a performance listing? Send us the basics and our marketplace team will help you get started.</p>
+          </div>
+          <button class="btn btn-primary" type="button" id="contactBrowseBtn">Browse Listings</button>
+        </div>
+      </div>
+
+      <div class="contact-card-grid">
+        <article class="contact-card">
+          <span>Support Email</span>
+          <a href="mailto:support@zoomies.com">support@zoomies.com</a>
+        </article>
+        <article class="contact-card">
+          <span>Phone</span>
+          <a href="tel:+40700333333">+40 700 333 333</a>
+        </article>
+        <article class="contact-card">
+          <span>Office</span>
+          <strong>Bucharest Performance Hub, Calea Victoriei 118</strong>
+        </article>
+      </div>
+
+      <div class="about-story-grid">
+        <article class="about-story-block">
+          <h3>Buyer Help</h3>
+          <p>For questions about saved cars, seller messages, fair-price estimates, or monthly payment tools, contact support and include the vehicle make, model, and listing id when possible.</p>
+        </article>
+        <article class="about-story-block">
+          <h3>Seller Help</h3>
+          <p>For seller profile updates, listing visibility, or contact details, make sure your account phone number is current so buyers can reach you when they are ready to move.</p>
+        </article>
+      </div>
     </section>
 
     <section class="hero" aria-labelledby="heroTitle">
@@ -563,6 +914,19 @@
 
         <div class="inventory-meta">
           <span><span id="resultCount">0 listings</span> <span id="apiStatus" class="api-status">Connecting to API...</span></span>
+          <div class="view-controls" aria-label="Inventory view controls">
+            <select id="pageSizeSelect" class="page-size-select" aria-label="Listings per page">
+              <option value="5">5 per page</option>
+              <option value="10">10 per page</option>
+              <option value="20" selected>20 per page</option>
+            </select>
+            <button class="icon-btn active" type="button" id="btnGridView" aria-label="Grid view">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </button>
+            <button class="icon-btn" type="button" id="btnListView" aria-label="List view">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+          </div>
           <div class="inventory-actions">
             <button class="btn btn-muted" type="button" id="resetFiltersBtn">Reset</button>
             <button class="btn btn-primary" type="button" data-open-listing>
@@ -573,6 +937,11 @@
         </div>
 
         <div class="car-grid" id="carGrid"></div>
+        <div class="pagination-bar" id="paginationBar" hidden>
+          <button class="page-btn" type="button" id="prevPageBtn">Prev</button>
+          <span class="page-info" id="pageInfo">Page 1 of 1</span>
+          <button class="page-btn" type="button" id="nextPageBtn">Next</button>
+        </div>
         <div class="empty-state" id="emptyState" hidden>No listings match the current filters.</div>
       </div>
     </section>
@@ -693,7 +1062,9 @@
     <div class="footer-inner">
       <div class="footer-grid">
         <div class="footer-brand">
-          <span class="logo">ZOOMIES</span>
+          <div class="footer-logo-row">
+            <img src="../logo.png" alt="Zoomies" />
+          </div>
           <p>Your premium destination for pre-owned performance vehicles.</p>
         </div>
         <div class="footer-col">
@@ -702,14 +1073,14 @@
         </div>
         <div class="footer-col">
           <h4>Company</h4>
-          <ul><li><a href="#zoomiesFooter">About Us</a></li><li><a href="#inventory">Contact</a></li><li><a href="#inventory">Careers</a></li><li><a href="#inventory">Blog</a></li></ul>
+          <ul><li><a href="#aboutPage" data-open-about>About Us</a></li><li><a href="#contactPage" data-open-contact>Contact</a></li><li><a href="#top">Careers</a></li><li><a href="#top">Blog</a></li></ul>
         </div>
         <div class="footer-col">
           <h4>Support</h4>
-          <ul><li><a href="#finance">FAQ</a></li><li><a href="#finance">Financing</a></li><li><a href="#finance">Shipping</a></li><li><a href="#finance">Warranty</a></li></ul>
+          <ul><li><a href="#top">FAQ</a></li><li><a href="#finance">Financing</a></li><li><a href="#top">Shipping</a></li><li><a href="#top">Warranty</a></li></ul>
         </div>
       </div>
-      <div class="footer-bottom">&copy; 2026 Zoomies. All rights reserved. Built for speed enthusiasts.</div>
+      <div class="footer-bottom">&copy; 2026 Zoomies. All rights reserved. The choice that moves you.</div>
     </div>
   </footer>
 
@@ -735,6 +1106,7 @@
           <form id="registerForm" hidden>
             <div class="field"><label for="registerName">Name</label><input id="registerName" type="text" required /></div>
             <div class="field"><label for="registerEmail">Email</label><input id="registerEmail" type="email" required /></div>
+            <div class="field"><label for="registerPhone">Phone</label><input id="registerPhone" type="tel" placeholder="+40700111222" required /></div>
             <div class="field"><label for="registerPassword">Password</label><input id="registerPassword" type="password" minlength="6" required /></div>
             <button class="btn btn-primary" type="submit">Create Account</button>
           </form>
@@ -744,8 +1116,13 @@
           <div class="profile-summary">
             <div class="profile-row"><span>Name</span><strong id="profileName">Guest</strong></div>
             <div class="profile-row"><span>Email</span><strong id="profileEmail">Not logged in</strong></div>
+            <div class="profile-row"><span>Phone</span><strong id="profilePhone">Not set</strong></div>
             <div class="profile-row"><span>Role</span><strong id="profileRole">Guest</strong></div>
           </div>
+          <form id="phoneForm" class="profile-phone-form">
+            <div class="field"><label for="profilePhoneInput">Phone</label><input id="profilePhoneInput" type="tel" placeholder="+40700111222" required /></div>
+            <button class="btn btn-muted" type="submit">Save Phone</button>
+          </form>
           <div class="profile-actions">
             <button class="btn btn-muted" type="button" id="accountMyListingsBtn">My Listings</button>
             <button class="btn btn-muted" type="button" id="accountWishlistBtn">Wishlist</button>
@@ -776,7 +1153,7 @@
             <div class="field"><label for="listingTransmission">Transmission</label><select id="listingTransmission"><option>Automatic</option><option>Manual</option></select></div>
             <div class="field"><label for="listingCondition">Condition</label><select id="listingCondition"><option>New</option><option selected>Used</option><option>Certified</option><option>Restored</option></select></div>
             <div class="field"><label for="listingCategory">Category</label><select id="listingCategory"><option>Sports</option><option>Luxury</option><option>SUV</option><option>Vintage</option><option>Electric</option></select></div>
-            <div class="field"><label for="listingImage">Image URL</label><input id="listingImage" type="url" required /></div>
+            <div class="field"><label for="listingImage">Upload Images</label><input id="listingImage" type="file" accept="image/*" multiple /></div>
             <div class="field field-full"><label for="listingDescription">Description</label><textarea id="listingDescription" required maxlength="700"></textarea></div>
           </div>
         </div>
@@ -827,9 +1204,9 @@
       <form id="contactForm">
         <div class="modal-body">
           <input type="hidden" id="contactCarId" />
-          <div class="field">
-            <label for="contactPhone">Phone</label>
-            <input id="contactPhone" type="tel" placeholder="+40700111222" />
+          <div class="seller-contact-card">
+            <span>Seller Phone</span>
+            <a id="contactSellerPhone" href="#">No phone listed</a>
           </div>
           <div class="field">
             <label for="contactMessage">Message</label>
@@ -844,11 +1221,44 @@
     </div>
   </div>
 
+  <button id="chatFab" class="chat-fab" type="button" aria-label="Open messages">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+    <span id="chatUnreadBadge" class="chat-badge" hidden>0</span>
+  </button>
+
+  <div id="chatWidget" class="chat-widget" aria-label="Messages">
+    <div class="chat-header">
+      <div class="chat-header-title">
+        <button id="chatBackBtn" class="chat-header-btn" type="button" aria-label="Back to conversations" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <span id="chatTitle">Messages</span>
+      </div>
+      <div class="chat-header-actions">
+        <button id="chatMinimizeBtn" class="chat-header-btn" type="button" aria-label="Minimize messages">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chat-body">
+      <div id="chatThreadList" class="chat-thread-list"></div>
+      <div id="chatConversation" class="chat-conversation">
+        <div id="chatMessages" class="chat-messages"></div>
+        <form id="chatReplyForm" class="chat-reply-form">
+          <input id="chatReplyInput" type="text" placeholder="Type a message..." autocomplete="off" required />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
   <script>
     // Change this value if the backend runs on a different local port.
     const API_BASE_URL = "http://localhost:5062/api";
+    const API_ROOT_URL = API_BASE_URL.replace(/\/api\/?$/, "");
     const TOKEN_STORAGE_KEY = "zoomies.jwt";
 
     const state = {
@@ -860,10 +1270,49 @@
       wishlistIds: [],
       isLoading: false,
       isMyListingsLoading: false,
-      isWishlistLoading: false
+      isWishlistLoading: false,
+      totalCount: 0,
+      currentPage: 1,
+      pageSize: 20,
+      totalPages: 1,
+      viewMode: "grid",
+      chat: {
+        isOpen: false,
+        threads: {},
+        activeThreadKey: null
+      }
     };
 
     let pendingDeleteId = null;
+    let chatConnection = null;
+    let hoverTimers = {};
+
+    function startSignalR() {
+      if (!state.token || chatConnection || typeof signalR === "undefined") return;
+
+      chatConnection = new signalR.HubConnectionBuilder()
+        .withUrl(`${API_ROOT_URL}/chatHub`, { accessTokenFactory: () => state.token })
+        .withAutomaticReconnect()
+        .build();
+
+      chatConnection.on("ReceiveMessage", newMessage => {
+        showToast(`New message from ${newMessage.senderName || "seller"}.`);
+        refreshChat();
+      });
+
+      chatConnection.start().catch(error => {
+        console.error("SignalR connection failed:", error);
+        chatConnection = null;
+      });
+    }
+
+    function stopSignalR() {
+      if (!chatConnection) return;
+
+      const connection = chatConnection;
+      chatConnection = null;
+      connection.stop().catch(error => console.error("SignalR stop failed:", error));
+    }
 
     const els = {
       carGrid: document.getElementById("carGrid"),
@@ -875,6 +1324,9 @@
       myListingsCount: document.getElementById("myListingsCount"),
       myListingsEmptyState: document.getElementById("myListingsEmptyState"),
       backFromMyListingsBtn: document.getElementById("backFromMyListingsBtn"),
+      backFromAboutBtn: document.getElementById("backFromAboutBtn"),
+      backFromContactBtn: document.getElementById("backFromContactBtn"),
+      contactBrowseBtn: document.getElementById("contactBrowseBtn"),
       emptyState: document.getElementById("emptyState"),
       resultCount: document.getElementById("resultCount"),
       apiStatus: document.getElementById("apiStatus"),
@@ -889,6 +1341,13 @@
       filterTransmission: document.getElementById("filterTransmission"),
       filterSort: document.getElementById("filterSort"),
       resetFiltersBtn: document.getElementById("resetFiltersBtn"),
+      pageSizeSelect: document.getElementById("pageSizeSelect"),
+      btnGridView: document.getElementById("btnGridView"),
+      btnListView: document.getElementById("btnListView"),
+      paginationBar: document.getElementById("paginationBar"),
+      prevPageBtn: document.getElementById("prevPageBtn"),
+      nextPageBtn: document.getElementById("nextPageBtn"),
+      pageInfo: document.getElementById("pageInfo"),
       accountBadge: document.getElementById("accountBadge"),
       currentAccountName: document.getElementById("currentAccountName"),
       currentAccountEmail: document.getElementById("currentAccountEmail"),
@@ -903,7 +1362,10 @@
       profilePanel: document.getElementById("profilePanel"),
       profileName: document.getElementById("profileName"),
       profileEmail: document.getElementById("profileEmail"),
+      profilePhone: document.getElementById("profilePhone"),
+      profilePhoneInput: document.getElementById("profilePhoneInput"),
       profileRole: document.getElementById("profileRole"),
+      phoneForm: document.getElementById("phoneForm"),
       loginForm: document.getElementById("loginForm"),
       registerForm: document.getElementById("registerForm"),
       authStatus: document.getElementById("authStatus"),
@@ -917,7 +1379,18 @@
       paymentResult: document.getElementById("paymentResult"),
       estimateForm: document.getElementById("estimateForm"),
       estimateResult: document.getElementById("estimateResult"),
-      toast: document.getElementById("toast")
+      toast: document.getElementById("toast"),
+      chatFab: document.getElementById("chatFab"),
+      chatWidget: document.getElementById("chatWidget"),
+      chatUnreadBadge: document.getElementById("chatUnreadBadge"),
+      chatBackBtn: document.getElementById("chatBackBtn"),
+      chatTitle: document.getElementById("chatTitle"),
+      chatMinimizeBtn: document.getElementById("chatMinimizeBtn"),
+      chatThreadList: document.getElementById("chatThreadList"),
+      chatConversation: document.getElementById("chatConversation"),
+      chatMessages: document.getElementById("chatMessages"),
+      chatReplyForm: document.getElementById("chatReplyForm"),
+      chatReplyInput: document.getElementById("chatReplyInput")
     };
 
     init();
@@ -931,12 +1404,19 @@
     }
 
     function bindEvents() {
-      els.filtersForm.addEventListener("input", debounce(loadCars, 250));
-      els.filtersForm.addEventListener("change", loadCars);
+      els.filtersForm.addEventListener("input", debounce(() => {
+        state.currentPage = 1;
+        loadCars();
+      }, 250));
+      els.filtersForm.addEventListener("change", () => {
+        state.currentPage = 1;
+        loadCars();
+      });
 
       els.heroSearchForm.addEventListener("submit", event => {
         event.preventDefault();
         els.filterSearch.value = els.heroSearchInput.value.trim();
+        state.currentPage = 1;
         document.getElementById("inventory").scrollIntoView({ behavior: "smooth" });
         loadCars();
       });
@@ -947,16 +1427,54 @@
         const next = els.filterCategory.value === button.dataset.category ? "" : button.dataset.category;
         els.filterCategory.value = next;
         document.querySelectorAll(".hero-tag").forEach(tag => tag.classList.toggle("active", tag.dataset.category === next));
+        state.currentPage = 1;
         document.getElementById("inventory").scrollIntoView({ behavior: "smooth" });
         loadCars();
       });
 
       els.resetFiltersBtn.addEventListener("click", resetFilters);
+      els.pageSizeSelect.addEventListener("change", () => {
+        state.pageSize = Math.min(20, Math.max(1, Number(els.pageSizeSelect.value) || 20));
+        state.currentPage = 1;
+        loadCars();
+      });
+      els.prevPageBtn.addEventListener("click", () => {
+        if (state.currentPage <= 1) return;
+        state.currentPage -= 1;
+        loadCars();
+        document.getElementById("inventoryStart").scrollIntoView({ behavior: "smooth" });
+      });
+      els.nextPageBtn.addEventListener("click", () => {
+        if (state.currentPage >= state.totalPages) return;
+        state.currentPage += 1;
+        loadCars();
+        document.getElementById("inventoryStart").scrollIntoView({ behavior: "smooth" });
+      });
+      els.btnGridView.addEventListener("click", () => {
+        state.viewMode = "grid";
+        els.btnGridView.classList.add("active");
+        els.btnListView.classList.remove("active");
+        render();
+      });
+      els.btnListView.addEventListener("click", () => {
+        state.viewMode = "list";
+        els.btnListView.classList.add("active");
+        els.btnGridView.classList.remove("active");
+        render();
+      });
 
       els.accountBadge.addEventListener("click", () => openModal(els.authModal));
       document.querySelectorAll("[data-open-listing]").forEach(button => button.addEventListener("click", event => {
         event.preventDefault();
         openListingForm();
+      }));
+      document.querySelectorAll("[data-open-about]").forEach(link => link.addEventListener("click", event => {
+        event.preventDefault();
+        openAboutPage();
+      }));
+      document.querySelectorAll("[data-open-contact]").forEach(link => link.addEventListener("click", event => {
+        event.preventDefault();
+        openContactPage();
       }));
 
       document.addEventListener("click", event => {
@@ -970,8 +1488,13 @@
       document.querySelectorAll("[data-auth-tab]").forEach(button => button.addEventListener("click", () => switchAuthTab(button.dataset.authTab)));
       els.loginForm.addEventListener("submit", handleLogin);
       els.registerForm.addEventListener("submit", handleRegister);
+      els.phoneForm.addEventListener("submit", handlePhoneUpdate);
       els.listingForm.addEventListener("submit", handleListingSave);
       els.contactForm.addEventListener("submit", handleContactSeller);
+      els.chatFab.addEventListener("click", toggleChatWidget);
+      els.chatMinimizeBtn.addEventListener("click", toggleChatWidget);
+      els.chatBackBtn.addEventListener("click", showChatThreadList);
+      els.chatReplyForm.addEventListener("submit", handleChatReply);
       els.paymentForm.addEventListener("submit", handlePaymentCalculation);
       els.estimateForm.addEventListener("submit", handlePriceEstimate);
       els.confirmDeleteBtn.addEventListener("click", confirmDelete);
@@ -987,7 +1510,11 @@
       document.getElementById("wishlistBtn").addEventListener("click", openWishlistPage);
       els.backToInventoryBtn.addEventListener("click", showInventoryPage);
       els.backFromMyListingsBtn.addEventListener("click", showInventoryPage);
+      els.backFromAboutBtn.addEventListener("click", showInventoryPage);
+      els.backFromContactBtn.addEventListener("click", showInventoryPage);
+      els.contactBrowseBtn.addEventListener("click", showInventoryPage);
       document.querySelectorAll('a[href^="#"]').forEach(link => {
+        if (link.matches("[data-open-about], [data-open-contact]")) return;
         link.addEventListener("click", () => {
           showMainSite();
           render();
@@ -996,15 +1523,24 @@
     }
 
     function render() {
+      els.carGrid.classList.toggle("list-view", state.viewMode === "list");
       els.carGrid.innerHTML = state.listings.map(car => renderCard(car, "inventory")).join("");
       els.emptyState.hidden = state.isLoading || state.listings.length > 0;
       els.emptyState.textContent = "No listings match the current filters.";
-      els.resultCount.textContent = `${state.listings.length} ${state.listings.length === 1 ? "listing" : "listings"}`;
-      els.activeListingStat.textContent = `${state.listings.length}+`;
+      els.resultCount.textContent = `${state.totalCount} ${state.totalCount === 1 ? "listing" : "listings"} found`;
+      els.activeListingStat.textContent = `${state.totalCount}+`;
+      const shouldShowPagination = state.totalCount > state.pageSize || state.totalPages > 1;
+      els.paginationBar.hidden = !shouldShowPagination;
+      if (shouldShowPagination) {
+        els.pageInfo.textContent = `Page ${state.currentPage} of ${state.totalPages}`;
+        els.prevPageBtn.disabled = state.currentPage <= 1;
+        els.nextPageBtn.disabled = state.currentPage >= state.totalPages;
+      }
       document.getElementById("wishlistBtn").classList.toggle("active", document.body.classList.contains("show-wishlist-page"));
       renderMyListingsPage();
       renderWishlistPage();
       bindCardActions();
+      bindHoverGalleries();
     }
 
     function renderWishlistPage() {
@@ -1027,11 +1563,24 @@
       render();
 
       try {
-        const cars = await apiRequest(`/Cars${buildCarQueryString()}`, { auth: Boolean(state.token) });
-        state.listings = cars.map(normalizeCar);
+        const result = await apiRequest(`/Cars${buildCarQueryString()}`, { auth: Boolean(state.token) });
+        if (Array.isArray(result)) {
+          state.listings = result.map(normalizeCar);
+          state.totalCount = result.length;
+          state.totalPages = 1;
+        } else {
+          state.listings = (result.items || []).map(normalizeCar);
+          state.totalCount = result.totalCount || state.listings.length;
+          state.totalPages = result.totalPages || Math.max(1, Math.ceil(state.totalCount / state.pageSize));
+          state.currentPage = result.currentPage || state.currentPage;
+          state.pageSize = Math.min(20, result.pageSize || state.pageSize);
+          els.pageSizeSelect.value = String(state.pageSize);
+        }
         setApiStatus("Connected");
       } catch (error) {
         state.listings = [];
+        state.totalCount = 0;
+        state.totalPages = 1;
         setApiStatus("API not reachable", true);
         showToast(`${error.message}. Start the backend with dotnet run.`);
       } finally {
@@ -1087,16 +1636,30 @@
     function renderCard(car, context = "inventory") {
       const canManage = canManageCar(car);
       const isWishlisted = state.wishlistIds.includes(String(car.id));
+      const isListView = state.viewMode === "list" && context === "inventory";
       const manageActions = canManage
         ? `
             <button class="btn btn-muted" type="button" data-action="edit">Edit</button>
             <button class="btn btn-danger" type="button" data-action="delete">Delete</button>
           `
         : "";
+      const description = car.description || "";
+      const descSnippet = description.length > 180
+        ? `${escapeHtml(description.slice(0, 180))}...`
+        : escapeHtml(description);
+      const galleryUrls = car.galleryUrls.length > 0 ? car.galleryUrls : [car.imageUrl];
+      const imageTags = galleryUrls
+        .map((url, index) => `<img src="${escapeAttr(url)}" class="hover-img ${index === 0 ? "active" : ""}" alt="${escapeAttr(car.make)} ${escapeAttr(car.model)}" loading="lazy" />`)
+        .join("");
+      const dots = galleryUrls.length > 1
+        ? `<div class="gallery-indicators">${galleryUrls.map((_, index) => `<span class="gallery-dot ${index === 0 ? "active" : ""}"></span>`).join("")}</div>`
+        : "";
+
       return `
-        <article class="car-card" data-id="${car.id}" data-context="${context}">
-          <div class="car-img-wrap">
-            <img src="${escapeAttr(car.imageUrl)}" alt="${escapeAttr(car.make)} ${escapeAttr(car.model)}" loading="lazy" />
+        <article class="car-card ${isListView ? "list-view" : ""}" data-id="${car.id}" data-context="${context}">
+          <div class="car-img-wrap" data-hover-gallery>
+            ${imageTags}
+            ${dots}
             ${car.featured ? '<span class="featured-badge">Featured</span>' : ""}
             <button class="wishlist-fab ${isWishlisted ? "active" : ""}" type="button" data-action="wishlist" aria-label="${isWishlisted ? "Remove from wishlist" : "Add to wishlist"}">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l7.78-7.78a5.5 5.5 0 0 0 1.06-8.84z"/></svg>
@@ -1106,16 +1669,61 @@
               <p class="car-meta"><span>${car.year}</span><span>${formatNumber(car.mileage)} mi</span></p>
             </div>
           </div>
-          <div class="car-footer">
-            <div><div class="car-price-label">Price</div><div class="car-price">${formatCurrency(car.price)}</div></div>
-            <div><div class="car-trans-label">Trans</div><div class="car-trans">${escapeHtml(car.transmission)}</div></div>
-          </div>
-          <div class="card-actions">
-            <button class="btn btn-outline" type="button" data-action="details">Details</button>
-            ${manageActions}
+          <div class="car-data-wrap">
+            <div class="list-details">
+              <strong>Seller:</strong> ${escapeHtml(car.sellerName)}<br><br>
+              ${descSnippet}
+            </div>
+            <div class="car-footer">
+              <div><div class="car-price-label">Price</div><div class="car-price">${formatCurrency(car.price)}</div></div>
+              <div><div class="car-trans-label">Trans</div><div class="car-trans">${escapeHtml(car.transmission)}</div></div>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-outline" type="button" data-action="details">Details</button>
+              ${manageActions}
+            </div>
           </div>
         </article>
       `;
+    }
+
+    function bindHoverGalleries() {
+      document.querySelectorAll(".car-card").forEach(card => {
+        const wrap = card.querySelector(".car-img-wrap[data-hover-gallery]");
+        if (!wrap) return;
+
+        const images = wrap.querySelectorAll(".hover-img");
+        const dots = wrap.querySelectorAll(".gallery-dot");
+        if (images.length <= 1) return;
+
+        const key = `${card?.dataset.context || "inventory"}-${card?.dataset.id || ""}`;
+        let index = 0;
+
+        const setActiveImage = nextIndex => {
+          images[index].classList.remove("active");
+          dots[index]?.classList.remove("active");
+          index = nextIndex % images.length;
+          images[index].classList.add("active");
+          dots[index]?.classList.add("active");
+        };
+
+        card.addEventListener("mouseenter", () => {
+          clearInterval(hoverTimers[key]);
+          setActiveImage((index + 1) % images.length);
+          hoverTimers[key] = setInterval(() => {
+            setActiveImage((index + 1) % images.length);
+          }, 1600);
+        });
+
+        card.addEventListener("mouseleave", () => {
+          clearInterval(hoverTimers[key]);
+          index = 0;
+          images.forEach(image => image.classList.remove("active"));
+          dots.forEach(dot => dot.classList.remove("active"));
+          images[0].classList.add("active");
+          dots[0]?.classList.add("active");
+        });
+      });
     }
 
     function bindCardActions() {
@@ -1157,27 +1765,39 @@
       document.getElementById("listingTransmission").value = car?.transmission || "Automatic";
       document.getElementById("listingCondition").value = car?.condition || "Used";
       document.getElementById("listingCategory").value = car?.category || "Sports";
-      document.getElementById("listingImage").value = car?.imageUrl || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900";
+      document.getElementById("listingImage").value = "";
       document.getElementById("listingDescription").value = car?.description || "";
       openModal(els.listingModal);
     }
 
     async function handleListingSave(event) {
       event.preventDefault();
-      const id = Number(document.getElementById("listingId").value);
-      const payload = {
-        ...(id ? { id } : {}),
-        make: document.getElementById("listingMake").value.trim(),
-        model: document.getElementById("listingModel").value.trim(),
-        year: Number(document.getElementById("listingYear").value),
-        mileage: Number(document.getElementById("listingMileage").value),
-        price: Number(document.getElementById("listingPrice").value),
-        transmission: document.getElementById("listingTransmission").value,
-        condition: document.getElementById("listingCondition").value,
-        category: document.getElementById("listingCategory").value,
-        imageUrl: document.getElementById("listingImage").value.trim(),
-        description: document.getElementById("listingDescription").value.trim()
-      };
+      const id = document.getElementById("listingId").value;
+      const payload = new FormData();
+      const imageInput = document.getElementById("listingImage");
+
+      payload.append("Make", document.getElementById("listingMake").value.trim());
+      payload.append("Model", document.getElementById("listingModel").value.trim());
+      payload.append("Year", document.getElementById("listingYear").value);
+      payload.append("Mileage", document.getElementById("listingMileage").value);
+      payload.append("Price", document.getElementById("listingPrice").value);
+      payload.append("Transmission", document.getElementById("listingTransmission").value);
+      payload.append("Condition", document.getElementById("listingCondition").value);
+      payload.append("Category", document.getElementById("listingCategory").value);
+      payload.append("Description", document.getElementById("listingDescription").value.trim());
+
+      if (imageInput.files.length > 0) {
+        for (const file of imageInput.files) {
+          if (file.size > 5 * 1024 * 1024) {
+            showToast(`Image ${file.name} is too large. Please select an image under 5MB.`);
+            return;
+          }
+          payload.append("Images", file);
+        }
+      } else if (!id) {
+        showToast("Please upload at least one image.");
+        return;
+      }
 
       try {
         if (id) {
@@ -1239,12 +1859,27 @@
               </button>
           `
         : "";
+      const galleryUrls = car.galleryUrls.length > 0 ? car.galleryUrls : [car.imageUrl];
+      const detailImages = galleryUrls
+        .map((url, index) => `<img src="${escapeAttr(url)}" class="detail-gallery-img ${index === 0 ? "active" : ""}" alt="${escapeAttr(car.make)} ${escapeAttr(car.model)}" />`)
+        .join("");
+      const galleryNav = galleryUrls.length > 1
+        ? `
+            <button class="gallery-nav-btn prev" type="button" id="galPrev" aria-label="Previous image">&lsaquo;</button>
+            <button class="gallery-nav-btn next" type="button" id="galNext" aria-label="Next image">&rsaquo;</button>
+            <div class="gallery-indicators">${galleryUrls.map((_, index) => `<span class="gallery-dot ${index === 0 ? "active" : ""}"></span>`).join("")}</div>
+          `
+        : "";
       els.detailBody.innerHTML = `
         <div class="detail-grid">
-          <img class="detail-image" src="${escapeAttr(car.imageUrl)}" alt="${escapeAttr(car.make)} ${escapeAttr(car.model)}" />
+          <div class="detail-gallery">
+            ${detailImages}
+            ${galleryNav}
+          </div>
           <div>
             <div class="detail-title">${escapeHtml(car.year)} ${escapeHtml(car.make)} ${escapeHtml(car.model)}</div>
             <div class="detail-price">${formatCurrency(car.price)}</div>
+            <p class="detail-description"><strong>Seller:</strong> ${escapeHtml(car.sellerName)}</p>
             <p class="detail-description">${escapeHtml(car.description)}</p>
             <div class="detail-specs">
               <div class="spec"><span>Mileage</span><strong>${formatNumber(car.mileage)} mi</strong></div>
@@ -1260,6 +1895,22 @@
         </div>
       `;
       openModal(els.detailModal);
+      if (galleryUrls.length > 1) {
+        let currentGalleryIndex = 0;
+        const detailGalleryImages = els.detailBody.querySelectorAll(".detail-gallery-img");
+        const detailGalleryDots = els.detailBody.querySelectorAll(".gallery-dot");
+        const updateGallery = nextIndex => {
+          detailGalleryImages[currentGalleryIndex].classList.remove("active");
+          detailGalleryDots[currentGalleryIndex]?.classList.remove("active");
+          currentGalleryIndex = nextIndex;
+          if (currentGalleryIndex < 0) currentGalleryIndex = galleryUrls.length - 1;
+          if (currentGalleryIndex >= galleryUrls.length) currentGalleryIndex = 0;
+          detailGalleryImages[currentGalleryIndex].classList.add("active");
+          detailGalleryDots[currentGalleryIndex]?.classList.add("active");
+        };
+        document.getElementById("galPrev").addEventListener("click", () => updateGallery(currentGalleryIndex - 1));
+        document.getElementById("galNext").addEventListener("click", () => updateGallery(currentGalleryIndex + 1));
+      }
       const contactSellerBtn = document.getElementById("contactSellerBtn");
       const detailWishlistBtn = document.getElementById("detailWishlistBtn");
       if (contactSellerBtn) contactSellerBtn.addEventListener("click", () => openContactForm(id));
@@ -1298,10 +1949,11 @@
       event.preventDefault();
       const name = document.getElementById("registerName").value.trim();
       const email = document.getElementById("registerEmail").value.trim();
+      const phoneNumber = document.getElementById("registerPhone").value.trim();
       const password = document.getElementById("registerPassword").value;
 
       try {
-        await apiRequest("/Auth/register", { method: "POST", body: { name, email, password } });
+        await apiRequest("/Auth/register", { method: "POST", body: { name, email, phoneNumber, password } });
         const result = await apiRequest("/Auth/login", { method: "POST", body: { email, password } });
         saveToken(result.token);
         els.authStatus.textContent = `Account created for ${email}`;
@@ -1321,10 +1973,31 @@
       els.authStatus.textContent = "";
     }
 
+    async function handlePhoneUpdate(event) {
+      event.preventDefault();
+      const phoneNumber = els.profilePhoneInput.value.trim();
+
+      try {
+        const result = await apiRequest("/Auth/phone", {
+          method: "PUT",
+          auth: true,
+          body: { phoneNumber }
+        });
+        if (result.token) saveToken(result.token);
+        state.currentUser.phone = result.phoneNumber || phoneNumber;
+        updateAuthUi();
+        await refreshAllListingData();
+        showToast("Phone number saved.");
+      } catch (error) {
+        showToast(error.message);
+      }
+    }
+
     function resetFilters() {
       els.filtersForm.reset();
       els.heroSearchInput.value = "";
       document.querySelectorAll(".hero-tag").forEach(tag => tag.classList.remove("active"));
+      state.currentPage = 1;
       loadCars();
     }
 
@@ -1382,6 +2055,16 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    function openAboutPage() {
+      showAppPage("about");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function openContactPage() {
+      showAppPage("contact");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
     function showInventoryPage() {
       showMainSite();
       document.getElementById("inventory").scrollIntoView({ behavior: "smooth" });
@@ -1391,12 +2074,18 @@
     function showAppPage(page) {
       showMainSite();
       document.body.classList.add("show-app-page");
-      document.body.classList.add(page === "myListings" ? "show-my-listings-page" : "show-wishlist-page");
+      const pageClassMap = {
+        myListings: "show-my-listings-page",
+        wishlist: "show-wishlist-page",
+        about: "show-about-page",
+        contact: "show-contact-page"
+      };
+      document.body.classList.add(pageClassMap[page] || "show-wishlist-page");
       render();
     }
 
     function showMainSite() {
-      document.body.classList.remove("show-app-page", "show-wishlist-page", "show-my-listings-page");
+      document.body.classList.remove("show-app-page", "show-wishlist-page", "show-my-listings-page", "show-about-page", "show-contact-page");
     }
 
     function openContactForm(carId) {
@@ -1408,6 +2097,11 @@
       }
 
       document.getElementById("contactCarId").value = carId;
+      const car = findCarById(carId);
+      const sellerPhone = car?.sellerPhone || "";
+      const sellerPhoneLink = document.getElementById("contactSellerPhone");
+      sellerPhoneLink.textContent = sellerPhone || "No phone listed";
+      sellerPhoneLink.href = sellerPhone ? `tel:${sellerPhone.replace(/[^\d+]/g, "")}` : "#";
       closeAllModals();
       openModal(els.contactModal);
     }
@@ -1415,17 +2109,40 @@
     async function handleContactSeller(event) {
       event.preventDefault();
       const carId = Number(document.getElementById("contactCarId").value);
-      const senderPhone = document.getElementById("contactPhone").value.trim();
       const message = document.getElementById("contactMessage").value.trim();
 
       try {
         await apiRequest("/ContactMessages", {
           method: "POST",
           auth: true,
-          body: { carId, senderPhone, message }
+          body: { carId, message }
         });
         closeAllModals();
         showToast("Message sent to seller.");
+        await refreshChat();
+      } catch (error) {
+        showToast(error.message);
+      }
+    }
+
+    async function handleChatReply(event) {
+      event.preventDefault();
+      const text = els.chatReplyInput.value.trim();
+      const thread = state.chat.threads[state.chat.activeThreadKey];
+      if (!text || !thread) return;
+
+      try {
+        await apiRequest("/ContactMessages", {
+          method: "POST",
+          auth: true,
+          body: {
+            carId: thread.carId,
+            recipientUserId: thread.otherUserId,
+            message: text
+          }
+        });
+        els.chatReplyInput.value = "";
+        await refreshChat();
       } catch (error) {
         showToast(error.message);
       }
@@ -1522,7 +2239,8 @@
 
     async function apiRequest(path, options = {}) {
       const headers = { Accept: "application/json" };
-      if (options.body) headers["Content-Type"] = "application/json";
+      const isFormData = options.body instanceof FormData;
+      if (options.body && !isFormData) headers["Content-Type"] = "application/json";
       if (options.auth) {
         if (!state.token) throw new Error("Please login first");
         headers.Authorization = `Bearer ${state.token}`;
@@ -1531,7 +2249,7 @@
       const response = await fetch(`${API_BASE_URL}${path}`, {
         method: options.method || "GET",
         headers,
-        body: options.body ? JSON.stringify(options.body) : undefined
+        body: options.body ? (isFormData ? options.body : JSON.stringify(options.body)) : undefined
       });
 
       const contentType = response.headers.get("content-type") || "";
@@ -1561,6 +2279,8 @@
       addParam(params, "maxPrice", els.filterMaxPrice.value);
       addParam(params, "minYear", els.filterMinYear.value);
       addParam(params, "transmission", els.filterTransmission.value);
+      addParam(params, "page", state.currentPage);
+      addParam(params, "pageSize", state.pageSize);
 
       const sortMap = {
         priceAsc: ["price", "asc"],
@@ -1588,6 +2308,16 @@
       const ownerId = String(car.userId || car.ownerId || "");
       const isOwner = Boolean(car.isOwner || (state.currentUser && ownerId === state.currentUser.id));
       const canManage = Boolean(car.canManage || (state.currentUser && (state.currentUser.role === "Admin" || isOwner)));
+      const fallbackImage = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900";
+      const normalizeImageUrl = url => {
+        if (!url) return "";
+        return url.startsWith("/") ? `${API_ROOT_URL}${url}` : url;
+      };
+      const imageUrl = normalizeImageUrl(car.imageUrl) || fallbackImage;
+      const galleryUrls = (car.galleryUrls || [])
+        .map(normalizeImageUrl)
+        .filter(Boolean);
+      if (galleryUrls.length === 0) galleryUrls.push(imageUrl);
 
       return {
         id: car.id,
@@ -1600,8 +2330,11 @@
         condition: car.condition || "Used",
         category: car.category || "Sports",
         featured: Boolean(car.isFeatured),
-        imageUrl: car.imageUrl || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=900",
+        imageUrl,
+        galleryUrls,
         description: car.description || "No description has been added for this listing yet.",
+        sellerName: car.sellerName || "Private Seller",
+        sellerPhone: car.sellerPhone || "",
         isOwner,
         canManage
       };
@@ -1639,6 +2372,7 @@
           id: String(payload.nameid || payload.sub || payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"] || ""),
           name: payload.unique_name || payload.name || payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] || "Zoomies User",
           email: payload.email || payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"] || "",
+          phone: payload.phone_number || payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone"] || "",
           role: payload.role || payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || "User"
         };
       } catch (error) {
@@ -1668,15 +2402,29 @@
         els.currentAccountEmail.textContent = displayEmail;
         els.profileName.textContent = displayName;
         els.profileEmail.textContent = displayEmail;
+        els.profilePhone.textContent = state.currentUser.phone || "Not set";
+        els.profilePhoneInput.value = state.currentUser.phone || "";
         els.profileRole.textContent = displayRole;
         els.authStatus.textContent = "";
+        els.chatFab.classList.add("show");
+        startSignalR();
+        refreshChat();
       } else {
         els.currentAccountName.textContent = "Guest";
         els.currentAccountEmail.textContent = "Not logged in";
         els.profileName.textContent = "Guest";
         els.profileEmail.textContent = "Not logged in";
+        els.profilePhone.textContent = "Not set";
+        els.profilePhoneInput.value = "";
         els.profileRole.textContent = "Guest";
         els.authStatus.textContent = "Not logged in";
+        els.chatFab.classList.remove("show");
+        els.chatWidget.classList.remove("open");
+        state.chat.isOpen = false;
+        state.chat.activeThreadKey = null;
+        state.chat.threads = {};
+        updateChatUnreadBadge(0);
+        stopSignalR();
       }
     }
 
@@ -1690,6 +2438,8 @@
       state.myListings = [];
       state.wishlistListings = [];
       state.wishlistIds = [];
+      state.chat.threads = {};
+      state.chat.activeThreadKey = null;
       localStorage.removeItem(TOKEN_STORAGE_KEY);
       showMainSite();
       updateAuthUi();
@@ -1709,6 +2459,155 @@
     function setApiStatus(message, isError = false) {
       els.apiStatus.textContent = `- ${message}`;
       els.apiStatus.classList.toggle("error", isError);
+    }
+
+    async function refreshChat() {
+      if (!state.currentUser) return;
+
+      try {
+        const [inbox, sent] = await Promise.all([
+          apiRequest("/ContactMessages/inbox", { auth: true }),
+          apiRequest("/ContactMessages/sent", { auth: true })
+        ]);
+        const messages = Array.from(new Map([...inbox, ...sent].map(message => [message.id, message])).values())
+          .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+        state.chat.threads = {};
+        let unreadCount = 0;
+
+        messages.forEach(message => {
+          const senderUserId = String(message.senderUserId || "");
+          const recipientUserId = String(message.recipientUserId || message.sellerUserId || "");
+          const isIncoming = senderUserId !== state.currentUser.id;
+          const otherUserId = isIncoming ? senderUserId : recipientUserId;
+          if (!otherUserId) return;
+
+          const threadKey = `${message.carId}_${otherUserId}`;
+          if (!state.chat.threads[threadKey]) {
+            state.chat.threads[threadKey] = {
+              carId: message.carId,
+              carTitle: message.carTitle || "Vehicle",
+              otherUserId,
+              otherUserName: isIncoming ? (message.senderName || "Buyer") : "Seller",
+              messages: [],
+              hasUnread: false
+            };
+          }
+
+          if (isIncoming && state.chat.threads[threadKey].otherUserName === "Seller") {
+            state.chat.threads[threadKey].otherUserName = message.senderName || "Seller";
+          }
+
+          state.chat.threads[threadKey].messages.push({ ...message, isIncoming });
+
+          if (isIncoming && !message.isRead) {
+            state.chat.threads[threadKey].hasUnread = true;
+            unreadCount += 1;
+          }
+        });
+
+        updateChatUnreadBadge(unreadCount);
+        renderChatThreadList();
+        if (state.chat.activeThreadKey) renderActiveConversation(state.chat.activeThreadKey);
+      } catch (error) {
+        console.error("Failed to load chat messages:", error);
+      }
+    }
+
+    function toggleChatWidget() {
+      if (!state.currentUser) return;
+      state.chat.isOpen = !state.chat.isOpen;
+      els.chatWidget.classList.toggle("open", state.chat.isOpen);
+
+      if (state.chat.isOpen) {
+        if (!state.chat.activeThreadKey) showChatThreadList();
+        refreshChat();
+      }
+    }
+
+    function updateChatUnreadBadge(count) {
+      els.chatUnreadBadge.textContent = count > 99 ? "99+" : String(count);
+      els.chatUnreadBadge.hidden = count === 0;
+    }
+
+    function renderChatThreadList() {
+      els.chatThreadList.innerHTML = "";
+      const threads = Object.entries(state.chat.threads)
+        .sort(([, a], [, b]) => {
+          const latestA = a.messages[a.messages.length - 1]?.createdAt || 0;
+          const latestB = b.messages[b.messages.length - 1]?.createdAt || 0;
+          return new Date(latestB) - new Date(latestA);
+        });
+
+      if (threads.length === 0) {
+        els.chatThreadList.innerHTML = '<div class="empty-state">No messages yet.</div>';
+        return;
+      }
+
+      threads.forEach(([threadKey, thread]) => {
+        const lastMessage = thread.messages[thread.messages.length - 1];
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = `chat-thread-item ${thread.hasUnread ? "unread" : ""}`;
+        item.innerHTML = `
+          <div class="chat-thread-header">
+            <span class="chat-thread-name">${escapeHtml(thread.otherUserName)}</span>
+            <span class="chat-thread-car">${escapeHtml(thread.carTitle)}</span>
+          </div>
+          <div class="chat-thread-preview">${lastMessage.isIncoming ? "Them" : "You"}: ${escapeHtml(lastMessage.message)}</div>
+        `;
+        item.addEventListener("click", () => openThread(threadKey));
+        els.chatThreadList.appendChild(item);
+      });
+    }
+
+    async function openThread(threadKey) {
+      state.chat.activeThreadKey = threadKey;
+      els.chatThreadList.style.display = "none";
+      els.chatConversation.classList.add("active");
+      els.chatBackBtn.hidden = false;
+      els.chatTitle.textContent = state.chat.threads[threadKey]?.otherUserName || "Messages";
+      renderActiveConversation(threadKey);
+
+      const unreadIds = state.chat.threads[threadKey]?.messages
+        .filter(message => message.isIncoming && !message.isRead)
+        .map(message => message.id) || [];
+
+      for (const id of unreadIds) {
+        try {
+          await apiRequest(`/ContactMessages/${id}/read`, { method: "PUT", auth: true });
+        } catch {
+          // Ignore read-receipt failures so the conversation stays usable.
+        }
+      }
+
+      if (unreadIds.length > 0) await refreshChat();
+    }
+
+    function renderActiveConversation(threadKey) {
+      const thread = state.chat.threads[threadKey];
+      if (!thread) return;
+
+      els.chatMessages.innerHTML = thread.messages.map(message => `
+        <div class="chat-bubble ${message.isIncoming ? "incoming" : "outgoing"}">
+          <div>${escapeHtml(message.message)}</div>
+          <div class="chat-meta">${formatChatTime(message.createdAt)}</div>
+        </div>
+      `).join("");
+      els.chatMessages.scrollTop = els.chatMessages.scrollHeight;
+    }
+
+    function showChatThreadList() {
+      state.chat.activeThreadKey = null;
+      els.chatConversation.classList.remove("active");
+      els.chatThreadList.style.display = "flex";
+      els.chatBackBtn.hidden = true;
+      els.chatTitle.textContent = "Messages";
+    }
+
+    function formatChatTime(value) {
+      const normalized = typeof value === "string" && !value.endsWith("Z") ? `${value}Z` : value;
+      return new Date(normalized).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     }
 
     function debounce(fn, delay) {

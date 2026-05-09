@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Zoomies.Data;
+using Zoomies.Hubs;
 using Zoomies.Models;
 
 namespace Zoomies.Controllers
@@ -13,10 +15,12 @@ namespace Zoomies.Controllers
     public class ContactMessagesController : ControllerBase
     {
         private readonly ZoomiesDbContext _context;
+        private readonly IHubContext<ChatHub> _hubContext;
 
-        public ContactMessagesController(ZoomiesDbContext context)
+        public ContactMessagesController(ZoomiesDbContext context, IHubContext<ChatHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpPost]
@@ -28,8 +32,12 @@ namespace Zoomies.Controllers
             var senderUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(senderUserId)) return Unauthorized();
 
-            if (car.UserId == senderUserId)
-                return BadRequest("You cannot contact yourself about your own listing.");
+            var recipientUserId = !string.IsNullOrWhiteSpace(request.RecipientUserId)
+                ? request.RecipientUserId
+                : car.UserId;
+
+            if (recipientUserId == senderUserId)
+                return BadRequest("You cannot send a message to yourself.");
 
             var message = new ContactMessage
             {
@@ -38,7 +46,7 @@ namespace Zoomies.Controllers
                 SenderName = User.FindFirstValue(ClaimTypes.Name) ?? "Unknown user",
                 SenderEmail = User.FindFirstValue(ClaimTypes.Email) ?? string.Empty,
                 SenderPhone = request.SenderPhone,
-                SellerUserId = car.UserId,
+                SellerUserId = recipientUserId,
                 Message = request.Message,
                 CreatedAt = DateTime.UtcNow
             };
@@ -46,7 +54,10 @@ namespace Zoomies.Controllers
             _context.ContactMessages.Add(message);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMessage), new { id = message.Id }, ToResponse(message, car));
+            var response = ToResponse(message, car);
+            await _hubContext.Clients.Group(recipientUserId).SendAsync("ReceiveMessage", response);
+
+            return CreatedAtAction(nameof(GetMessage), new { id = message.Id }, response);
         }
 
         [HttpGet("{id}")]
@@ -118,6 +129,56 @@ namespace Zoomies.Controllers
             return NoContent();
         }
 
+        [HttpGet("thread/{carId:int}/{otherUserId}")]
+        public async Task<ActionResult<IEnumerable<ContactMessageResponseDto>>> GetConversationThread(int carId, string otherUserId)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var messages = await _context.ContactMessages
+                .Include(m => m.Car)
+                .Where(m => m.CarId == carId &&
+                            ((m.SenderUserId == currentUserId && m.SellerUserId == otherUserId) ||
+                             (m.SenderUserId == otherUserId && m.SellerUserId == currentUserId)))
+                .OrderBy(m => m.CreatedAt)
+                .ToListAsync();
+
+            return messages.Select(m => ToResponse(m, m.Car)).ToList();
+        }
+
+        [HttpGet("conversations")]
+        public async Task<ActionResult<IEnumerable<object>>> GetActiveConversations()
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var allUserMessages = await _context.ContactMessages
+                .Include(m => m.Car)
+                .Where(m => m.SenderUserId == currentUserId || m.SellerUserId == currentUserId)
+                .ToListAsync();
+
+            var conversations = allUserMessages
+                .GroupBy(m => new
+                {
+                    m.CarId,
+                    CarTitle = m.Car == null ? "Unknown Car" : $"{m.Car.Year} {m.Car.Make} {m.Car.Model}",
+                    OtherUserId = m.SenderUserId == currentUserId ? m.SellerUserId : m.SenderUserId,
+                    OtherUserName = m.SenderUserId == currentUserId ? "Seller" : m.SenderName
+                })
+                .Select(g => new
+                {
+                    g.Key.CarId,
+                    g.Key.CarTitle,
+                    g.Key.OtherUserId,
+                    g.Key.OtherUserName,
+                    LatestMessage = g.OrderByDescending(m => m.CreatedAt).First().Message,
+                    LastMessageAt = g.Max(m => m.CreatedAt),
+                    UnreadCount = g.Count(m => m.SellerUserId == currentUserId && !m.IsRead)
+                })
+                .OrderByDescending(c => c.LastMessageAt)
+                .ToList();
+
+            return Ok(conversations);
+        }
+
         private bool CanAccess(ContactMessage message)
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -138,6 +199,7 @@ namespace Zoomies.Controllers
                 SenderEmail = message.SenderEmail,
                 SenderPhone = message.SenderPhone,
                 SellerUserId = message.SellerUserId,
+                RecipientUserId = message.SellerUserId,
                 Message = message.Message,
                 CreatedAt = message.CreatedAt,
                 IsRead = message.IsRead

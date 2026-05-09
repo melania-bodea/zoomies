@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using Zoomies.Data;
 using Zoomies.Models;
 using Microsoft.IdentityModel.Tokens;
@@ -37,6 +38,7 @@ namespace Zoomies.Controllers
             {
                 Name = request.Name,
                 Email = request.Email,
+                PhoneNumber = request.PhoneNumber.Trim(),
                 // SECURITY: Scrambles the password so it's unreadable in the DB
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
             };
@@ -67,6 +69,26 @@ namespace Zoomies.Controllers
             await SetRefreshToken(refreshToken, user);
 
             return Ok(new { token = token });
+        }
+
+        [Authorize]
+        [HttpPut("phone")]
+        public async Task<IActionResult> UpdatePhone(UserPhoneUpdateDto request)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!int.TryParse(currentUserId, out var userId)) return Unauthorized();
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return Unauthorized();
+
+            user.PhoneNumber = request.PhoneNumber.Trim();
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                phoneNumber = user.PhoneNumber,
+                token = CreateToken(user)
+            });
         }
 
         // ============================================================
@@ -109,6 +131,8 @@ namespace Zoomies.Controllers
                new Claim(ClaimTypes.Name, user.Name),
                new Claim(ClaimTypes.Email, user.Email),
                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+               new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
+               new Claim("phone_number", user.PhoneNumber),
                new Claim(ClaimTypes.Role, user.Role) // CRITICAL for Admin logic
             };
 

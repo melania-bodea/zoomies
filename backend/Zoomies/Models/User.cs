@@ -18,6 +18,8 @@ namespace Zoomies.Models
 
         public string Email { get; set; } = string.Empty;
 
+        public string PhoneNumber { get; set; } = string.Empty;
+
         // SECURITY: We never store actual passwords. We store the Bcrypt hash.
         public string PasswordHash { get; set; } = string.Empty;
 
@@ -50,6 +52,10 @@ namespace Zoomies.Models
         [EmailAddress(ErrorMessage = "Invalid email format")] // Ensures '@' and '.' exist
         public string Email { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "Phone number is required")]
+        [Phone(ErrorMessage = "Invalid phone number")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
         [Required(ErrorMessage = "Password is required")]
         // SECURITY: Minimum length protects against easy-to-guess passwords
         [MinLength(6, ErrorMessage = "Password too weak. Must be at least 6 characters.")]
@@ -70,5 +76,12 @@ namespace Zoomies.Models
 
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; } = string.Empty;
+    }
+
+    public class UserPhoneUpdateDto
+    {
+        [Required(ErrorMessage = "Phone number is required")]
+        [Phone(ErrorMessage = "Invalid phone number")]
+        public string PhoneNumber { get; set; } = string.Empty;
     }
 }

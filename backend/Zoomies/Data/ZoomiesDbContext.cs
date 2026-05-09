@@ -14,6 +14,12 @@ namespace Zoomies.Data
                 .Property(c => c.Price)
                 .HasPrecision(18, 2);
 
+            modelBuilder.Entity<CarImage>()
+                .HasOne(image => image.Car)
+                .WithMany(car => car.Images)
+                .HasForeignKey(image => image.CarId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             // Seed Cars
             modelBuilder.Entity<Car>().HasData(
                 new Car
@@ -57,6 +63,7 @@ namespace Zoomies.Data
                     Id = 1,
                     Name = "Admin User",
                     Email = "admin@zoomies.com",
+                    PhoneNumber = "+40700000001",
                     PasswordHash = "$2a$11$gqfJFPQzPs3HykWpu3P6z.fpG74WvoI5SBpYjKLyMvRxH57ESHQtq",// Password is "Admin123!"
                     Role = "Admin" // <--- This gives User 1 super powers
                 },
@@ -65,6 +72,7 @@ namespace Zoomies.Data
                     Id = 2,
                     Name = "Demo Seller",
                     Email = "seller@zoomies.com",
+                    PhoneNumber = "+40700000002",
                     PasswordHash = "$2a$11$gqfJFPQzPs3HykWpu3P6z.fpG74WvoI5SBpYjKLyMvRxH57ESHQtq",
                     Role = "User"
                 }
@@ -92,5 +100,6 @@ namespace Zoomies.Data
         public DbSet<User> Users { get; set; }
         public DbSet<ContactMessage> ContactMessages { get; set; }
         public DbSet<WishlistItem> WishlistItems { get; set; }
+        public DbSet<CarImage> CarImages { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Zoomies.Data;
 
@@ -11,9 +12,11 @@ using Zoomies.Data;
 namespace Zoomies.Migrations
 {
     [DbContext(typeof(ZoomiesDbContext))]
-    partial class ZoomiesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260509134646_AddUserPhoneNumber")]
+    partial class AddUserPhoneNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,28 +118,6 @@ namespace Zoomies.Migrations
                             UserId = "2",
                             Year = 2022
                         });
-                });
-
-            modelBuilder.Entity("Zoomies.Models.CarImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarId");
-
-                    b.ToTable("CarImages");
                 });
 
             modelBuilder.Entity("Zoomies.Models.ContactMessage", b =>
@@ -296,17 +277,6 @@ namespace Zoomies.Migrations
                     b.Navigation("Car");
                 });
 
-            modelBuilder.Entity("Zoomies.Models.CarImage", b =>
-                {
-                    b.HasOne("Zoomies.Models.Car", "Car")
-                        .WithMany("Images")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-                });
-
             modelBuilder.Entity("Zoomies.Models.WishlistItem", b =>
                 {
                     b.HasOne("Zoomies.Models.Car", "Car")
@@ -316,11 +286,6 @@ namespace Zoomies.Migrations
                         .IsRequired();
 
                     b.Navigation("Car");
-                });
-
-            modelBuilder.Entity("Zoomies.Models.Car", b =>
-                {
-                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }
