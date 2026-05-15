@@ -44,11 +44,12 @@
       position: sticky; top: 0; z-index: 50;
       height: 104px; padding: 0 2rem;
       display: flex; align-items: center; justify-content: space-between;
+      gap: 1.5rem;
       background: #090909; border-bottom: 1px solid var(--border);
     }
 
     .logo {
-      height: 92px; min-width: 300px;
+      height: 92px; flex: 0 0 300px;
       display: inline-flex; align-items: center;
     }
     .logo img {
@@ -64,9 +65,9 @@
     }
     .nav-links a:hover { color: var(--primary); }
 
-    .header-actions { display: flex; align-items: center; gap: .8rem; }
+    .header-actions { min-width: 0; flex: 0 1 auto; display: flex; align-items: center; gap: .8rem; }
     .account-chip {
-      min-height: 42px; max-width: 260px;
+      min-height: 42px; width: 220px; max-width: 260px; flex: 0 1 220px;
       display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .7rem;
       background: var(--panel); color: var(--fg); border: 1px solid var(--border);
       padding: .45rem .75rem; text-align: left;
@@ -100,6 +101,8 @@
     .icon-btn svg { width: 21px; height: 21px; }
     body.show-wishlist-page #wishlistBtn { color: var(--primary); border-color: var(--border); background: var(--panel); }
     body.show-wishlist-page #wishlistBtn svg { fill: currentColor; }
+    .header-actions > .btn { flex: 0 0 auto; white-space: nowrap; }
+    .sell-label-short { display: none; }
 
     .btn {
       border: 0; min-height: 42px; padding: .72rem 1.15rem;
@@ -631,17 +634,42 @@
       font-family: var(--font-heading); font-weight: 900; text-transform: uppercase; padding: 0 .85rem;
     }
 
+    @media (max-width: 1280px) {
+      .app-header { padding: 0 1.5rem; gap: 1rem; }
+      .logo { flex-basis: 260px; }
+      .logo img { height: 112px; max-width: 300px; }
+      .nav-links { gap: 1.25rem; }
+      .account-chip { width: 142px; max-width: 142px; flex-basis: 142px; }
+      .account-email { display: none; }
+      .header-actions { gap: .6rem; }
+      .header-actions > .btn { padding-inline: 1rem; }
+    }
+
     @media (max-width: 1040px) {
+      .app-header { padding: 0 1.25rem; }
+      .logo { flex-basis: 230px; }
+      .logo img { height: 112px; max-width: 300px; }
+      .nav-links { gap: 1.1rem; }
+      .account-chip { width: 168px; max-width: 168px; }
+      .header-actions { gap: .55rem; }
+      .header-actions > .btn { padding-inline: .95rem; }
       .inventory-toolbar { grid-template-columns: repeat(3, 1fr); }
       .car-grid { grid-template-columns: repeat(2, 1fr); }
       .detail-grid, .sell-cta-inner, .finance-grid { grid-template-columns: 1fr; }
     }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .logo { flex-basis: 200px; }
+      .account-chip {
+        width: 42px; max-width: 42px; min-height: 42px;
+        flex-basis: 42px; display: inline-flex; justify-content: center; padding: 0;
+      }
+      .account-info { display: none; }
+    }
     @media (max-width: 760px) {
       .app-header { height: 82px; padding: 0 1rem; }
-      .logo { height: 72px; min-width: 180px; }
+      .logo { height: 72px; flex-basis: 180px; }
       .logo img { height: 90px; max-width: 230px; }
-      .nav-links { display: none; }
-      .account-chip { max-width: 210px; grid-template-columns: auto minmax(0, 1fr); gap: .5rem; }
       .hero { padding: 4rem 1rem 3rem; }
       .hero-title { font-size: 4.5rem; }
       .section, .testimonials-section { padding: 3rem 1rem; }
@@ -663,6 +691,17 @@
       .profile-phone-form .btn { justify-self: start; }
       .chat-widget { right: 1rem; bottom: 1rem; width: calc(100vw - 2rem); height: min(500px, calc(100vh - 2rem)); }
       .chat-fab { right: 1rem; bottom: 1rem; }
+    }
+    @media (max-width: 520px) {
+      .app-header { padding: 0 .75rem; gap: .5rem; }
+      .logo { flex-basis: 130px; }
+      .logo img { height: 70px; max-width: 160px; }
+      .header-actions { gap: .4rem; }
+      .header-actions > .btn { min-height: 40px; padding: .55rem .75rem; }
+      .sell-label-full { display: none; }
+      .sell-label-short { display: inline; }
+      .icon-btn, .account-chip { width: 40px; height: 40px; min-height: 40px; }
+      .account-avatar { width: 28px; height: 28px; }
     }
   </style>
 </head>
@@ -690,7 +729,10 @@
       <button class="icon-btn" type="button" aria-label="Wishlist" id="wishlistBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l7.78-7.78a5.5 5.5 0 0 0 1.06-8.84z"/></svg>
       </button>
-      <button class="btn btn-primary" type="button" data-open-listing>Sell Your Car</button>
+      <button class="btn btn-primary" type="button" data-open-listing>
+        <span class="sell-label-full">Sell Your Car</span>
+        <span class="sell-label-short">Sell</span>
+      </button>
     </div>
   </header>
 
